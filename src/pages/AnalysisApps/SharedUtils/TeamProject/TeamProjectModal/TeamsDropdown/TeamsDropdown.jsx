@@ -16,15 +16,12 @@ const TeamsDropdown = ({
 
   return (
     <div className="teams-dropdown">
-      <label
-        id="team-select-label"
-        className="screen-reader-only"
-        htmlFor="team-select"
-      >
+      <label id="team-select-label" className="sr-only" htmlFor="team-select">
         Select Team Project
       </label>
       <select
         id="team-select"
+        className="mb-6"
         aria-labelledby="team-select-label"
         value={selectedValue}
         onChange={handleChange}

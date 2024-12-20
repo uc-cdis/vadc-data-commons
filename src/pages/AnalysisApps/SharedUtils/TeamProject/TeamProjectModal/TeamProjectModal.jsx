@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Loader } from '@mantine/core';
-// import { Button, Modal, Spin } from 'antd';
 import LoadingErrorMessage from '../../LoadingErrorMessage/LoadingErrorMessage';
 import TeamsDropdown from './TeamsDropdown/TeamsDropdown';
 import { useRouter } from 'next/router';
-// import './TeamProjectModal.css';
 
 const runningApplicationClientSide = typeof window !== 'undefined';
 
@@ -43,6 +41,8 @@ const TeamProjectModal = ({
         //  maskClosable={false}
         //  keyboard={false}
         //  footer={false}
+        closeOnClickOutside={false}
+        closeOnEscape={false}
       >
         <LoadingErrorMessage
           message={'Error while trying to retrieve user access details'}
@@ -56,7 +56,13 @@ const TeamProjectModal = ({
         <Modal
           title="Team Projects"
           opened={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() =>
+            runningApplicationClientSide &&
+            localStorage.getItem('teamProject') &&
+            setIsModalOpen(false)
+          }
+          closeOnClickOutside={false}
+          closeOnEscape={false}
           // onCancel={() => setIsModalOpen(false)}
           // closable={localStorage.getItem('teamProject')}
           // maskClosable={localStorage.getItem('teamProject')}

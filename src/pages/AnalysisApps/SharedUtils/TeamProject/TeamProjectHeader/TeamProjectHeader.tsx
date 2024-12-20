@@ -76,7 +76,7 @@ const TeamProjectHeader = ({ isEditable }) => {
         <strong>Team Project</strong> / {bannerText}
         {isEditable && (
           <button
-            className="team-project-header_modal-button"
+            className="team-project-header_modal-button ml-2"
             aria-label="Change Team Project"
             type="button"
             tabIndex="0"
