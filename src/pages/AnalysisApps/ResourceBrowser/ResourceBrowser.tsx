@@ -6,6 +6,7 @@ import GWASUIApp from './Icons/GWASUIApp.svg';
 import GWASResults from './Icons/GWASResults.svg';
 import AtlasLogo from './Icons/atlasLogo.svg';
 import DataDictionary from './Icons/dataDictionary.svg';
+import TeamProjectHeader from '../SharedUtils/TeamProject/TeamProjectHeader/TeamProjectHeader';
 
 const ResourcesData = [
   {
@@ -39,7 +40,11 @@ const ResourcesData = [
 const ResourceBrowser = () => {
   return (
     <div className="p-5">
-      <h1 className="text-3xl pb-5 font-medium">Apps</h1>
+      <div className="flex justify-between py-4">
+        <h1 className="text-3xl pb-5 font-medium">Apps</h1>
+        <TeamProjectHeader isEditable />
+      </div>
+
       <Grid gutter="lg">
         {ResourcesData.map((resource) => (
           <Grid.Col key={resource.title} span={{ base: 12, md: 6, lg: 4 }}>
@@ -54,7 +59,6 @@ const ResourceBrowser = () => {
                 <Text className="text-center pb-2" size="lg" mt="md">
                   {resource.title}
                 </Text>
-
                 <Text className="text-center flex-grow pb-4" size="sm">
                   {resource.summary}
                 </Text>

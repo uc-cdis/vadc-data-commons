@@ -13,12 +13,12 @@ import SelectStudyPopulation from './Steps/SelectStudyPopulation/SelectStudyPopu
 // import DismissibleMessagesList from './Components/DismissibleMessagesList/DismissibleMessagesList';
 import MakeFullscreenButton from './Components/MakeFullscreenButton/MakeFullscreenButton';
 import InitializeCurrentState from './Utils/StateManagement/InitializeCurrentState';
+import TeamProjectHeader from '../SharedUtils/TeamProject/TeamProjectHeader/TeamProjectHeader';
 // import WorkflowLimitsDashboard from '../SharedUtils/WorkflowLimitsDashboard/WorkflowLimitsDashboard';
 // import './GWASApp.css';
 
 const GWASContainer = () => {
   const [state, dispatch] = useReducer(reducer, InitializeCurrentState());
-
   const generateStep = () => {
     console.log('state.currentStep', state.currentStep);
     switch (state.currentStep) {
@@ -106,6 +106,16 @@ const GWASContainer = () => {
 
   return (
     <React.Fragment>
+      <div>
+        <div className="flex justify-between pb-4">
+          <h1 className="text-3xl pb-5 font-medium">Gen3 GWAS</h1>
+          <TeamProjectHeader />
+        </div>
+      </div>
+      <p className="pb-8 text-sm">
+        Use this App to perform high throughput GWAS on Million Veteran Program
+        (MVP) data, using the University of Washington Genesis pipeline
+      </p>
       <ProgressBar
         currentStep={state.currentStep}
         selectionMode={state.selectionMode}
