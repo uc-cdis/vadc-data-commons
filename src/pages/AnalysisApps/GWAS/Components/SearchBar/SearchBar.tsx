@@ -1,9 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { TextInput } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
-const SearchBar = ({ searchTerm, handleSearch, field = 'variable name' }) => (
+interface SearchBarProps {
+  searchTerm: string;
+  handleSearch: (value: string) => void;
+  field?: string;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({
+  searchTerm,
+  handleSearch,
+  field = 'variable name',
+}) => (
   <div data-tour="search-bar" className="text-sm w-64">
     <TextInput
       type="text"
@@ -19,11 +28,5 @@ const SearchBar = ({ searchTerm, handleSearch, field = 'variable name' }) => (
     />
   </div>
 );
-
-SearchBar.propTypes = {
-  searchTerm: PropTypes.string.isRequired,
-  handleSearch: PropTypes.func.isRequired,
-  field: PropTypes.string.isRequired,
-};
 
 export default SearchBar;

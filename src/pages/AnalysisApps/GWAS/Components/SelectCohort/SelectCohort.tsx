@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import AddCohortButton from './Utils/AddCohortButton';
 import CohortDefinitions from './Utils/CohortDefinitions';
 import SearchBar from '../SearchBar/SearchBar';
-// import './SelectCohort.css';
 
-const SelectCohort = ({
+interface SelectCohortProps {
+  selectedCohort?: number | undefined;
+  handleCohortSelect: () => void;
+  selectedTeamProject: string;
+}
+
+const SelectCohort: React.FC<SelectCohortProps> = ({
   selectedCohort,
   handleCohortSelect,
   selectedTeamProject,
 }) => {
   const [cohortSearchTerm, setCohortSearchTerm] = useState('');
 
-  const handleCohortSearch = (searchTerm) => {
+  const handleCohortSearch = (searchTerm: string) => {
     setCohortSearchTerm(searchTerm);
   };
   return (
@@ -42,12 +46,4 @@ const SelectCohort = ({
   );
 };
 
-SelectCohort.propTypes = {
-  selectedCohort: PropTypes.any,
-  handleCohortSelect: PropTypes.func.isRequired,
-  selectedTeamProject: PropTypes.string.isRequired,
-};
-SelectCohort.defaultProps = {
-  selectedCohort: null,
-};
 export default SelectCohort;
