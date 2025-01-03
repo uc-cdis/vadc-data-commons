@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 // import AttritionTable from './AttritionTable/AttritionTable';
 // import AttritionTableModal from './AttritionTableModal/AttritionTableModal';
-import { Button } from '@mantine/core';
 import { IconChevronUp, IconChevronDown } from '@tabler/icons-react';
-import { IconSearch } from '@tabler/icons-react';
 import isEnterOrSpace from '@/pages/AnalysisApps/SharedUtils/AccessibilityUtils/IsEnterOrSpace';
 
-const AttritionTableWrapper = ({ covariates, selectedCohort, outcome }) => {
+interface AttritionTableWrapperProps {
+  selectedCohort: { [key: string]: any } | null;
+  outcome: { [key: string]: any } | null;
+  covariates: Array<{ [key: string]: any }>;
+}
+
+const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
+  covariates,
+  selectedCohort,
+  outcome,
+}) => {
   /* const useSecondTable = outcome?.variable_type === 'custom_dichotomous';
 
   const [modalInfo, setModalInfo] = useState({
@@ -36,7 +43,7 @@ const AttritionTableWrapper = ({ covariates, selectedCohort, outcome }) => {
   return (
     <div data-tour="attrition-table">
       <div
-        className="bg-vadc-tertiary  my-5 text-sm cursor-pointer hover:bg-vadc-tertiary select-none"
+        className="bg-vadc-tertiary my-5 text-sm cursor-pointer hover:bg-vadc-tertiary select-none"
         role="button"
         tabIndex={0}
         onClick={toggleArrow}
@@ -83,14 +90,5 @@ const AttritionTableWrapper = ({ covariates, selectedCohort, outcome }) => {
     </div>
   );
 };
-AttritionTableWrapper.propTypes = {
-  selectedCohort: PropTypes.object,
-  outcome: PropTypes.object,
-  covariates: PropTypes.array.isRequired,
-};
 
-AttritionTableWrapper.defaultProps = {
-  selectedCohort: null,
-  outcome: null,
-};
 export default AttritionTableWrapper;
