@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import EditIcon from './Icons/EditIcon';
 import isEnterOrSpace from '../../AccessibilityUtils/IsEnterOrSpace';
 import TeamProjectModal from '../TeamProjectModal/TeamProjectModal';
 import IsCurrentTeamProjectValid from './IsCurrentTeamProjectValid';
 import useSWR from 'swr';
-// import './TeamProjectHeader.css';
 
 const runningApplicationClientSide = typeof window !== 'undefined';
 
-const TeamProjectHeader = ({ isEditable }) => {
+interface TeamProjectHeaderProps {
+  isEditable: boolean;
+}
+const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
+  isEditable,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bannerText, setBannerText] = useState('- -');
   const [selectedTeamProject, setSelectedTeamProject] = useState(
@@ -65,21 +68,19 @@ const TeamProjectHeader = ({ isEditable }) => {
     rerouteToAppSelectionIfNeeded();
   }, [isEditable, currentTeamProjectIsValid, data]);
 
-  console.log(
-    'data ? data : error ? error : isLoading',
-    data ? data : error ? 'error' : isLoading,
-  );
-
   return (
     <div>
-      <div className="team-project-header">
-        <strong>Team Project</strong> / {bannerText}
+      <div
+        data-testid="team-project-header"
+        className="text-vadc-secondary text-lg"
+      >
+        <strong className="text-xl ">Team Project</strong> / {bannerText}
         {isEditable && (
           <button
             className="team-project-header_modal-button ml-2"
             aria-label="Change Team Project"
             type="button"
-            tabIndex="0"
+            tabIndex={0}
             data-testid="team-project-edit"
             onClick={() => {
               showModal();
@@ -105,14 +106,6 @@ const TeamProjectHeader = ({ isEditable }) => {
       )}
     </div>
   );
-};
-
-TeamProjectHeader.propTypes = {
-  isEditable: PropTypes.bool,
-};
-
-TeamProjectHeader.defaultProps = {
-  isEditable: false,
 };
 
 export default TeamProjectHeader;

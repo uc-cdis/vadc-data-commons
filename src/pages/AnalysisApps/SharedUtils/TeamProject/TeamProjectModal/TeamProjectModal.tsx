@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, Button, Loader } from '@mantine/core';
 import LoadingErrorMessage from '../../LoadingErrorMessage/LoadingErrorMessage';
 import TeamsDropdown from './TeamsDropdown/TeamsDropdown';
@@ -7,7 +6,17 @@ import { useRouter } from 'next/router';
 
 const runningApplicationClientSide = typeof window !== 'undefined';
 
-const TeamProjectModal = ({
+interface TeamProjectModalProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (isOpen: boolean) => void;
+  setBannerText: (bannerText: string) => void;
+  data: { teams: { id: string; name: string }[] } | null;
+  status: 'loading' | 'error' | 'success';
+  selectedTeamProject: string | null;
+  setSelectedTeamProject: (selectedTeamProject: string | null) => void;
+}
+
+const TeamProjectModal: React.FC<TeamProjectModalProps> = ({
   isModalOpen,
   setIsModalOpen,
   setBannerText,
@@ -20,8 +29,9 @@ const TeamProjectModal = ({
   const router = useRouter();
   const closeAndUpdateTeamProject = () => {
     setIsModalOpen(false);
-    setBannerText(selectedTeamProject);
+    selectedTeamProject && setBannerText(selectedTeamProject);
     runningApplicationClientSide &&
+      selectedTeamProject &&
       localStorage.setItem('teamProject', selectedTeamProject);
   };
   useEffect(() => {
@@ -37,12 +47,10 @@ const TeamProjectModal = ({
       <Modal
         opened={isModalOpen}
         title="Team Projects"
-        // closable={false}
-        //  maskClosable={false}
-        //  keyboard={false}
-        //  footer={false}
+        onClose={() => null}
         closeOnClickOutside={false}
         closeOnEscape={false}
+        size="lg"
       >
         <LoadingErrorMessage
           message={'Error while trying to retrieve user access details'}
@@ -63,12 +71,13 @@ const TeamProjectModal = ({
           }
           closeOnClickOutside={false}
           closeOnEscape={false}
+          size="lg"
           // onCancel={() => setIsModalOpen(false)}
           // closable={localStorage.getItem('teamProject')}
           // maskClosable={localStorage.getItem('teamProject')}
           // keyboard={localStorage.getItem('teamProject')}
         >
-          <div className="team-project-modal_modal-description">
+          <div data-testid="team-project-modal_modal-description">
             Please select your team.
           </div>
           <TeamsDropdown
@@ -77,8 +86,7 @@ const TeamProjectModal = ({
             setSelectedTeamProject={setSelectedTeamProject}
           />
           <Button
-            key="submit"
-            type="primary"
+            className="mb-4 float-right"
             disabled={!selectedTeamProject}
             onClick={() => closeAndUpdateTeamProject()}
           >
@@ -91,30 +99,22 @@ const TeamProjectModal = ({
       <Modal
         opened={isModalOpen}
         title="Team Projects"
-        // closable={false}
-        // maskClosable={false}
-        // keyboard={false}
+        size="lg"
+        onClose={() => null}
       >
         <div className="team-project-modal_modal-description">
           Please reach out to{' '}
           <a href="mailto:vadc@lists.uchicago.edu">vadc@lists.uchicago.edu</a>{' '}
           to gain access to the system
         </div>
-        <Button key="submit" type="primary" onClick={redirectToHomepage}>
+        <Button key="submit" onClick={redirectToHomepage}>
           Ok
         </Button>
       </Modal>
     );
   }
   return (
-    <Modal
-      open={isModalOpen}
-      title="Team Projects"
-      // closable={false}
-      // maskClosable={false}
-      // keyboard={false}
-      // footer={false}
-    >
+    <Modal opened={isModalOpen} title="Team Projects" onClose={() => null}>
       <div className="spinner-container">
         <Loader /> Retrieving the list of team projects.
         <br />
@@ -124,17 +124,4 @@ const TeamProjectModal = ({
   );
 };
 
-TeamProjectModal.propTypes = {
-  isModalOpen: PropTypes.bool.isRequired,
-  setIsModalOpen: PropTypes.func.isRequired,
-  setBannerText: PropTypes.func.isRequired,
-  data: PropTypes.object,
-  status: PropTypes.string.isRequired,
-  selectedTeamProject: PropTypes.string,
-  setSelectedTeamProject: PropTypes.func.isRequired,
-};
-TeamProjectModal.defaultProps = {
-  data: PropTypes.null,
-  selectedTeamProject: PropTypes.null,
-};
 export default TeamProjectModal;

@@ -56,7 +56,11 @@ const ResourceBrowser = () => {
                 radius="md"
                 withBorder
               >
-                <Text className="text-center pb-2" size="lg" mt="md">
+                <Text
+                  className="text-center pb-2 text-2xl font-bold"
+                  size="lg"
+                  mt="md"
+                >
                   {resource.title}
                 </Text>
                 <Text className="text-center flex-grow pb-4" size="sm">

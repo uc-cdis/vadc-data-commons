@@ -1,12 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const TeamsDropdown = ({
+interface Team {
+  id: string;
+  name: string;
+}
+
+interface TeamsDropdownProps {
+  teams: Team[];
+  selectedTeamProject: string | null;
+  setSelectedTeamProject: (selectedTeamProject: string) => void;
+}
+
+const TeamsDropdown: React.FC<TeamsDropdownProps> = ({
   teams,
   selectedTeamProject,
   setSelectedTeamProject,
 }) => {
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     setSelectedTeamProject(selectedValue);
   };
@@ -15,13 +25,13 @@ const TeamsDropdown = ({
     selectedTeamProject === null ? 'placeholder' : selectedTeamProject;
 
   return (
-    <div className="teams-dropdown">
+    <div data-testid="teams-dropdown">
       <label id="team-select-label" className="sr-only" htmlFor="team-select">
         Select Team Project
       </label>
       <select
         id="team-select"
-        className="mb-6"
+        className="mb-6 w-full"
         aria-labelledby="team-select-label"
         value={selectedValue}
         onChange={handleChange}
@@ -39,12 +49,6 @@ const TeamsDropdown = ({
       </select>
     </div>
   );
-};
-
-TeamsDropdown.propTypes = {
-  teams: PropTypes.array.isRequired,
-  selectedTeamProject: PropTypes.string.isRequired,
-  setSelectedTeamProject: PropTypes.func.isRequired,
 };
 
 export default TeamsDropdown;
