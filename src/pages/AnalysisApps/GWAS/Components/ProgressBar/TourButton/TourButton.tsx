@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 // import { useTour } from '@reactour/tour';
 // import TourSteps from './TourSteps';
 import { Button } from '@mantine/core';
 
-const TourButton = ({ currentStep, selectionMode }) => {
+interface TourButtonProps {
+  currentStep: number;
+  selectionMode: string;
+}
+
+const TourButton: React.FC<TourButtonProps> = ({
+  currentStep,
+  selectionMode,
+}) => {
   // const { setIsOpen, setSteps } = useTour();
 
   /*   useEffect(() => {
@@ -29,11 +36,6 @@ const TourButton = ({ currentStep, selectionMode }) => {
       New to GWAS? Get started here!
     </Button>
   );
-};
-
-TourButton.propTypes = {
-  currentStep: PropTypes.number.isRequired,
-  selectionMode: PropTypes.string.isRequired,
 };
 
 export default TourButton;
