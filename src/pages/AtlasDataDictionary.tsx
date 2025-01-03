@@ -25,10 +25,7 @@ const AtlasDataDictionary = ({
           <Paper shadow="md" p="xl" withBorder>
             <h1>AtlasDataDictionary</h1>
             <Text>This is a example custom page in Gen3</Text>
-            <Text>
-              You can add your own content here, and add a link to this page in
-              the navigation bar by editing the config file in navigation.json
-            </Text>
+            <Text>You can add your own content here.</Text>
           </Paper>
         </Center>
       </div>

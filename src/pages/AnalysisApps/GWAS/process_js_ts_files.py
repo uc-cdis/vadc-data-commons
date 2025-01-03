@@ -1,4 +1,5 @@
 import os
+# COMMENTS OUT CODE IN JS / TS TYPE FILES
 
 # Function to process files
 def process_file(file_path):

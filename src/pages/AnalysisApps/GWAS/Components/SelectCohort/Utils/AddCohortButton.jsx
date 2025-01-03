@@ -1,14 +1,19 @@
 import React from 'react';
 import { Button } from '@mantine/core';
-import { atlasDomain } from '../../../Utils/cohortMiddlewareApi';
+import { useRouter } from 'next/router';
 
-const AddCohortButton = () => (
-  <Button
-    data-tour="cohort-add"
-    onClick={() => window.open(atlasDomain(), '_blank')}
-  >
-    Add New Cohort
-  </Button>
-);
+const AddCohortButton = () => {
+  const router = useRouter();
+  const atlasLink = '/OHDSIAtlas';
+
+  const handleOpenLink = () => {
+    window.open(router.basePath + atlasLink, '_blank', 'noopener,noreferrer');
+  };
+  return (
+    <Button data-tour="cohort-add" onClick={handleOpenLink}>
+      Add New Cohort
+    </Button>
+  );
+};
 
 export default AddCohortButton;
