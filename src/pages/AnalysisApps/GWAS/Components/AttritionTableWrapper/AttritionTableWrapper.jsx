@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@mantine/core';
 import { IconChevronUp, IconChevronDown } from '@tabler/icons-react';
 import { IconSearch } from '@tabler/icons-react';
+import isEnterOrSpace from '@/pages/AnalysisApps/SharedUtils/AccessibilityUtils/IsEnterOrSpace';
 
 const AttritionTableWrapper = ({ covariates, selectedCohort, outcome }) => {
   /* const useSecondTable = outcome?.variable_type === 'custom_dichotomous';
@@ -37,15 +38,12 @@ const AttritionTableWrapper = ({ covariates, selectedCohort, outcome }) => {
       <div
         className="bg-vadc-tertiary  my-5 text-sm cursor-pointer hover:bg-vadc-tertiary select-none"
         role="button"
-        tabIndex={1}
+        tabIndex={0}
         onClick={toggleArrow}
+        onKeyDown={(e) => (isEnterOrSpace(e) ? toggleArrow() : null)}
       >
         <div className="p-3 flex">
-          <span
-            color="#2e77b8"
-            radius="50%"
-            className="flex justify-center h-4 mr-3 text-white w-4 bg-vadc-secondary rounded-full "
-          >
+          <span className="flex justify-center h-4 mr-3 text-white w-4 bg-vadc-secondary rounded-full ">
             {isOpen ? (
               <IconChevronUp size={16} />
             ) : (
@@ -54,9 +52,13 @@ const AttritionTableWrapper = ({ covariates, selectedCohort, outcome }) => {
           </span>
           <span> Attrition Table</span>
         </div>
-        {isOpen ? (
-          <div className="bg-vadc-slate_blue pl-4 py-10">Table content</div>
-        ) : null}
+        <div
+          className={`bg-vadc-slate_blue pl-4 overflow-hidden transition-all duration-1000 ease-in-out ${
+            isOpen ? 'max-h-screen' : 'max-h-0'
+          }`}
+        >
+          {isOpen ? <div className="pl-4 py-10">Table content</div> : null}
+        </div>{' '}
       </div>
 
       {/*  <AttritionTableModal modalInfo={modalInfo} setModalInfo={setModalInfo} />
