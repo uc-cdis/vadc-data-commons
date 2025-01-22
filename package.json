@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.10.0",
+    "axe-playwright": "^2.0.3",
     "@chromatic-com/storybook": "^3.2.4",
     "@gen3/toolsff": "^0.10.55",
     "@storybook/addon-a11y": "^8.6.0-alpha.1",
