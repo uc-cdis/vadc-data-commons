@@ -5,12 +5,14 @@ import TeamsDropdown from './TeamsDropdown/TeamsDropdown';
 import { useRouter } from 'next/router';
 
 const runningApplicationClientSide = typeof window !== 'undefined';
-
+interface Team {
+  teamName: string;
+}
 interface TeamProjectModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   setBannerText: (bannerText: string) => void;
-  data: { teams: { id: string; name: string }[] } | null;
+  data: { teams: Team[] } | null;
   status: 'loading' | 'error' | 'success';
   selectedTeamProject: string | null | false;
   setSelectedTeamProject: (selectedTeamProject: string | null) => void;

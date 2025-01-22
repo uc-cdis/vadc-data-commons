@@ -1,13 +1,12 @@
 import React from 'react';
 
 interface Team {
-  id: string;
-  name: string;
+  teamName: string;
 }
 
 interface TeamsDropdownProps {
   teams: Team[];
-  selectedTeamProject: string | null;
+  selectedTeamProject: string | null | false;
   setSelectedTeamProject: (selectedTeamProject: string) => void;
 }
 
@@ -22,7 +21,9 @@ const TeamsDropdown: React.FC<TeamsDropdownProps> = ({
   };
 
   const selectedValue =
-    selectedTeamProject === null ? 'placeholder' : selectedTeamProject;
+    selectedTeamProject === null || selectedTeamProject === false
+      ? 'placeholder'
+      : selectedTeamProject;
 
   return (
     <div data-testid="teams-dropdown">
