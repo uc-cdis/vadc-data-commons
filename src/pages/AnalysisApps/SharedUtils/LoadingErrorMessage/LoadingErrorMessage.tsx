@@ -1,11 +1,12 @@
-/*
 import React from 'react';
 import PropTypes from 'prop-types';
-import './LoadingErrorMessage.css';
 
-const LoadingErrorMessage = ({ message }) => (
-  <h2 className='loading-error-message' data-testid='loading-error-message'>
-        ❌ {message}
+type LoadingErrorMessageProps = {
+  message: string;
+};
+const LoadingErrorMessage = ({ message }: LoadingErrorMessageProps) => (
+  <h2 className="loading-error-message" data-testid="loading-error-message">
+    ❌ {message}
   </h2>
 );
 
@@ -17,5 +18,3 @@ LoadingErrorMessage.defaultProps = {
 };
 
 export default LoadingErrorMessage;
-
-*/
