@@ -20,11 +20,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
       placeholder={`Search by ${field}...`}
       value={searchTerm}
       onChange={(e) => handleSearch(e.target.value)}
-      styles={{
-        placeholder: {
-          fontSize: '10px',
-        },
-      }}
     />
   </div>
 );
