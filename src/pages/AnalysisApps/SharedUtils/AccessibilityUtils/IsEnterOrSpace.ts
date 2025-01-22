@@ -1,8 +1,6 @@
-const isEnterOrSpace = (event) =>
-  event.key === 'Enter' ||
-  event.key === ' ' ||
-  event.key === 'Spacebar' ||
-  event.keycode === '32' ||
-  event.keycode === '13';
+import { KeyboardEvent } from 'react';
+
+const isEnterOrSpace = (event: KeyboardEvent) =>
+  event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar';
 
 export default isEnterOrSpace;
