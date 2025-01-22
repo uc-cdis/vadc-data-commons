@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // import { useTour } from '@reactour/tour';
 // import TourSteps from './TourSteps';
 import { Button } from '@mantine/core';
@@ -8,6 +8,7 @@ interface TourButtonProps {
   selectionMode: string;
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const TourButton: React.FC<TourButtonProps> = ({
   currentStep,
   selectionMode,

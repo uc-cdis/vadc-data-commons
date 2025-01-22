@@ -69,7 +69,7 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
     rerouteToAppSelectionIfNeeded();
   }, [isEditable, currentTeamProjectIsValid, data]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loader size="sm" />;
   return (
     <div>
       <div

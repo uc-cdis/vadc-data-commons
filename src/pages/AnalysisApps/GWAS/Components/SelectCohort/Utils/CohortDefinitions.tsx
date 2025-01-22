@@ -34,8 +34,9 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
   const [rowsPerPage, setRowsPerPage] = useState(10); // Number of rows to show per page
 
   // SWR CODE
-  const { data, error, isLoading } = useSWR(CohortsEndpoint, (...args) =>
-    fetch(...args).then((res) => res.json()),
+  const { data, error, isLoading } = useSWR(
+    CohortsEndpoint + `?team-project=${selectedTeamProject}`,
+    (...args) => fetch(...args).then((res) => res.json()),
   );
   let displayedCohorts: cohort[] = useFilter(data, searchTerm, 'cohort_name');
 
@@ -83,8 +84,8 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
   if (isLoading)
     return (
       <React.Fragment>
-        <div className="GWASUI-spinnerContainer GWASUI-emptyTable flex justify-center pt-8 min-h-[300px]">
-          <Loader size="lg" variant="dots" />
+        <div className="flex justify-center pt-8 min-h-[300px]">
+          <Loader size="lg" />
         </div>
       </React.Fragment>
     );

@@ -10,6 +10,7 @@ interface AttritionTableWrapperProps {
   covariates: Array<{ [key: string]: any }>;
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
   covariates,
   selectedCohort,
