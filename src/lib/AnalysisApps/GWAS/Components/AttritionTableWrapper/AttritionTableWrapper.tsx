@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import AttritionTable from './AttritionTable/AttritionTable';
 // import AttritionTableModal from './AttritionTableModal/AttritionTableModal';
 import { IconChevronUp, IconChevronDown } from '@tabler/icons-react';
-import isEnterOrSpace from '@/pages/AnalysisApps/SharedUtils/AccessibilityUtils/IsEnterOrSpace';
+import isEnterOrSpace from '@/lib/AnalysisApps/SharedUtils/AccessibilityUtils/IsEnterOrSpace';
 
 interface AttritionTableWrapperProps {
   selectedCohort: { [key: string]: any } | null;

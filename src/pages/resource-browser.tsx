@@ -5,7 +5,7 @@ import {
   getNavPageLayoutPropsFromConfig,
 } from '@gen3/frontend';
 import { GetServerSideProps } from 'next';
-import ResourceBrowser from './AnalysisApps/ResourceBrowser/ResourceBrowser';
+import ResourceBrowser from '../lib/AnalysisApps/ResourceBrowser/ResourceBrowser';
 
 const Analysis = ({ headerProps, footerProps }: NavPageLayoutProps) => {
   return (

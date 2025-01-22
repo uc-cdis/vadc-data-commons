@@ -9,6 +9,7 @@ const themeFonts = require(`./config/${GEN3_COMMONS_NAME}/themeFonts.json`);
 
 module.exports = {
   content: [
+    './src/lib/**/*.{js,ts,jsx,tsx}',
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
     './src/features/**/*.{js,ts,jsx,tsx}',

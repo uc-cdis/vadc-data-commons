@@ -6,7 +6,7 @@ import { Loader, Table, Pagination, Select } from '@mantine/core';
 // import { fetchCohortDefinitions } from '../../../Utils/cohortMiddlewareApi';
 // import queryConfig from '../../../../SharedUtils/QueryConfig';
 import { useFilter } from '../../../Utils/formHooks';
-import { CohortsEndpoint } from '@/pages/AnalysisApps/SharedUtils/Endpoints';
+import { CohortsEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import useSWR from 'swr';
 
 interface CohortDefinitionsProps {

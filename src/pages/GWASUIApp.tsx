@@ -5,7 +5,7 @@ import {
   getNavPageLayoutPropsFromConfig,
 } from '@gen3/frontend';
 import { GetServerSideProps } from 'next';
-import GWASContainer from './AnalysisApps/GWAS/GWASContainer';
+import GWASContainer from '../lib/AnalysisApps/GWAS/GWASContainer';
 
 const GWASUIApp = ({ headerProps, footerProps }: NavPageLayoutProps) => {
   return (
