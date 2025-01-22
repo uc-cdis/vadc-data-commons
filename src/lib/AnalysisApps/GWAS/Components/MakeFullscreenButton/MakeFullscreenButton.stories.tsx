@@ -7,7 +7,7 @@ export default {
   component: MakeFullscreenButton,
 };
 
-const Template = ({}) => {
+const Template = () => {
   const totalCombinationsRGB = 16777215;
   const randomBorder = () => {
     return {
