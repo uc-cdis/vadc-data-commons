@@ -1,4 +1,11 @@
-const IsCurrentTeamProjectValid = (data) => {
+type Data = {
+  teams: Team[];
+};
+type Team = {
+  teamName: string;
+};
+
+const IsCurrentTeamProjectValid = (data: Data) => {
   if (!data.teams) {
     return false;
   }
