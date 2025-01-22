@@ -5,8 +5,8 @@ import { IconDatabaseOff } from '@tabler/icons-react';
 import { Loader, Table, Pagination, Select } from '@mantine/core';
 // import { fetchCohortDefinitions } from '../../../Utils/cohortMiddlewareApi';
 // import queryConfig from '../../../../SharedUtils/QueryConfig';
-import { useFetch, useFilter } from '../../../Utils/formHooks';
-// import { useSourceContext } from '../../../Utils/Source';
+import { useFilter } from '../../../Utils/formHooks';
+import { CohortsEndpoint } from '@/pages/AnalysisApps/SharedUtils/Endpoints';
 import useSWR from 'swr';
 
 interface CohortDefinitionsProps {
@@ -33,11 +33,8 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
   const [page, setPage] = useState(1); // Track current page
   const [rowsPerPage, setRowsPerPage] = useState(10); // Number of rows to show per page
 
-  // const { source } = useSourceContext();
-
   // SWR CODE
-  const mockAPIEndpoint = 'http://localhost:3000/api/cohorts';
-  const { data, error, isLoading } = useSWR(mockAPIEndpoint, (...args) =>
+  const { data, error, isLoading } = useSWR(CohortsEndpoint, (...args) =>
     fetch(...args).then((res) => res.json()),
   );
   let displayedCohorts: cohort[] = useFilter(data, searchTerm, 'cohort_name');

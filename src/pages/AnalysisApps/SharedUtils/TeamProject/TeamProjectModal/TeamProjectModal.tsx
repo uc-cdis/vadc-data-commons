@@ -12,7 +12,7 @@ interface TeamProjectModalProps {
   setBannerText: (bannerText: string) => void;
   data: { teams: { id: string; name: string }[] } | null;
   status: 'loading' | 'error' | 'success';
-  selectedTeamProject: string | null;
+  selectedTeamProject: string | null | false;
   setSelectedTeamProject: (selectedTeamProject: string | null) => void;
 }
 

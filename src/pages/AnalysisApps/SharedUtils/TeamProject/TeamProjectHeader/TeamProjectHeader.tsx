@@ -4,6 +4,8 @@ import EditIcon from './Icons/EditIcon';
 import isEnterOrSpace from '../../AccessibilityUtils/IsEnterOrSpace';
 import TeamProjectModal from '../TeamProjectModal/TeamProjectModal';
 import IsCurrentTeamProjectValid from './IsCurrentTeamProjectValid';
+import { TeamProjectsEndpoint } from '../../Endpoints';
+import { Loader } from '@mantine/core';
 import useSWR from 'swr';
 
 const runningApplicationClientSide = typeof window !== 'undefined';
@@ -42,8 +44,7 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
   }, [redirect]);
 
   // SWR CODE
-  const mockAPIEndpoint = 'http://localhost:3000/api/teamprojects';
-  const { data, error, isLoading } = useSWR(mockAPIEndpoint, (...args) =>
+  const { data, error, isLoading } = useSWR(TeamProjectsEndpoint, (...args) =>
     fetch(...args).then((res) => res.json()),
   );
 
@@ -68,6 +69,7 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
     rerouteToAppSelectionIfNeeded();
   }, [isEditable, currentTeamProjectIsValid, data]);
 
+  if (isLoading) return <Loader />;
   return (
     <div>
       <div

@@ -30,7 +30,7 @@ const SelectCohort: React.FC<SelectCohortProps> = ({
 
         <AddCohortButton />
       </div>
-      <div className="GWASUI-mainTable">
+      <div data-testid="GWASUI-mainTable">
         <div data-tour="cohort-table">
           <div data-tour="cohort-table-body">
             <CohortDefinitions
