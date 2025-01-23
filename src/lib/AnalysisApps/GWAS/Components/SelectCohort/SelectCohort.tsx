@@ -5,7 +5,7 @@ import SearchBar from '../SearchBar/SearchBar';
 
 interface SelectCohortProps {
   selectedCohort?: number | undefined;
-  handleCohortSelect: () => void;
+  handleCohortSelect: (selectedRow: number) => void;
   selectedTeamProject: string;
 }
 

@@ -1,14 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ACTIONS from '../../Utils/StateManagement/Actions';
 import SelectCohort from '../../Components/SelectCohort/SelectCohort';
+
+type SelectStudyPopulationProps = {
+  dispatch: (action: any) => void;
+  selectedCohort?: number;
+  selectedTeamProject: string;
+};
 
 const SelectStudyPopulation = ({
   selectedCohort,
   dispatch,
   selectedTeamProject,
-}) => {
-  const handleStudyPopulationSelect = (selectedRow) => {
+}: SelectStudyPopulationProps) => {
+  const handleStudyPopulationSelect = (selectedRow: number) => {
     dispatch({
       type: ACTIONS.SET_SELECTED_STUDY_POPULATION_COHORT,
       payload: selectedRow,
@@ -26,10 +31,4 @@ const SelectStudyPopulation = ({
   );
 };
 
-SelectStudyPopulation.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  selectedCohort: PropTypes.object,
-  selectedTeamProject: PropTypes.string.isRequired,
-};
-SelectStudyPopulation.defaultProps = { selectedCohort: null };
 export default SelectStudyPopulation;

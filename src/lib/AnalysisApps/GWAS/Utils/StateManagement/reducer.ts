@@ -1,7 +1,30 @@
 import { addUniqueObjectToArray } from '../constants';
 import ACTIONS from './Actions';
 
-const reducer = (state, action) => {
+type Action = {
+  type: string;
+  payload: any;
+};
+
+type State = {
+  outcome: any;
+  selectedStudyPopulationCohort: any;
+  covariates: any[];
+  imputationScore: number;
+  mafThreshold: number;
+  numOfPC: number;
+  gwasName: string;
+  selectedHare: {
+    concept_value: string;
+  };
+  currentStep: number;
+  finalPopulationSizes: any[];
+  selectionMode: string;
+  messages: any[];
+  selectedTeamProject: string;
+};
+
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case ACTIONS.SET_SELECTED_STUDY_POPULATION_COHORT:
       return { ...state, selectedStudyPopulationCohort: action.payload };
