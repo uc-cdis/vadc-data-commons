@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-// import { useQuery } from 'react-query';
-// import { Table, Spin, Radio } from 'antd';
 import { IconDatabaseOff } from '@tabler/icons-react';
 import { Loader, Table, Pagination, Select } from '@mantine/core';
-// import { fetchCohortDefinitions } from '../../../Utils/cohortMiddlewareApi';
-// import queryConfig from '../../../../SharedUtils/QueryConfig';
 import { useFilter } from '../../../Utils/formHooks';
 import { CohortsEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import useSWR from 'swr';
@@ -29,7 +25,6 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
   selectedTeamProject,
 }) => {
   // State to manage selected row (only one row at a time)
-  // const [selectedRow, setSelectedRow] = useState(null);
   const [page, setPage] = useState(1); // Track current page
   const [rowsPerPage, setRowsPerPage] = useState(10); // Number of rows to show per page
 
@@ -40,44 +35,6 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
   );
   let displayedCohorts: cohort[] = useFilter(data, searchTerm, 'cohort_name');
 
-  /*
-  const handleSelectCohort = (cohortId) => {
-    setSelectedCohort(cohortId);
-  };
- */
-  /*
-  const cohortSelection = (inputSelectedCohort) => ({
-    type: 'radio',
-    columnTitle: 'Select',
-    selectedRowKeys: inputSelectedCohort
-      ? [inputSelectedCohort.cohort_definition_id]
-      : [],
-    onChange: (_, selectedRows) => {
-      handleCohortSelect(selectedRows[0]);
-    },
-    renderCell: (checked, record) => null,
-
-    */
-  /*      <Radio
-        checked={checked}
-        value={record.cohort_definition_id}
-        aria-label={'Row action: study population selection'}
-      />
-  });*/
-  /*
-  const cohortTableConfig = [
-    {
-      title: 'Cohort Name',
-      dataIndex: 'cohort_name',
-      key: 'cohort_name',
-    },
-    {
-      title: 'Size',
-      dataIndex: 'size',
-      key: 'size',
-    },
-  ];
-  */
   if (error)
     return <React.Fragment>Error getting data for table</React.Fragment>;
 
@@ -95,6 +52,7 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
       (page - 1) * rowsPerPage,
       page * rowsPerPage,
     );
+    const totalPagesForPagination = Math.ceil(data.length / rowsPerPage);
     return (
       <React.Fragment>
         <div className="w-full min-h-[200px] py-5">
@@ -148,7 +106,7 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
               className="pt-5 flex justify-end"
               value={page}
               onChange={setPage}
-              total={Math.ceil(data.length / rowsPerPage)} // Calculate total pages
+              total={totalPagesForPagination} // Calculate total pages
               color="blue"
               size="md"
               withEdges
