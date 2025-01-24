@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import MakeFullscreenButton from './MakeFullscreenButton';
 import FullscreenSelectors from './FullscreenSelectors';
 import type { Meta, StoryObj } from '@storybook/react';
