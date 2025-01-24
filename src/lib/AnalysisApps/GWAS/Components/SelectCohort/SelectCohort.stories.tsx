@@ -6,6 +6,7 @@ import initialState from '../../Utils/StateManagement/InitialState';
 import { CohortsEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import type { Meta, StoryObj } from '@storybook/react';
 import { http, HttpResponse, delay } from 'msw';
+import { userEvent, within, expect } from '@storybook/test';
 
 const meta: Meta<typeof SelectCohort> = {
   title: 'GWASAPP/SelectCohort',
@@ -68,6 +69,28 @@ export const MockedSuccess: Story = {
     },
   },
   render: () => <SelectCohortWithHooks />, // see https://storybook.js.org/docs/writing-stories
+  /* Interaction Tests */
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // 👇 Simulate interactions with the component
+    // Simple check to make sure Search by cohort name filters
+    await expect(canvas.getByTestId('GWASUI-mainTable')).toBeInTheDocument();
+
+    await userEvent.click(canvas.getAllByRole('textbox')[0]);
+
+    await userEvent.type(
+      canvas.getAllByRole('textbox')[0],
+      'team2 - test new cohort - catch all',
+    );
+
+    await expect(
+      canvas.getByText('team2 - test new cohort - catch all'),
+    ).toBeInTheDocument();
+    await expect(
+      canvas.queryByText('team2 - test new cohort - medium + large'),
+    ).not.toBeInTheDocument();
+  },
 };
 
 export const MockedError: Story = {
