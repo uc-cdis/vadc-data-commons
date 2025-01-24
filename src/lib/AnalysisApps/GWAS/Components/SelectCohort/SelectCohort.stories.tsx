@@ -6,7 +6,6 @@ import initialState from '../../Utils/StateManagement/InitialState';
 import { CohortsEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import type { Meta, StoryObj } from '@storybook/react';
 import { http, HttpResponse, delay } from 'msw';
-import { userEvent, within, expect } from '@storybook/test';
 
 const meta: Meta<typeof SelectCohort> = {
   title: 'GWASAPP/SelectCohort',
