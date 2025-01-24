@@ -15,7 +15,6 @@ const meta: Meta<typeof SelectCohort> = {
 export default meta;
 type Story = StoryObj<typeof SelectCohort>;
 
-// 👇 The mocked data that will be used in the story
 const TestData = [
   {
     cohort_definition_id: 573,
