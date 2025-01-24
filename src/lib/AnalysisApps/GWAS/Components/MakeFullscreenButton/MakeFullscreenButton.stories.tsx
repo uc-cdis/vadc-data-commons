@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import MakeFullscreenButton from './MakeFullscreenButton';
 import FullscreenSelectors from './FullscreenSelectors';
+import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, within, expect } from '@storybook/test';
 
-export default {
-  title: 'GWASApp/MakeFullScreenButton',
+const meta: Meta<typeof MakeFullscreenButton> = {
+  title: 'GWASAPP/MakeFullscreenButton ',
   component: MakeFullscreenButton,
 };
 
-const Template = () => {
+export default meta;
+type Story = StoryObj<typeof MakeFullscreenButton>;
+
+const MakeFullscreenButtonWithElementsToHide = () => {
   const totalCombinationsRGB = 16777215;
   const randomBorder = () => {
     return {
@@ -17,10 +22,10 @@ const Template = () => {
     };
   };
   return (
-    <>
+    <React.Fragment>
       <div>
         {FullscreenSelectors.map((selectorString, iterator) => (
-          <>
+          <React.Fragment key={iterator}>
             {iterator === 0 && (
               <h3 className={selectorString.replace('.', '')}>
                 Selectors to be Hidden and Shown to Make Full Screen:
@@ -41,13 +46,35 @@ const Template = () => {
                 {selectorString}
               </div>
             )}
-          </>
+          </React.Fragment>
         ))}
         <br />
       </div>
       <MakeFullscreenButton />
-    </>
+    </React.Fragment>
   );
 };
 
-export const SuccessState = Template.bind({});
+export const MockedSuccess: Story = {
+  render: () => <MakeFullscreenButtonWithElementsToHide />,
+};
+
+export const InteractionTest: Story = {
+  render: () => <MakeFullscreenButtonWithElementsToHide />,
+  /* Interaction Tests */
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(
+      canvas.getByTestId('make-full-screen-button'),
+    ).toBeInTheDocument();
+
+    await expect(canvas.getByText('Header Element')).toBeInTheDocument();
+    await expect(canvas.getByText('Footer Element')).toBeInTheDocument();
+    await expect(canvas.getByText('Make Fullscreen')).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('button'));
+
+    await expect(canvas.getByText('Header Element')).not.toBeVisible();
+    await expect(canvas.getByText('Footer Element')).not.toBeVisible();
+    await expect(canvas.getByText('Exit Fullscreen')).toBeInTheDocument();
+  },
+};

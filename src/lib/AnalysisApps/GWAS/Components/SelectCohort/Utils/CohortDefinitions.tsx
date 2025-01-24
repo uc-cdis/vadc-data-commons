@@ -17,18 +17,15 @@ interface cohort {
   size: number;
 }
 
-// Define the component using the interface
 const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
   selectedCohort = undefined,
   handleCohortSelect,
   searchTerm,
   selectedTeamProject,
 }) => {
-  // State to manage selected row (only one row at a time)
   const [page, setPage] = useState(1); // Track current page
   const [rowsPerPage, setRowsPerPage] = useState(10); // Number of rows to show per page
 
-  // SWR CODE
   const { data, error, isLoading } = useSWR(
     CohortsEndpoint + `?team-project=${selectedTeamProject}`,
     (...args) => fetch(...args).then((res) => res.json()),
@@ -40,11 +37,9 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
 
   if (isLoading)
     return (
-      <React.Fragment>
-        <div className="flex justify-center pt-8 min-h-[300px]">
-          <Loader size="lg" />
-        </div>
-      </React.Fragment>
+      <div className="flex justify-center pt-8 min-h-[300px]">
+        <Loader size="lg" />
+      </div>
     );
 
   if (data) {
@@ -53,6 +48,7 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
       page * rowsPerPage,
     );
     const totalPagesForPagination = Math.ceil(data.length / rowsPerPage);
+
     return (
       <React.Fragment>
         <div className="w-full min-h-[200px] py-5">
@@ -106,7 +102,7 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
               className="pt-5 flex justify-end"
               value={page}
               onChange={setPage}
-              total={totalPagesForPagination} // Calculate total pages
+              total={totalPagesForPagination}
               color="blue"
               size="md"
               withEdges
