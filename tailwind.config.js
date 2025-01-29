@@ -25,7 +25,7 @@ module.exports = {
           slate_blue: '#e9eef2',
           border: '#dedede',
           alternate_row: '#fafafb',
-          gold: '#ef8523',
+          gold: '#a35b18',
         },
         heal: {
           primary: '#99286B',

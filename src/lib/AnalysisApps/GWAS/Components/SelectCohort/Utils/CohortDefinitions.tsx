@@ -112,6 +112,7 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
               value={rowsPerPage.toString()}
               onChange={(value) => setRowsPerPage(Number(value))}
               size="sm"
+              aria-label="pagination select"
               data={[
                 { value: '10', label: '10 /page' },
                 { value: '20', label: '20 /page' },
