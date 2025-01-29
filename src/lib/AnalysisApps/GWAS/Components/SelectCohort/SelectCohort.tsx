@@ -9,6 +9,7 @@ interface SelectCohortProps {
   selectedTeamProject: string;
 }
 
+/** Component for selecting a cohort, used in select study population view */
 const SelectCohort: React.FC<SelectCohortProps> = ({
   selectedCohort,
   handleCohortSelect,
