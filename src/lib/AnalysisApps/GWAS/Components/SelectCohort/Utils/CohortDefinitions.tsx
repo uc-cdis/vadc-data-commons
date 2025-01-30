@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { IconDatabaseOff } from '@tabler/icons-react';
 import { Loader, Table, Pagination, Select } from '@mantine/core';
 import { useFilter } from '../../../Utils/formHooks';
-import { CohortsEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
-import useSWR from 'swr';
+import { useSourceContext} from '@/lib/AnalysisApps/GWAS/Utils/Source';
+import { useGetCohortDefinitionsQuery } from '@/lib/AnalysisApps/GWAS/Utils/cohortApi';
 
 interface CohortDefinitionsProps {
   selectedCohort?: number | undefined;
@@ -26,10 +26,17 @@ const CohortDefinitions: React.FC<CohortDefinitionsProps> = ({
   const [page, setPage] = useState(1); // Track current page
   const [rowsPerPage, setRowsPerPage] = useState(10); // Number of rows to show per page
 
-  const { data, error, isLoading } = useSWR(
-    CohortsEndpoint + `?team-project=${selectedTeamProject}`,
-    (...args) => fetch(...args).then((res) => res.json()),
-  );
+  const { sourceId } = useSourceContext();
+
+  // const { data, error, isLoading } = useSWR(
+  //   CohortsEndpoint + `?team-project=${selectedTeamProject}`,
+  //   (...args) => fetch(...args).then((res) => res.json()),
+  // );
+
+  const { error, isLoading, data } = useGetCohortDefinitionsQuery({
+    sourceId,
+    selectedTeamProject});
+
   let displayedCohorts: cohort[] = useFilter(data, searchTerm, 'cohort_name');
 
   if (error)
