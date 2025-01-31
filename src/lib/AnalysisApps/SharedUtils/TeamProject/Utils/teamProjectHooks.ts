@@ -10,7 +10,7 @@ interface Teams {
 
 interface UseTeamProjectsResult {
   teams: Teams;
-  isLoading: boolean;
+  isFetching: boolean;
   isSuccess: boolean;
   isError: boolean;
 }
@@ -26,7 +26,7 @@ interface UseTeamProjectsResult {
 export const useTeamProjects = (): UseTeamProjectsResult => {
   const {
     data: authorizationMappings,
-    isLoading,
+    isFetching,
     isSuccess,
     isError,
   } = useGetAuthzMappingsQuery();
@@ -49,5 +49,5 @@ export const useTeamProjects = (): UseTeamProjectsResult => {
     teamProjectList = { teams };
   }
 
-  return { teams: teamProjectList, isLoading, isSuccess, isError };
+  return { teams: teamProjectList, isFetching, isSuccess, isError };
 };
