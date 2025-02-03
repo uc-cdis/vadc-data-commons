@@ -51,7 +51,6 @@
     "@chromatic-com/storybook": "^3.2.4",
     "@gen3/toolsff": "^0.10.78",
     "@jest/globals": "^29.7.0",
-
     "@storybook/addon-a11y": "^8.6.0-alpha.1",
     "@storybook/addon-essentials": "^8.6.0-alpha.1",
     "@storybook/addon-interactions": "^8.6.0-alpha.1",
