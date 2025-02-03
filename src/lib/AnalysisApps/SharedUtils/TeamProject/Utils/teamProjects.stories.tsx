@@ -16,7 +16,7 @@ const TeamProjectsHook = () => {
   if (isSuccess)
     return (
       <ul>
-        {teams.teams.map((team) => (
+        {teams.map((team) => (
           <li key={team.teamName}>{team.teamName}</li>
         ))}
       </ul>

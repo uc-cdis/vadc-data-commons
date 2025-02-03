@@ -10,7 +10,7 @@ import {
   afterEach,
   beforeEach,
 } from '@jest/globals';
-import { renderHook } from '../test-utils';
+import { renderHook } from '../../../../test/test-utils';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { GEN3_AUTHZ_API } from '@gen3/core';
