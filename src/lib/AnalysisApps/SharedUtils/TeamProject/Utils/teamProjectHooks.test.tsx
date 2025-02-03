@@ -36,8 +36,7 @@ describe('useTeamProjects', () => {
     // Start the interception.
     server.listen();
   });
-  beforeEach(() => {
-  });
+  beforeEach(() => {});
 
   afterEach(() => {
     // Remove any handlers you may have added
@@ -60,11 +59,11 @@ describe('useTeamProjects', () => {
       isError: false,
       isFetching: false,
       isSuccess: true,
-        teams: [
-          {
-            teamName: '/gwas_projects/project2',
-          },
-        ],
+      teams: [
+        {
+          teamName: '/gwas_projects/project2',
+        },
+      ],
     });
   });
   it('fetches and returns isError', async () => {
@@ -81,7 +80,7 @@ describe('useTeamProjects', () => {
       isError: true,
       isFetching: false,
       isSuccess: false,
-      teams: []
+      teams: [],
     });
   });
 });
