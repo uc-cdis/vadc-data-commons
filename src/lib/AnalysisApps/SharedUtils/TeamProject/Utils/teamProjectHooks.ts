@@ -10,6 +10,7 @@ interface UseTeamProjectsResult {
   isFetching: boolean;
   isSuccess: boolean;
   isError: boolean;
+  error?: unknown;
 }
 
 /**
@@ -26,6 +27,7 @@ export const useTeamProjects = (): UseTeamProjectsResult => {
     isFetching,
     isSuccess,
     isError,
+    error,
   } = useGetAuthzMappingsQuery();
 
   let teams : Array<TeamProject> =  [];
@@ -44,5 +46,5 @@ export const useTeamProjects = (): UseTeamProjectsResult => {
       .map(([key]) => ({ teamName: key }));
   }
 
-  return { teams : teams, isFetching, isSuccess, isError };
+  return { teams : teams, isFetching, isSuccess, isError, error };
 };

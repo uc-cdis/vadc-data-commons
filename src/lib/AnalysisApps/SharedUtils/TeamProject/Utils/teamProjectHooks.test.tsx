@@ -50,6 +50,22 @@ describe('useTeamProjects', () => {
   });
 
   it('fetches and returns team project roles successfully', async () => {
+    server.use(
+      http.get(`${GEN3_AUTHZ_API}/mapping`, () => {
+        return HttpResponse.json({
+          '/gwas_projects/project1': [{ abc: 'def' }],
+          '/gwas_projects/project2': [
+            { abc: 'def' },
+            {
+              service: 'atlas-argo-wrapper-and-cohort-middleware',
+              method: 'access',
+            },
+          ],
+          '/other/project3': [{ abc: 'def' }],
+        });
+      }),
+    );
+
     const { result } = renderHook(() => useTeamProjects());
 
     expect(result.current.isFetching).toBe(true);
@@ -81,6 +97,7 @@ describe('useTeamProjects', () => {
       isFetching: false,
       isSuccess: false,
       teams: [],
+      error: { status: 500, data: null }
     });
   });
 });
