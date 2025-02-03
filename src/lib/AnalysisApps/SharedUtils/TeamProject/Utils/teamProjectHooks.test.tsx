@@ -1,93 +1,88 @@
 // teamProjectHooks.test.ts
-import { renderHook } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import { useTeamProjects } from './teamProjectHooks';
-import { useGetAuthzMappingsQuery } from '@gen3/core';
-import { describe, expect, it, jest } from '@jest/globals';
+import {
+  describe,
+  expect,
+  it,
+  beforeAll,
+  afterAll,
+  afterEach,
+  beforeEach,
+} from '@jest/globals';
+import { renderHook } from '../test-utils';
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+import { GEN3_AUTHZ_API, gen3Api } from '@gen3/core';
+
+const server = setupServer(
+  http.get(`${GEN3_AUTHZ_API}/mapping`, () => {
+    return HttpResponse.json({
+      '/gwas_projects/project1': [{ abc: 'def' }],
+      '/gwas_projects/project2': [
+        { abc: 'def' },
+        {
+          service: 'atlas-argo-wrapper-and-cohort-middleware',
+          method: 'access',
+        },
+      ],
+      '/other/project3': [{ abc: 'def' }],
+    });
+  }),
+);
 
 describe('useTeamProjects', () => {
-  it('should return loading state when data is fetching', () => {
-    (useGetAuthzMappingsQuery as jest.Mock).mockReturnValue({
-      data: null,
-      isFetching: true,
-      isSuccess: false,
-      isError: false,
-    });
-
-    const { result } = renderHook(() => useTeamProjects());
-    expect(result.current).toEqual({
-      teams: { teams: [] },
-      isFetching: true,
-      isSuccess: false,
-      isError: false,
-    });
+  beforeAll(() => {
+    // Start the interception.
+    server.listen();
+  });
+  beforeEach(() => {
   });
 
-  it('should return formatted team projects when data is successfully retrieved', () => {
-    (useGetAuthzMappingsQuery as jest.Mock).mockReturnValue({
-      data: {
-        '/gwas_projects/team1': [
-          { service: 'atlas-argo-wrapper-and-cohort-middleware' },
-        ],
-        '/gwas_projects/team2': [
-          { service: 'atlas-argo-wrapper-and-cohort-middleware' },
-          { service: 'other-service' },
-        ],
-        '/other_path/team3': [
-          { service: 'atlas-argo-wrapper-and-cohort-middleware' },
-        ],
-      },
-      isFetching: false,
-      isSuccess: true,
-      isError: false,
-    });
+  afterEach(() => {
+    // Remove any handlers you may have added
+    // in individual tests (runtime handlers).
 
-    const { result } = renderHook(() => useTeamProjects());
-    expect(result.current).toEqual({
-      teams: {
-        teams: [{ teamName: '/gwas_projects/team1' }, { teamName: '/gwas_projects/team2' }],
-      },
-      isFetching: false,
-      isSuccess: true,
-      isError: false,
-    });
+    server.resetHandlers();
   });
 
-  it('should return an empty list when no valid authorization mappings exist', () => {
-    (useGetAuthzMappingsQuery as jest.Mock).mockReturnValue({
-      data: {
-        '/gwas_projects/team1': [{ service: 'other-service' }],
-        '/other_path/team2': [
-          { service: 'atlas-argo-wrapper-and-cohort-middleware' },
-        ],
-      },
-      isFetching: false,
-      isSuccess: true,
-      isError: false,
-    });
-
-    const { result } = renderHook(() => useTeamProjects());
-    expect(result.current).toEqual({
-      teams: { teams: [] },
-      isFetching: false,
-      isSuccess: true,
-      isError: false,
-    });
+  afterAll(() => {
+    // Disable request interception and clean up.
+    server.close();
   });
 
-  it('should return error state when there is an error in fetching data', () => {
-    (useGetAuthzMappingsQuery as jest.Mock).mockReturnValue({
-      data: null,
+  it('fetches and returns team project roles successfully', async () => {
+    const { result } = renderHook(() => useTeamProjects());
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current).toEqual({
+      isError: false,
       isFetching: false,
-      isSuccess: false,
+      isSuccess: true,
+        teams: [
+          {
+            teamName: '/gwas_projects/project2',
+          },
+        ],
+    });
+  });
+  it('fetches and returns isError', async () => {
+    server.use(
+      http.get(`${GEN3_AUTHZ_API}/mapping`, () => {
+        // throw error
+        return new HttpResponse(null, { status: 500 });
+      }),
+    );
+    const { result } = renderHook(() => useTeamProjects());
+    expect(result.current.isFetching).toBe(true);
+    await waitFor(() => expect(result.current.isError).toBeTruthy());
+    expect(result.current).toEqual({
       isError: true,
-    });
-
-    const { result } = renderHook(() => useTeamProjects());
-    expect(result.current).toEqual({
-      teams: { teams: [] },
       isFetching: false,
       isSuccess: false,
-      isError: true,
+      teams: []
     });
   });
 });

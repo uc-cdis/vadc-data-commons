@@ -17,6 +17,7 @@ const jestConfig: JestConfigWithTsJest = {
       'ts-jest',
       {
         isolatedModules: true,
+        tsconfig: 'tsconfig.test.json',
       },
     ],
     'node_modules/(flat|jsonpath-plus|uuid)/.+\\.(j|t)sx?$': ['ts-jest', {}],

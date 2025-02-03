@@ -4,12 +4,9 @@ interface TeamProject {
   teamName: string;
 }
 
-interface Teams {
-  teams: Array<TeamProject>;
-}
 
 interface UseTeamProjectsResult {
-  teams: Teams;
+  teams: Array<TeamProject>;
   isFetching: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -31,11 +28,11 @@ export const useTeamProjects = (): UseTeamProjectsResult => {
     isError,
   } = useGetAuthzMappingsQuery();
 
-  let teamProjectList: Teams = { teams: [] };
+  let teams : Array<TeamProject> =  [];
 
   if (isSuccess && authorizationMappings) {
     const entries = Object.entries(authorizationMappings);
-    const teams = entries
+     teams = entries
       .filter(
         ([key, value]) =>
           key.startsWith('/gwas_projects/') &&
@@ -45,9 +42,7 @@ export const useTeamProjects = (): UseTeamProjectsResult => {
           ),
       )
       .map(([key]) => ({ teamName: key }));
-
-    teamProjectList = { teams };
   }
 
-  return { teams: teamProjectList, isFetching, isSuccess, isError };
+  return { teams : teams, isFetching, isSuccess, isError };
 };
