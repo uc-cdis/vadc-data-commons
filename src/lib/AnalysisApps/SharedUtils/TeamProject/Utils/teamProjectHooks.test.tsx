@@ -13,7 +13,7 @@ import {
 import { renderHook } from '../test-utils';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
-import { GEN3_AUTHZ_API, gen3Api } from '@gen3/core';
+import { GEN3_AUTHZ_API } from '@gen3/core';
 
 const server = setupServer(
   http.get(`${GEN3_AUTHZ_API}/mapping`, () => {
@@ -42,7 +42,6 @@ describe('useTeamProjects', () => {
   afterEach(() => {
     // Remove any handlers you may have added
     // in individual tests (runtime handlers).
-
     server.resetHandlers();
   });
 
