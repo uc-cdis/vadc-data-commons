@@ -15,7 +15,7 @@ import { renderHook } from '../../../test/test-utils';
 import {
   GEN3_COHORT_MIDDLEWARE_API,
   useGetCohortDefinitionsQuery,
-  useGetSourcesQuery
+  useGetSourcesQuery,
 } from './cohortApi';
 
 const server = setupServer();
@@ -42,7 +42,8 @@ const cohortDefinitionAndStatsData = {
       cohort_name: 'team2 - test new cohort - small',
       size: 80,
     },
-  ]};
+  ],
+};
 
 describe('cohortApi', () => {
   beforeAll(() => {
@@ -100,7 +101,6 @@ describe('cohortApi', () => {
   });
 
   it('returns error if project id not accessible ', async () => {
-
     const sourceId = '1234567890';
     const selectedTeamProject = 'project2345';
 
@@ -108,9 +108,9 @@ describe('cohortApi', () => {
       http.get(
         `${GEN3_COHORT_MIDDLEWARE_API}/cohortdefinition-stats/by-source-id/1234567890/by-team-project`,
         () => {
-            return new HttpResponse(null, {
-              status: 403,
-            });
+          return new HttpResponse(null, {
+            status: 403,
+          });
         },
       ),
     );
@@ -127,24 +127,21 @@ describe('cohortApi', () => {
       isFetching: false,
       isSuccess: false,
       isLoading: false,
-      error: { status: 403}
+      error: { status: 403 },
     });
   });
 
   it('test for successful useGetSources ', async () => {
-    const data = {"sources":[{"source_id":123,"source_name":"MVP-batch19000101"}]};
+    const data = {
+      sources: [{ source_id: 123, source_name: 'MVP-batch19000101' }],
+    };
     server.use(
-      http.get(
-        `${GEN3_COHORT_MIDDLEWARE_API}/sources`,
-        () => {
-          return HttpResponse.json(data);
-        },
-      ),
+      http.get(`${GEN3_COHORT_MIDDLEWARE_API}/sources`, () => {
+        return HttpResponse.json(data);
+      }),
     );
 
-    const { result } = renderHook(() =>
-      useGetSourcesQuery(),
-    );
+    const { result } = renderHook(() => useGetSourcesQuery());
 
     expect(result.current.isFetching).toBe(true);
 
@@ -154,7 +151,7 @@ describe('cohortApi', () => {
       isFetching: false,
       isSuccess: true,
       isLoading: false,
-      data: data
+      data: data,
     });
   });
 });

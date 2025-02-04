@@ -32,6 +32,8 @@ interface SourcesResponse {
 
 export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
   endpoints: (builder) => ({
+
+
     getCohortDefinitions: builder.query<GWASCohortDefinitionResponse, CohortDefinitionQueryParams>({
       query: ({
                 sourceId,
@@ -51,11 +53,24 @@ export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
     getSources: builder.query< SourcesResponse, void> ({
       query: () => `${GEN3_COHORT_MIDDLEWARE_API}/sources`,
     }),
+    getSourceId: builder.query<string, void> ({
+      query: () => `${GEN3_COHORT_MIDDLEWARE_API}/sources`,
+      transformResponse: (response: SourcesResponse) => {
+        if (Array.isArray(response?.sources) && response.sources.length === 1) {
+          return response.sources[0].source_id;
+        } else {
+          const message = `Data source received in an invalid format:
+        ${JSON.stringify(response?.sources)}`;
+          throw new Error(message);
+        }
+      }
+    })
   }),
 });
 
 
 export const {
   useGetCohortDefinitionsQuery,
-  useGetSourcesQuery
+  useGetSourcesQuery,
+  useGetSourceIdQuery,
 } = gwasCohortApi;
