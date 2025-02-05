@@ -16,9 +16,14 @@ import {
   GEN3_COHORT_MIDDLEWARE_API,
   useGetCohortDefinitionsQuery,
   useGetSourcesQuery,
+  useGetSourceIdQuery,
 } from './cohortApi';
 
 const server = setupServer();
+
+const sourcesData = {
+  sources: [{ source_id: 123, source_name: 'MVP-batch19000101' }],
+};
 
 const cohortDefinitionAndStatsData = {
   cohort_definitions_and_stats: [
@@ -132,12 +137,9 @@ describe('cohortApi', () => {
   });
 
   it('test for successful useGetSources ', async () => {
-    const data = {
-      sources: [{ source_id: 123, source_name: 'MVP-batch19000101' }],
-    };
     server.use(
       http.get(`${GEN3_COHORT_MIDDLEWARE_API}/sources`, () => {
-        return HttpResponse.json(data);
+        return HttpResponse.json(sourcesData);
       }),
     );
 
@@ -151,7 +153,72 @@ describe('cohortApi', () => {
       isFetching: false,
       isSuccess: true,
       isLoading: false,
-      data: data,
+      data: sourcesData,
+    });
+  });
+
+  it('test for useGetSources handling error', async () => {
+    server.use(
+      http.get(`${GEN3_COHORT_MIDDLEWARE_API}/sources`, () => {
+        return new HttpResponse(null, {
+          status: 500,
+        });
+      }),
+    );
+
+    const { result } = renderHook(() => useGetSourcesQuery());
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isError).toBeTruthy());
+    expect(result.current).toMatchObject({
+      isError: true,
+      isFetching: false,
+      isSuccess: false,
+      isLoading: false,
+      error: { status: 500 },
+    });
+  });
+
+  it('test for successful useGetSourceIdQuery ', async () => {
+    server.use(
+      http.get(`${GEN3_COHORT_MIDDLEWARE_API}/sources`, () => {
+        return HttpResponse.json(sourcesData);
+      }),
+    );
+
+    const { result } = renderHook(() => useGetSourceIdQuery());
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current).toMatchObject({
+      isError: false,
+      isFetching: false,
+      isSuccess: true,
+      isLoading: false,
+      data: 123,
+    });
+  });
+
+  it('test for useGetSourceIdQuery error', async () => {
+    server.use(
+      http.get(`${GEN3_COHORT_MIDDLEWARE_API}/sources`, () => {
+        return HttpResponse.json({ } );
+      }),
+    );
+
+    const { result } = renderHook(() => useGetSourceIdQuery());
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isError).toBeTruthy());
+    expect(result.current).toMatchObject({
+      isError: true,
+      isFetching: false,
+      isSuccess: false,
+      isLoading: false,
+      data: undefined,
     });
   });
 });
