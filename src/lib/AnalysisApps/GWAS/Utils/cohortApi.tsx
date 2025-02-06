@@ -11,6 +11,13 @@ export const gwasCohortApiTags = gen3Api.enhanceEndpoints({
 
 // Types for API calls
 
+interface ConceptOutcome {
+  size: number,
+  variable_type: string,
+  concept_id: number,
+  concept_name: string,
+}
+
 interface CohortDefinitionQueryParams {
   sourceId: string;
   selectedTeamProject: string;
@@ -22,12 +29,30 @@ interface CovariateQueryParams {
   selectedCovariateIds: Array<string>;
 }
 
+interface Covariates {
+  variable_type: string;
+  provided_name: string,
+  cohort_sizes: [number, number],
+  cohort_names: [string, string],
+  cohort_ids: [number, number],
+}
+
+interface HistogramQueryParams {
+  sourceId: number,
+  cohortId: number,
+  selectedCovariates: Array<Covariates>,
+  outcome:  ConceptOutcome,
+  selectedConceptId: number,
+}
+
 interface ConceptStatsByHareSubset {
   sourceId: number;
-  cohortDefinitionId: string;
+  cohortDefinitionId: number;
   subsetCovariates: string;
-  outcome: Array<string>;
+  outcome: Array<ConceptOutcome>;
 }
+
+
 
 export interface GWASCohortDefinition {
   cohort_definition_id: number;
@@ -43,17 +68,46 @@ interface SourcesResponse {
   sources: Array<{ source_id: string; source_name: string }>;
 }
 
-interface CovariateInformation {
+interface CovariateConceptTypeAndId {
+  concept_type: string;
   concept_id: number;
+}
+
+interface CovariateInformation extends CovariateConceptTypeAndId {
   prefixed_concept_id: string;
   concept_code: string;
   concept_name: string;
-  concept_type: string;
 }
 
 interface CovariateResponse {
   covariates: Array<CovariateInformation>;
 }
+
+export interface  GWASHistogramBin {
+  start: number;
+  end: number;
+  personCount: number;
+}
+
+export interface GWASHistogramResponse {
+  bins: Array<GWASHistogramBin>;
+}
+
+export const addCDFilter = (cohortId: number, otherCohortId: number, covariateArray: Array<CovariateInformation>) => {
+  // adding an extra filter on top of the given covariateArr
+  // to ensure that any person that belongs to _both_ cohorts
+  // [cohortId, otherCohortId] also gets filtered out:
+  const covariateRequest = [...covariateArray];
+  const cdFilter = {
+    variable_type: 'custom_dichotomous',
+    cohort_ids: [cohortId, otherCohortId],
+    provided_name:
+      'auto_generated_extra_item_to_filter_out_case_control_overlap',
+  };
+  covariateRequest.push(cdFilter);
+  return covariateRequest;
+};
+
 
 export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
   endpoints: (builder) => ({
@@ -101,11 +155,11 @@ export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
       }),
     }),
     getCovariateStats: builder.query<string, CovariateQueryParams>({
-      query: (params: CovariateQueryParams) => ({
-        url: `${GEN3_COHORT_MIDDLEWARE_API}/concept-stats/by-source-id/${params.sourceId}/by-cohort-definition-id/${params.cohortDefinitionId}`,
+      query: ({ sourceId, cohortDefinitionId, selectedCovariateIds }) => ({
+        url: `${GEN3_COHORT_MIDDLEWARE_API}/concept-stats/by-source-id/${sourceId}/by-cohort-definition-id/${cohortDefinitionId}`,
         method: 'POST',
         body: JSON.stringify({
-          ConceptIds: params.selectedCovariateIds,
+          ConceptIds: selectedCovariateIds,
         }),
       }),
     }),
@@ -113,12 +167,43 @@ export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
       string,
       ConceptStatsByHareSubset
     >({
-      query: (params: ConceptStatsByHareSubset) => {
+      query: ({  outcome, cohortDefinitionId, subsetCovariates, sourceId }) => {
         const variablesPayload = {
-          variables: [params.outcome, ...params.subsetCovariates],
+          variables: [.outcome, ...subsetCovariates],
         };
         return {
-          url: `${GEN3_COHORT_MIDDLEWARE_API}/concept-stats/by-source-id/${params.sourceId}/by-cohort-definition-id/${params.cohortDefinitionId}/breakdown-by-concept-id/${hareConceptId}`,
+          url: `${GEN3_COHORT_MIDDLEWARE_API}/concept-stats/by-source-id/${sourceId}/by-cohort-definition-id/${cohortDefinitionId}/breakdown-by-concept-id/${hareConceptId}`,
+          method: 'POST',
+          body: JSON.stringify(variablesPayload),
+        };
+      },
+    }),
+    getHistogramInfo: builder.query<
+      GWASHistogramResponse,
+      HistogramQueryParams
+    >({
+      query: ({
+        sourceId,
+        cohortId,
+        selectedCovariates,
+        outcome,
+        selectedConceptId,
+      }) => {
+        const variablesPayload = {
+          variables: [
+            ...selectedCovariates,
+            outcome,
+            // add extra filter to make sure we only count persons that have a HARE group as well:
+            {
+              variable_type: 'concept',
+              concept_id: hareConceptId,
+            },
+          ].filter(Boolean), // filter out any undefined or null items (e.g. in some
+          // scenarios "outcome" and "selectedCovariates" are still null and/or empty)
+        };
+
+        return {
+          url: `${GEN3_COHORT_MIDDLEWARE_API}/histogram/by-source-id/${sourceId}/by-cohort-definition-id/${cohortId}/by-histogram-concept-id/${selectedConceptId}`,
           method: 'POST',
           body: JSON.stringify(variablesPayload),
         };
@@ -133,4 +218,5 @@ export const {
   useGetSourceIdQuery,
   useGetCovariatesQuery,
   useGetCovariateStatsQuery,
+  useGetConceptStatsByHareSubsetQuery,
 } = gwasCohortApi;
