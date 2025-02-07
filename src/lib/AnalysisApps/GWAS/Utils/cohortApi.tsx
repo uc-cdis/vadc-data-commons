@@ -79,7 +79,7 @@ interface HistogramQueryParams {
   sourceId: number;
   cohortId: number;
   selectedCovariates: Array<Covariates>;
-  outcome: ConceptOutcome;
+  outcome?: ConceptOutcome;
   selectedConceptId: number;
 }
 
@@ -88,7 +88,7 @@ interface OverlapQueryParams {
   cohortAId: number;
   cohortBId: number;
   selectedCovariates: Array<Covariates>;
-  outcome: ConceptOutcome;
+  outcome?: ConceptOutcome;
 }
 
 /**
@@ -212,8 +212,8 @@ export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
         sourceId,
         cohortId,
         selectedCovariates,
-        outcome,
         selectedConceptId,
+        outcome = {},
       }) => {
         const variablesPayload = {
           variables: [
@@ -241,7 +241,7 @@ export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
         cohortAId,
         cohortBId,
         selectedCovariates,
-        outcome,
+        outcome = {},
       }) => {
         const variablesPayload = {
           variables: [
@@ -265,6 +265,8 @@ export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
     }),
   }),
 });
+
+// TODO: check if fetchConceptStatsByHareSubsetCC, fetchConceptStatsByHareForCaseControl, and fetchCovariateStats
 
 export const {
   useGetCohortDefinitionsQuery,

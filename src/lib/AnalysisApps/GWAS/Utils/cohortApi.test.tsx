@@ -17,6 +17,11 @@ import {
   useGetCohortDefinitionsQuery,
   useGetSourcesQuery,
   useGetSourceIdQuery,
+  useGetCovariatesQuery,
+  useGetCovariateStatsQuery,
+  useGetConceptStatsByHareSubsetQuery,
+  useGetHistogramInfoQuery,
+  useGetSimpleOverlapInfoQuery,
 } from './cohortApi';
 
 const server = setupServer();
@@ -49,6 +54,12 @@ const cohortDefinitionAndStatsData = {
     },
   ],
 };
+
+const covariatesData = { covariates: [{ concept_id: 123, concept_name: 'Test Covariate' }] };
+const covariateStatsData = { some_stat: 42 };
+const conceptStatsData = { concept_stats: [{ size: 10, concept_name: 'Example' }] };
+const histogramData = { bins: [{ start: 0, end: 10, personCount: 5 }] };
+const overlapData = { cohort_overlap: { case_control_overlap: 15 } };
 
 describe('cohortApi', () => {
   beforeAll(() => {
@@ -220,5 +231,77 @@ describe('cohortApi', () => {
       isLoading: false,
       data: undefined,
     });
+  });
+  it('fetches and returns covariates successfully', async () => {
+    server.use(
+      http.post(`${GEN3_COHORT_MIDDLEWARE_API}/concept/by-source-id/123/by-type`, () => {
+        return HttpResponse.json(covariatesData);
+      })
+    );
+
+    const { result } = renderHook(() => useGetCovariatesQuery('123'));
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current.data).toEqual(covariatesData);
+  });
+
+  it('fetches and returns covariate stats successfully', async () => {
+    server.use(
+      http.post(`${GEN3_COHORT_MIDDLEWARE_API}/concept-stats/by-source-id/123/by-cohort-definition-id/456`, () => {
+        return HttpResponse.json(covariateStatsData);
+      })
+    );
+
+    const { result } = renderHook(() =>
+      useGetCovariateStatsQuery({ sourceId: 123, cohortDefinitionId: '456', selectedCovariateIds: ['789'] })
+    );
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current.data).toEqual(covariateStatsData);
+  });
+
+  it('fetches and returns concept stats by HARE subset successfully', async () => {
+    server.use(
+      http.post(`${GEN3_COHORT_MIDDLEWARE_API}/concept-stats/by-source-id/123/by-cohort-definition-id/456/breakdown-by-concept-id/2000007027`, () => {
+        return HttpResponse.json(conceptStatsData);
+      })
+    );
+
+    const { result } = renderHook(() =>
+      useGetConceptStatsByHareSubsetQuery({ sourceId: 123, cohortDefinitionId: 456, subsetCovariates: '', outcome: [] })
+    );
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current.data).toEqual(conceptStatsData);
+  });
+
+  it('fetches and returns histogram info successfully', async () => {
+    server.use(
+      http.post(`${GEN3_COHORT_MIDDLEWARE_API}/histogram/by-source-id/123/by-cohort-definition-id/456/by-histogram-concept-id/789`, () => {
+        return HttpResponse.json(histogramData);
+      })
+    );
+
+    const { result } = renderHook(() =>
+      useGetHistogramInfoQuery({ sourceId: 123, cohortId: 456, selectedCovariates: [], selectedConceptId: 789 })
+    );
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current.data).toEqual(histogramData);
+  });
+
+  it('fetches and returns simple overlap info successfully', async () => {
+    server.use(
+      http.post(`${GEN3_COHORT_MIDDLEWARE_API}/cohort-stats/check-overlap/by-source-id/123/by-cohort-definition-ids/456/789`, () => {
+        return HttpResponse.json(overlapData);
+      })
+    );
+
+    const { result } = renderHook(() =>
+      useGetSimpleOverlapInfoQuery({ sourceId: 123, cohortAId: 456, cohortBId: 789, selectedCovariates: [] })
+    );
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current.data).toEqual(overlapData);
   });
 });
