@@ -1,7 +1,7 @@
 import { gen3Api, GEN3_API } from '@gen3/core';
 
 const TAGS = 'GWASApp';
-export const GEN3_COHORT_MIDDLEWARE_API = `${GEN3_API}/cohort-middleware`;
+export const GEN3_COHORT_MIDDLEWARE_API =   process.env.NEXT_PUBLIC_GEN3_COHORT_MIDDLEWARE_API || `${GEN3_API}/cohort-middleware`;
 
 const hareConceptId = 2000007027;
 
@@ -11,7 +11,7 @@ export const gwasCohortApiTags = gen3Api.enhanceEndpoints({
 
 // Types for API calls
 
-interface CohortOverlap {
+export interface CohortOverlap {
   cohort_overlap: {
     case_control_overlap: number;
   };
@@ -116,6 +116,18 @@ export interface GWASHistogramResponse {
   bins: Array<GWASHistogramBin>;
 }
 
+/**
+ * Adds a filter to the given covariate array to exclude individuals
+ * who are members of both specified cohorts from analysis. This ensures that
+ * overlapping members in the two cohorts are filtered out based on a
+ * custom dichotomous variable.
+ *
+ * @param {number} cohortId - The identifier for the first cohort.
+ * @param {number} otherCohortId - The identifier for the second cohort.
+ * @param {Array<Covariates>} covariateArray - An array of covariate objects to which
+ *                                             the new filter will be added.
+ * @returns {Array<Covariates>} A new array of covariate objects with the added filter.
+ */
 export const addCDFilter = (
   cohortId: number,
   otherCohortId: number,
@@ -135,6 +147,22 @@ export const addCDFilter = (
   return covariateRequest;
 };
 
+/**
+ * gwasCohortApi is a configuration object used to interact with the GWAS Cohort API.
+ * It provides endpoints to query and transform data related to cohort definitions, sources,
+ * covariates, histogram data, and cohort overlaps. Each endpoint is implemented as a query using
+ * RTK Query `builder.query` and supports fetching and transforming of data for specific use cases.
+ *
+ * Endpoints included:
+ * - getCohortDefinitions: Fetches cohort definitions and statistics by source ID and team project.
+ * - getSources: Retrieves available data sources from the middleware API.
+ * - getSourceId: Extracts the single source ID if only one source is available.
+ * - getCovariates: Fetches covariates based on source ID and predefined concept types.
+ * - getCovariateStats: Retrieves statistics for selected covariates for a given cohort definition.
+ * - getConceptStatsByHareSubset: Fetches concept statistics for a subset of covariates broken down by HARE concept.
+ * - getHistogramInfo: Retrieves histogram data for selected covariates, outcomes, and cohorts.
+ * - getSimpleOverlapInfo: Checks the overlap between two cohorts for selected covariates and outcomes.
+ */
 export const gwasCohortApi = gwasCohortApiTags.injectEndpoints({
   endpoints: (builder) => ({
     getCohortDefinitions: builder.query<
