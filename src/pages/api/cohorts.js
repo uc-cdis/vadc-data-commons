@@ -25,6 +25,7 @@ export default function handler(req, res) {
     },
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const convariteResponce = {
     concepts: [
       {
