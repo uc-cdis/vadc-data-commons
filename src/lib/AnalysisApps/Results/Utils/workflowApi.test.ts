@@ -19,13 +19,9 @@ import { GEN3_FENCE_API } from '@gen3/core';
 
 type MaybePromise<T> = T | Promise<T>;
 
-interface FetchWithBQMockReturnType {
-  data: { url: string; } | null;
-  error: null | { message: string; status: number; };
-}
-type RTKQFetchFunction = (arg: (string | FetchArgs)) => MaybePromise<QueryReturnValue<FetchWithBQMockReturnType, FetchBaseQueryError, FetchBaseQueryMeta>>
+type FetchMockResponse = { url: string };
 
-
+type RTKQFetchFunction = (arg: (string | FetchArgs)) => MaybePromise<QueryReturnValue<FetchMockResponse, FetchBaseQueryError, FetchBaseQueryMeta>>
 
 
 describe('getPresignedUrl', () => {
@@ -41,7 +37,6 @@ describe('getPresignedUrl', () => {
     const mockUrl = 'https://example.com/presigned-url';
     fetchWithBQMock.mockReturnValue({
       data: { url: mockUrl },
-      error: null,
     });
 
     const result = await getPresignedUrl(mockUid, fetchWithBQMock, mockMethod);
@@ -54,10 +49,8 @@ describe('getPresignedUrl', () => {
 
   it('should return an error when the API call fails', async () => {
     const mockUid = '12345';
-    const mockError = { message: 'API Error', status: 500 };
-    fetchWithBQMock.mockResolvedValue({
-      data: null,
-      error: mockError,
+    fetchWithBQMock.mockReturnValue({
+      error: { status: 500, data: undefined },
     });
 
     const result = await getPresignedUrl(mockUid, fetchWithBQMock);
@@ -65,15 +58,14 @@ describe('getPresignedUrl', () => {
     expect(fetchWithBQMock).toHaveBeenCalledWith({
       url: `${GEN3_FENCE_API}/data/download/${mockUid}`,
     });
-    expect(result).toEqual({ error: mockError });
+    expect(result).toEqual({ error: {  status: 500, data: undefined } });
   });
 
   it('should default to the "download" method if no method is provided', async () => {
     const mockUid = '12345';
     const mockUrl = 'https://example.com/presigned-url';
-    fetchWithBQMock.mockResolvedValue({
+    fetchWithBQMock.mockReturnValue({
       data: { url: mockUrl },
-      error: null,
     });
 
     const result = await getPresignedUrl(mockUid, fetchWithBQMock);
