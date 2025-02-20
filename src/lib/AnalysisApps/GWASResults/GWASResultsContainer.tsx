@@ -13,7 +13,9 @@ const GWASResultsContainer = () => {
   const [currentView, setCurrentView] = useState('home');
   const [selectedRowData, setSelectedRowData] = useState({});
   const [homeTableState, setHomeTableState] = useState(InitialHomeTableState);
-  const [selectedTeamProject] = useState(localStorage.getItem('teamProject'));
+  const [selectedTeamProject] = useState(
+    localStorage.getItem('teamProject') || '',
+  );
 
   const generateStep = () => {
     switch (currentView) {

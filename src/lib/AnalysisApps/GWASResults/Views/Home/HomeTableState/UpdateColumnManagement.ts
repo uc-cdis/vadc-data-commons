@@ -1,4 +1,8 @@
-const UpdateColumnManagement = (homeTableState) => {
+interface IhomeTableState {
+  useLocalStorage: boolean;
+  columnManagement: object;
+}
+const UpdateColumnManagement = (homeTableState: IhomeTableState) => {
   if (homeTableState.useLocalStorage) {
     localStorage.setItem(
       'columnManagement',

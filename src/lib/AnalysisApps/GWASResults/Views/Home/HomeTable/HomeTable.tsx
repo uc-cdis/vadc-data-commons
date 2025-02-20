@@ -19,10 +19,10 @@ import isIterable from '../../../Utils/isIterable';
 import LoadingErrorMessage from '../../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
  */
 
-const HomeTable = () => {
+const HomeTable = ({ data }: { data: object }) => {
   return (
     <div className="mt-4 h-96 flex items-center justify-center bg-gray-300 text-4xl text-center">
-      Home Table Component
+      Home Table Component {data.toString() /* Placeholder */}
     </div>
   );
   /*

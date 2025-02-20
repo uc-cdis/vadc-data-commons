@@ -3,8 +3,8 @@ import React from 'react';
 // import { useQuery } from 'react-query';
 // import PropTypes from 'prop-types';
 import HomeTable from './HomeTable/HomeTable';
-import LoadingErrorMessage from '../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
-import { Loader } from '@mantine/core';
+// import LoadingErrorMessage from '../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
+// import { Loader } from '@mantine/core';
 import ManageColumns from './ManageColumns/ManageColumns';
 // import { fetchGwasWorkflows } from '../../Utils/gwasWorkflowApi';
 
@@ -20,8 +20,8 @@ const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
   () => selectedTeamProject; // placeholder for now to avoid compilation & linting errors.
 
   const data = {};
-  const status = 'not-loading';
-  if (status === 'loading') {
+
+  /* if (status === 'loading') {
     return (
       <React.Fragment>
         <div className="spinner-container">
@@ -34,7 +34,7 @@ const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
   }
   if (status === 'error') {
     return <LoadingErrorMessage />;
-  }
+  } */
   return (
     <React.Fragment>
       <ManageColumns />

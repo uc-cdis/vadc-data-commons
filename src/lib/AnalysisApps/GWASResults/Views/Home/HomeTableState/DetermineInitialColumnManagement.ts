@@ -1,18 +1,18 @@
 import localStorageAvailable from './localStorageAvailable';
 import DefaultColumnManagement from './DefaultColumnManagement';
 
-const hasSameKeys = (a, b) => {
+const hasSameKeys = (a: object, b: object) => {
   // Checks that the keys of two objects match
   const aKeys = Object.keys(a).sort();
   const bKeys = Object.keys(b).sort();
   return JSON.stringify(aKeys) === JSON.stringify(bKeys);
 };
 
-const hasOnlyBoolValues = (obj) => Object.values(obj).every(Boolean);
+const hasOnlyBoolValues = (obj: any) => Object.values(obj).every(Boolean);
 
 const columnManagementLocalStorageIsValid = () => {
   const retrievedObject = localStorage.getItem('columnManagement');
-  const parsedRetrievedObject = JSON.parse(retrievedObject);
+  const parsedRetrievedObject = JSON.parse(retrievedObject as string);
   return (
     hasSameKeys(parsedRetrievedObject, DefaultColumnManagement) &&
     hasOnlyBoolValues(retrievedObject)
@@ -28,7 +28,7 @@ const DetermineInitialColumnManagement = () => {
       // columnManagement is already set & valid,
       // we can return the user's saved settings
       const retrievedObject = localStorage.getItem('columnManagement');
-      return JSON.parse(retrievedObject);
+      return retrievedObject && JSON.parse(retrievedObject);
     }
     // we have local storage available,
     // but haven't set a valid columnManagement yet so we set it to default
