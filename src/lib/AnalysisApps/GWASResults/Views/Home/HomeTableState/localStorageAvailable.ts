@@ -1,8 +1,7 @@
-/*
 const localStorageAvailable = () => {
   try {
-    localStorage.setItem(1, 1);
-    localStorage.removeItem(1);
+    localStorage.setItem('1', '1');
+    localStorage.removeItem('1');
     return true;
   } catch (e) {
     return false;
@@ -10,5 +9,3 @@ const localStorageAvailable = () => {
 };
 
 export default localStorageAvailable;
-
-*/

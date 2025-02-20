@@ -1,4 +1,3 @@
-/*
 const VIEWS = {
   home: 'home',
   results: 'results',
@@ -7,5 +6,3 @@ const VIEWS = {
 };
 
 export default VIEWS;
-
-*/

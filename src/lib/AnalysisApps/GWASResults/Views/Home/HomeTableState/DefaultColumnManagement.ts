@@ -1,4 +1,3 @@
-/*
 const DefaultColumnManagement = {
   showRunId: true,
   showUserName: true,
@@ -11,5 +10,3 @@ const DefaultColumnManagement = {
 };
 
 export default DefaultColumnManagement;
-
-*/

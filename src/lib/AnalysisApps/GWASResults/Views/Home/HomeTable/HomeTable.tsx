@@ -1,6 +1,5 @@
-/*
-import React, { useContext, useEffect, useState } from 'react';
-import {
+import React,  from 'react';
+/* import {
   Button, Table, Space, Input, DatePicker, Select,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
@@ -18,12 +17,14 @@ import {
 import VIEWS from '../../../Utils/ViewsEnumeration';
 import isIterable from '../../../Utils/isIterable';
 import LoadingErrorMessage from '../../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
+ */
 
-import './HomeTable.css';
 
-const { RangePicker } = DatePicker;
-
-const HomeTable = ({ data }) => {
+const HomeTable = () => {
+  return (<div className="mt-4 h-96 flex items-center justify-center bg-gray-300 text-4xl text-center" >
+        Home Table Component
+        </div>)
+  /*
   const {
     setCurrentView,
     selectedRowData,
@@ -368,11 +369,8 @@ const HomeTable = ({ data }) => {
       )}
     </div>
   );
+  */
 };
-HomeTable.propTypes = {
-  data: PropTypes.array.isRequired,
-};
+
 
 export default HomeTable;
-
-*/

@@ -1,4 +1,3 @@
-/*
 import localStorageAvailable from './localStorageAvailable';
 import DefaultColumnManagement from './DefaultColumnManagement';
 
@@ -15,16 +14,16 @@ const columnManagementLocalStorageIsValid = () => {
   const retrievedObject = localStorage.getItem('columnManagement');
   const parsedRetrievedObject = JSON.parse(retrievedObject);
   return (
-    hasSameKeys(parsedRetrievedObject, DefaultColumnManagement)
-    && hasOnlyBoolValues(retrievedObject)
+    hasSameKeys(parsedRetrievedObject, DefaultColumnManagement) &&
+    hasOnlyBoolValues(retrievedObject)
   );
 };
 
 const DetermineInitialColumnManagement = () => {
   if (localStorageAvailable()) {
     if (
-      localStorage.getItem('columnManagement')
-      && columnManagementLocalStorageIsValid()
+      localStorage.getItem('columnManagement') &&
+      columnManagementLocalStorageIsValid()
     ) {
       // columnManagement is already set & valid,
       // we can return the user's saved settings
@@ -44,5 +43,3 @@ const DetermineInitialColumnManagement = () => {
 };
 
 export default DetermineInitialColumnManagement;
-
-*/

@@ -1,4 +1,3 @@
-/*
 import localStorageAvailable from './localStorageAvailable';
 import DetermineInitialColumnManagement from './DetermineInitialColumnManagement';
 
@@ -16,5 +15,3 @@ const InitialHomeTableState = {
 };
 
 export default InitialHomeTableState;
-
-*/

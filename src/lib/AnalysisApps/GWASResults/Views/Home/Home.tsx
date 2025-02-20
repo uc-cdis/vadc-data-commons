@@ -1,24 +1,29 @@
-/*
 import React from 'react';
-import { Spin } from 'antd';
-import { useQuery } from 'react-query';
-import PropTypes from 'prop-types';
+// import { Spin } from 'antd';
+// import { useQuery } from 'react-query';
+// import PropTypes from 'prop-types';
 import HomeTable from './HomeTable/HomeTable';
 import LoadingErrorMessage from '../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
+import { Loader } from '@mantine/core';
 import ManageColumns from './ManageColumns/ManageColumns';
-import { fetchGwasWorkflows } from '../../Utils/gwasWorkflowApi';
+// import { fetchGwasWorkflows } from '../../Utils/gwasWorkflowApi';
 
-const Home = ({ selectedTeamProject }) => {
-  const refetchInterval = 5000;
-  const { data, status } = useQuery(['workflows', selectedTeamProject],
-    fetchGwasWorkflows, {
+const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
+  /*const refetchInterval = 5000;
+     const { data, status } = useQuery(
+    ['workflows', selectedTeamProject],
+    fetchGwasWorkflows,
+    {
       refetchInterval,
-    });
+    },
+  ); */
+  const data = {};
+  const status = 'not-loading';
   if (status === 'loading') {
     return (
       <React.Fragment>
-        <div className='spinner-container'>
-          <Spin /> Retrieving the list of workflows.
+        <div className="spinner-container">
+          <Loader /> Retrieving the list of workflows.
           <br />
           Please wait...
         </div>
@@ -36,10 +41,4 @@ const Home = ({ selectedTeamProject }) => {
   );
 };
 
-Home.propTypes = {
-  selectedTeamProject: PropTypes.string.isRequired,
-};
-
 export default Home;
-
-*/

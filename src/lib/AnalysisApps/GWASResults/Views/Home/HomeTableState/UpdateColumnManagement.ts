@@ -1,4 +1,3 @@
-/*
 const UpdateColumnManagement = (homeTableState) => {
   if (homeTableState.useLocalStorage) {
     localStorage.setItem(
@@ -9,5 +8,3 @@ const UpdateColumnManagement = (homeTableState) => {
 };
 
 export default UpdateColumnManagement;
-
-*/
