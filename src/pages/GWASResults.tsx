@@ -23,8 +23,6 @@ const GWASResults = ({ headerProps, footerProps }: NavPageLayoutProps) => {
       }}
     >
 
-
-
       <ProtectedContent>
       <div className="w-full m-10">
         <Center>

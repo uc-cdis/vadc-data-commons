@@ -1,8 +1,9 @@
-import { gen3Api, GEN3_API, GEN3_FENCE_API } from '@gen3/core';
+import { GEN3_API, GEN3_FENCE_API, gen3Api } from '@gen3/core';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+
 const TAGS = 'GWASWorkflow';
 export const GEN3_WORKFLOW_API =
-  process.env.NEXT_PUBLIC_GEN3_WORLFLOW_API || `${GEN3_API}/ga4gh/wes/v2/`;
+  process.env.NEXT_PUBLIC_GEN3_WORLFLOW_API || `${GEN3_API}/ga4gh/wes/v2`;
 
 export const ResultsApiTags = gen3Api.enhanceEndpoints({
   addTagTypes: [TAGS],
@@ -71,6 +72,14 @@ interface PresignedUrlWorkflowArtifactRequest extends WorkflowDetailsRequest {
   artifactName: string;
 }
 
+/**
+ * Generates a presigned URL for a specific file operation such as download or upload.
+ *
+ * @param {string} uid - The unique identifier of the file for which the presigned URL is to be retrieved.
+ * @param {any} fetchWithBQ - A function used to perform the API call to fetch the presigned URL.
+ * @param {string} [method='download'] - The file operation for which the URL is requested (e.g., 'download', 'upload').
+ * @returns {Promise<{data?: {url: string}, error?: FetchBaseQueryError}>} - A promise that resolves to an object containing either the generated presigned URL or an error.
+ */
 export const getPresignedUrl = async (
   uid: string,
   fetchWithBQ: any,
@@ -82,22 +91,21 @@ export const getPresignedUrl = async (
   if (response.error) {
     return { error: response.error as FetchBaseQueryError };
   }
-  const data = { data: { url: response.data.url } };
-  return data;
+  return { data: { url: response.data.url } };
 };
 
 const workflowApi = ResultsApiTags.injectEndpoints({
   endpoints: (builder) => ({
     getWorkflowDetails: builder.query<WorkflowDetails, WorkflowDetailsRequest>({
       query: ({ workflowName, workflowUid }) =>
-        `${GEN3_WORKFLOW_API}status/${workflowName}?uid=${workflowUid}`,
+        `${GEN3_WORKFLOW_API}/status/${workflowName}?uid=${workflowUid}`,
     }),
     getWorkflows: builder.query<WorkflowResponse, string>({
       query: (currentTeamProject) =>
-        `${GEN3_WORKFLOW_API}workflows?team_projects=${currentTeamProject}`,
+        `${GEN3_WORKFLOW_API}/workflows?team_projects=${currentTeamProject}`,
     }),
     getWorkflowsMonthly: builder.query<WorkflowMonthly, void>({
-      query: () =>  `${GEN3_WORKFLOW_API}workflows/user-monthly`
+      query: () =>  `${GEN3_WORKFLOW_API}/workflows/user-monthly`
     }),
     getPresignedUrlForWorkflowArtifact: builder.query<
       PresignedUrl,
@@ -107,7 +115,7 @@ const workflowApi = ResultsApiTags.injectEndpoints({
         const { artifactName, workflowName, workflowUid } = args;
 
         const workflowDetailsResponse = await fetchWithBQ({
-          url: `${GEN3_WORKFLOW_API}status/${workflowName}?uid=${workflowUid}`,
+          url: `${GEN3_WORKFLOW_API}/status/${workflowName}?uid=${workflowUid}`,
           credentials: 'include',
         });
 
