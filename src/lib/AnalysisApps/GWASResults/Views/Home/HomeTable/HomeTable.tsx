@@ -1,4 +1,4 @@
-import React,  from 'react';
+import React from 'react';
 /* import {
   Button, Table, Space, Input, DatePicker, Select,
 } from 'antd';
@@ -19,11 +19,12 @@ import isIterable from '../../../Utils/isIterable';
 import LoadingErrorMessage from '../../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
  */
 
-
 const HomeTable = () => {
-  return (<div className="mt-4 h-96 flex items-center justify-center bg-gray-300 text-4xl text-center" >
-        Home Table Component
-        </div>)
+  return (
+    <div className="mt-4 h-96 flex items-center justify-center bg-gray-300 text-4xl text-center">
+      Home Table Component
+    </div>
+  );
   /*
   const {
     setCurrentView,
@@ -371,6 +372,5 @@ const HomeTable = () => {
   );
   */
 };
-
 
 export default HomeTable;

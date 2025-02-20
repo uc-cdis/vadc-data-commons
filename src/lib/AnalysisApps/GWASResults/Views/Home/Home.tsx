@@ -8,7 +8,7 @@ import { Loader } from '@mantine/core';
 import ManageColumns from './ManageColumns/ManageColumns';
 // import { fetchGwasWorkflows } from '../../Utils/gwasWorkflowApi';
 
-const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
+const Home = () => {
   /*const refetchInterval = 5000;
      const { data, status } = useQuery(
     ['workflows', selectedTeamProject],
