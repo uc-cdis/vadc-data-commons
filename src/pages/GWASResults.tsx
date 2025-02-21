@@ -1,11 +1,11 @@
 import React from 'react';
-import { Center, Text, Paper } from '@mantine/core';
 import {
   NavPageLayout,
   NavPageLayoutProps,
   getNavPageLayoutPropsFromConfig,
 } from '@gen3/frontend';
 import { GetServerSideProps } from 'next';
+import GWASResultsContainer from '@/lib/AnalysisApps/GWASResults/GWASResultsContainer';
 
 const GWASResults = ({ headerProps, footerProps }: NavPageLayoutProps) => {
   return (
@@ -18,13 +18,9 @@ const GWASResults = ({ headerProps, footerProps }: NavPageLayoutProps) => {
       }}
     >
       <div className="w-full m-10">
-        <Center>
-          <Paper shadow="md" p="xl" withBorder>
-            <h1>GWASResults</h1>
-            <Text>This is a example custom page in Gen3</Text>
-            <Text>You can add your own content here.</Text>
-          </Paper>
-        </Center>
+        <div className="w-full p-5">
+          <GWASResultsContainer />
+        </div>
       </div>
     </NavPageLayout>
   );
