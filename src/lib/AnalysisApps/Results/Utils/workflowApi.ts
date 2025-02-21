@@ -3,6 +3,7 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
 const TAGS = 'GWASWorkflow';
+
 export const GEN3_WORKFLOW_API =
   process.env.NEXT_PUBLIC_GEN3_WORLFLOW_API || `${GEN3_API}/ga4gh/wes/v2`;
 
@@ -74,13 +75,14 @@ interface PresignedUrlWorkflowArtifactRequest extends WorkflowDetailsRequest {
   retrieveData?: boolean;
 }
 
+
 /**
- * Gets a presigned URL from Gen3 for an indexed file.
+ * Asynchronously fetches a presigned URL from a specified API endpoint.
  *
- * @param {string} uid - The unique identifier of the file for which the presigned URL is to be retrieved.
- * @param {any} fetchWithBQ - A function used to perform the API call to fetch the presigned URL.
- * @param {string} [method='download'] - The file operation for which the URL is requested (e.g., 'download').
- * @returns {Promise<{data?: {url: string}, error?: FetchBaseQueryError}>} - A promise that resolves to an object containing either the generated presigned URL or an error.
+ * @param {string} uid - The unique identifier for the required resource.
+ * @param {any} fetchWithBQ - A function to perform the fetching operation, typically integrated with an API client.
+ * @param {string} [method='download'] - The HTTP method or operation type, defaulting to 'download'.
+ * @returns {Promise<{data?: PresignedUrl, error?: FetchBaseQueryError}>} - Returns an object containing the data with the presigned URL if successful, or an error if the operation fails.
  */
 export const getPresignedUrl = async (
   uid: string,
@@ -95,6 +97,17 @@ export const getPresignedUrl = async (
     : { error: result.error as FetchBaseQueryError };
 };
 
+/**
+ * Asynchronously fetches data from a given URL using a provided fetch function.
+ *
+ * This function sends a request to the specified URL using the `fetchWithBQ` function and retrieves the response.
+ * If an error occurs during the request, it returns an object containing the error.
+ * If the request is successful, it returns an object containing the response data.
+ *
+ * @param {string} url - The URL to fetch data from.
+ * @param {Function} fetchWithBQ - A function responsible for making the request, typically a fetch or query utility.
+ * @returns {Promise<Object>} A promise that resolves to an object containing either the fetched data or an error.
+ */
 export const getUrlData = async (url: string, fetchWithBQ: any) => {
   const response = await fetchWithBQ({
     url,
@@ -105,6 +118,19 @@ export const getUrlData = async (url: string, fetchWithBQ: any) => {
   return { data: response.data };
 };
 
+/**
+ * Provides endpoint definitions for interacting with the workflow-related APIs.
+ *
+ * The `workflowApi` object includes multiple API endpoints for managing workflow data, retrieving detailed information about workflows, retrying workflows, and obtaining presigned URLs or direct artifact data.
+ *
+ * Endpoints:
+ * - `getWorkflowDetails`: Retrieves details for a specific workflow by its name and unique identifier (UID).
+ * - `getWorkflows`: Fetches the list of workflows for the currently specified team project.
+ * - `getWorkflowsMonthly`: Retrieves monthly statistics about user workflows.
+ * - `retryWorkflow`: Initiates a retry for a specific workflow using its name and UID.
+ * - `getPresignedUrlOrDataForWorkflowArtifact`: Provides a presigned URL or retrieves direct data for a specified workflow artifact.
+ *
+ */
 const workflowApi = ResultsApiTags.injectEndpoints({
   endpoints: (builder) => ({
     getWorkflowDetails: builder.query<WorkflowDetails, WorkflowDetailsRequest>({
