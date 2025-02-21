@@ -15,21 +15,7 @@ import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { GEN3_AUTHZ_API } from '@gen3/core';
 
-const server = setupServer(
-  http.get(`${GEN3_AUTHZ_API}/mapping`, () => {
-    return HttpResponse.json({
-      '/gwas_projects/project1': [{ abc: 'def' }],
-      '/gwas_projects/project2': [
-        { abc: 'def' },
-        {
-          service: 'atlas-argo-wrapper-and-cohort-middleware',
-          method: 'access',
-        },
-      ],
-      '/other/project3': [{ abc: 'def' }],
-    });
-  }),
-);
+const server = setupServer();
 
 describe('useTeamProjects', () => {
   beforeAll(() => {
@@ -82,6 +68,7 @@ describe('useTeamProjects', () => {
       ],
     });
   });
+
   it('fetches and returns isError', async () => {
     server.use(
       http.get(`${GEN3_AUTHZ_API}/mapping`, () => {
