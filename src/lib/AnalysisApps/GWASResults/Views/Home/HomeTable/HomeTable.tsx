@@ -20,9 +20,10 @@ import LoadingErrorMessage from '../../../../SharedUtils/LoadingErrorMessage/Loa
  */
 
 const HomeTable = ({ data }: { data: object }) => {
+  data.toString(); // placeholder to use variable
   return (
     <div className="mt-4 h-96 flex items-center justify-center bg-gray-300 text-4xl text-center">
-      Home Table Component {data.toString() /* Placeholder */}
+      Home Table Component
     </div>
   );
   /*
