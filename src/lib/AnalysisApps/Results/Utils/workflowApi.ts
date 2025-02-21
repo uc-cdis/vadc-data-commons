@@ -1,10 +1,6 @@
 import { GEN3_API, gen3Api } from '@gen3/core';
 import {
-  BaseQueryFn,
-  QueryDefinition,
   FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  FetchArgs,
 } from '@reduxjs/toolkit/query';
 const TAGS = 'GWASWorkflow';
 export const GEN3_WORKFLOW_API =
@@ -122,6 +118,10 @@ const workflowApi = ResultsApiTags.injectEndpoints({
     getWorkflowsMonthly: builder.query<WorkflowMonthly, void>({
       query: () => `${GEN3_WORKFLOW_API}/workflows/user-monthly`,
     }),
+    retryWorkflow: builder.mutation({
+      query: ({ workflowName, workflowUid }) =>
+        `${GEN3_WORKFLOW_API}/retry/${workflowName}?uid=${workflowUid}`,
+    }),
     getPresignedUrlOrDataForWorkflowArtifact: builder.query({
       async queryFn(
         args: PresignedUrlWorkflowArtifactRequest,
@@ -192,4 +192,5 @@ export const {
   useGetPresignedUrlOrDataForWorkflowArtifactQuery,
   useLazyGetPresignedUrlOrDataForWorkflowArtifactQuery,
   useGetWorkflowsMonthlyQuery,
+  useRetryWorkflowMutation,
 } = workflowApi;

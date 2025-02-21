@@ -453,122 +453,14 @@ describe('workflowApi', () => {
       isLoading: false,
       data: undefined,
       error: {
-        error: 'Expected 1 artifact with name gwas_archive_index_not_found, found: 0',
-        status: 'CUSTOM_ERROR'
+        error:
+          'Expected 1 artifact with name gwas_archive_index_not_found, found: 0',
+        status: 'CUSTOM_ERROR',
       },
     });
   });
 
-  it('test useGetPresignedUrlOrDataForWorkflowArtifactQuery get data from url', async () => {
-    const resultsData = {
-      "variant_bins": [
-        {
-          "chrom": "c",
-          "qvals": [
-            1.0,
-            9.89,
-            3.94,
-            8.53,
-            6.57,
-            2.89
-          ],
-          "qval_extents": [
-            [
-              8.77,
-              1.11
-            ],
-            [
-              9.53,
-              8.34
-            ],
-            [
-              4.15,
-              9.58
-            ],
-            [
-              9.54,
-              5.51
-            ],
-            [
-              2.52,
-              8.78
-            ],
-            [
-              9.5,
-              9.29
-            ]
-          ],
-          "pos": 7263051
-        },
-        {
-          "chrom": "T",
-          "qvals": [
-            3.39,
-            4.57,
-            81.19
-          ],
-          "qval_extents": [
-            [
-              7.27,
-              8.55
-            ],
-            [
-              8.68,
-              8.15
-            ],
-            [
-              3.88,
-              2.12
-            ]
-          ],
-          "pos": 1233590
-        },
-        {
-          "chrom": "J",
-          "qvals": [
-            1.8,
-            6.14,
-            4.65,
-            83.79
-          ],
-          "qval_extents": [
-            [
-              6.71,
-              3.5300000000000002
-            ],
-            [
-              5.46,
-              8.02
-            ],
-            [
-              8.66,
-              9.17
-            ],
-            [
-              7.57,
-              1.12
-            ]
-          ],
-          "pos": 1362071
-        },
-        {
-          "chrom": "w",
-          "qvals": [],
-          "qval_extents": [
-            [
-              8.39,
-              3.15
-            ],
-            [
-              5.74,
-              4.87
-            ]
-          ],
-          "pos": 15185774
-        }
-      ]
-    };
-
+  it('test useGetPresignedUrlOrDataForWorkflowArtifactQuery test 401', async () => {
     const urlData = { url: 'https://awspresignedurl.com' };
 
     server.use(
@@ -581,12 +473,11 @@ describe('workflowApi', () => {
           return HttpResponse.json(urlData);
         },
       ),
-      http.get(
-        'https://awspresignedurl.com/',
-        () => {
-          return HttpResponse.json(resultsData);
-        },
-      ),
+      http.get('https://awspresignedurl.com/', () => {
+        return new HttpResponse(null, {
+          status: 401,
+        });
+      }),
     );
 
     const { result } = renderHook(() =>
@@ -600,14 +491,14 @@ describe('workflowApi', () => {
 
     expect(result.current.isFetching).toBe(true);
 
-    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    await waitFor(() => expect(result.current.isError).toBeTruthy());
 
     expect(result.current).toMatchObject({
-      isError: false,
+      isError: true,
       isFetching: false,
-      isSuccess: true,
+      isSuccess: false,
       isLoading: false,
-      data: resultsData,
+      error: { status: 401 },
     });
   });
 });
