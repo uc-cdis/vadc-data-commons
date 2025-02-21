@@ -3,29 +3,49 @@ import { waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { renderHook } from '../../../test/test-utils';
-import { GEN3_WORKFLOW_API, getPresignedUrl, useGetWorkflowDetailsQuery } from "./workflowApi";
+import {
+  GEN3_WORKFLOW_API,
+  getPresignedUrl,
+  useGetWorkflowDetailsQuery,
+  useGetWorkflowsQuery,
+  useGetWorkflowsMonthlyQuery,
+  useGetPresignedUrlOrDataForWorkflowArtifactQuery,
+} from './workflowApi';
+import { GEN3_API } from '@gen3/core';
+
+const GEN3_FENCE_API = `${GEN3_API}/user`; // TODO replace with GEN3_FENCE_API from gff core when updated
+
 const server = setupServer();
 
-
-import { FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from '@reduxjs/toolkit/query';
+import {
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+  QueryReturnValue,
+} from '@reduxjs/toolkit/query';
 import {
   describe,
   expect,
   it,
   afterEach,
-  jest, beforeAll, beforeEach, afterAll,
+  jest,
+  beforeAll,
+  beforeEach,
+  afterAll,
 } from '@jest/globals';
-import { GEN3_FENCE_API } from '@gen3/core';
 
 type MaybePromise<T> = T | Promise<T>;
 
 type FetchMockResponse = { url: string };
 
-type RTKQFetchFunction = (arg: (string | FetchArgs)) => MaybePromise<QueryReturnValue<FetchMockResponse, FetchBaseQueryError, FetchBaseQueryMeta>>
-
+type RTKQFetchFunction = (
+  arg: string | FetchArgs,
+) => MaybePromise<
+  QueryReturnValue<FetchMockResponse, FetchBaseQueryError, FetchBaseQueryMeta>
+>;
 
 describe('getPresignedUrl', () => {
-  const fetchWithBQMock= jest.fn<RTKQFetchFunction>();
+  const fetchWithBQMock = jest.fn<RTKQFetchFunction>();
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -58,7 +78,7 @@ describe('getPresignedUrl', () => {
     expect(fetchWithBQMock).toHaveBeenCalledWith({
       url: `${GEN3_FENCE_API}/data/download/${mockUid}`,
     });
-    expect(result).toEqual({ error: {  status: 500, data: undefined } });
+    expect(result).toEqual({ error: { status: 500, data: undefined } });
   });
 
   it('should default to the "download" method if no method is provided', async () => {
@@ -68,22 +88,20 @@ describe('getPresignedUrl', () => {
       data: { url: mockUrl },
     });
 
-    const result = await getPresignedUrl(mockUid, fetchWithBQMock);
+    await getPresignedUrl(mockUid, fetchWithBQMock);
 
     expect(fetchWithBQMock).toHaveBeenCalledWith({
       url: `${GEN3_FENCE_API}/data/download/${mockUid}`,
     });
-    expect(result).toEqual({ data: { url: mockUrl } });
   });
 });
 
-describe('cohortApi', () => {
+describe('workflowApi', () => {
   beforeAll(() => {
     // Start the interception.
     server.listen();
   });
-  beforeEach(() => {
-  });
+  beforeEach(() => {});
 
   afterEach(() => {
     // Remove any handlers you may have added
@@ -96,74 +114,167 @@ describe('cohortApi', () => {
     server.close();
   });
 
-  it('test for getWorkflowDetails', async () => {
+  const detailsData = {
+    name: 'gwas-workflow-1000001',
+    phase: 'Succeeded',
+    gen3username: 'user996@example.com',
+    submittedAt: '2024-12-23T04:23:53Z',
+    startedAt: '2024-12-23T04:23:53Z',
+    finishedAt: '2025-01-07T02:32:30Z',
+    wf_name: 'test 1',
+    arguments: {
+      parameters: [
+        {
+          name: 'n_pcs',
+          value: '3',
+        },
+        {
+          name: 'variables',
+          value:
+            '[{"variable_type": "concept", "concept_id": 5350450469, "concept_name": "Theta Baseline Index"}, {"variable_type": "concept", "concept_id": 1321922298, "concept_name": "Delta Parameter Reading"}, {"variable_type": "concept", "concept_id": 3723846140, "concept_name": "Eta Composite Score"}]',
+        },
+        {
+          name: 'out_prefix',
+          default: 'genesis_vadc',
+          value: '3859895161',
+        },
+        {
+          name: 'outcome',
+          value:
+            '{"variable_type": "concept", "concept_id": 3723846140, "concept_name": "Eta Composite Score"}',
+        },
+        {
+          name: 'hare_population',
+          value: 'Group C',
+        },
+        {
+          name: 'hare_concept_id',
+          default: '8361572894',
+          value: '8361572894',
+        },
+        {
+          name: 'maf_threshold',
+          value: '0.01',
+        },
+        {
+          name: 'imputation_score_cutoff',
+          value: '0.3',
+        },
+        {
+          name: 'template_version',
+          value: 'gwas-template-genesisupdate',
+        },
+        {
+          name: 'source_id',
+          value: '12',
+        },
+        {
+          name: 'source_population_cohort',
+          value: '2356',
+        },
+        {
+          name: 'workflow_name',
+          value: 'test 1',
+        },
+        {
+          name: 'team_project',
+          value: '/research_projects/PROJECT_BETA',
+        },
+        {
+          name: 'genome_build',
+          default: 'hg19',
+          value: 'hg19',
+          enum: ['hg38', 'hg19'],
+        },
+        {
+          name: 'pca_file',
+          value: '/commons-data/pcs.RData',
+        },
+        {
+          name: 'relatedness_matrix_file',
+          value: '/commons-data/KINGmatDeg3.RData',
+        },
+        {
+          name: 'widget_table',
+          value: '/commons-data/mvp_widget_table.csv',
+        },
+        {
+          name: 'related_samples',
+          value: '/commons-data/related_samples.csv',
+        },
+        {
+          name: 'n_segments',
+          value: '0',
+        },
+        {
+          name: 'segment_length',
+          default: '2000',
+          value: '2000',
+        },
+        {
+          name: 'variant_block_size',
+          default: '1024',
+          value: '100',
+        },
+        {
+          name: 'mac_threshold',
+          value: '0',
+        },
+        {
+          name: 'gds_files',
+          value:
+            '["/commons-data/gds/chr1.merged.vcf.gz.gds", "/commons-data/gds/chr2.merged.vcf.gz.gds", "/commons-data/gds/chr3.merged.vcf.gz.gds", "/commons-data/gds/chr4.merged.vcf.gz.gds", "/commons-data/gds/chr5.merged.vcf.gz.gds", "/commons-data/gds/chr6.merged.vcf.gz.gds", "/commons-data/gds/chr7.merged.vcf.gz.gds", "/commons-data/gds/chr8.merged.vcf.gz.gds", "/commons-data/gds/chr9.merged.vcf.gz.gds", "/commons-data/gds/chr10.merged.vcf.gz.gds", "/commons-data/gds/chr11.merged.vcf.gz.gds", "/commons-data/gds/chr12.merged.vcf.gz.gds", "/commons-data/gds/chr13.merged.vcf.gz.gds", "/commons-data/gds/chr14.merged.vcf.gz.gds", "/commons-data/gds/chr15.merged.vcf.gz.gds", "/commons-data/gds/chr16.merged.vcf.gz.gds", "/commons-data/gds/chr17.merged.vcf.gz.gds", "/commons-data/gds/chr18.merged.vcf.gz.gds", "/commons-data/gds/chr19.merged.vcf.gz.gds", "/commons-data/gds/chr20.merged.vcf.gz.gds", "/commons-data/gds/chr21.merged.vcf.gz.gds", "/commons-data/gds/chr22.merged.vcf.gz.gds", "/commons-data/gds/chrX.merged.vcf.gz.gds"]',
+        },
+        {
+          name: 'internal_api_env',
+          default: 'default',
+          value: 'default',
+        },
+      ],
+    },
+    progress: '1618/1620',
+    outputs: {
+      parameters: [
+        {
+          name: 'gwas_archive_index',
+          value:
+            '{"baseid": "af4fb252-d773-4f9b-9a4f-5a7251c54b46", "did": "dg.TST0/9aee8147-97e7-4b07-9690-bf26e953ed2a", "rev": "ed3d2bcf"}',
+        },
+        {
+          name: 'manhattan_plot_index',
+          value:
+            '{"baseid": "7637a41e-cbec-4ba2-8556-3b8a506498bb", "did": "dg.TST0/e41e7a85-baba-4a37-8871-45bc3c375c7f", "rev": "c60b974f"}',
+        },
+        {
+          name: 'attrition_json_index',
+          value:
+            '{"baseid": "a13b170e-e8c1-4750-831f-1b1587bd960a", "did": "dg.TST0/08803c69-3ef9-46c9-b025-fd12e0ed6d23", "rev": "8ab52ddc"}',
+        },
+        {
+          name: 'pheweb_manhattan_json_index',
+          value:
+            '{"baseid": "6129ca03-c9c1-4b27-b410-6773fac5bcce", "did": "dg.TST0/4dda3cba-636d-400b-ac70-3c8872c4d4ca", "rev": "ec930d6b"}',
+        },
+        {
+          name: 'pheweb_qq_json_index',
+          value:
+            '{"baseid": "4135bb4b-3634-4fce-8bf6-fa533b253585", "did": "dg.TST0/5d458b10-ff4c-4920-8d28-9f2956e6dec8", "rev": "7dfb5d18"}',
+        },
+      ],
+    },
+    gen3teamproject: '/research_projects/PROJECT_BETA',
+  };
 
-    const data = {
-      name: 'gwas-workflow-6549599337',
-      phase: 'Succeeded',
-      gen3username: 'user922@example.com',
-      submittedAt: '2024-12-02T04:20:07Z',
-      startedAt: '2024-12-02T04:20:07Z',
-      finishedAt: '2025-01-07T08:32:55Z',
-      wf_name: 'test 1',
-      arguments: {
-        parameters: [
-          {
-            name: 'n_pcs',
-            value: '3',
-          },
-          {
-            name: 'variables',
-            value: [
-              {
-                variable_type: 'concept',
-                concept_id: 8852670911,
-                concept_name: 'Eta Composite Score',
-              },
-              {
-                variable_type: 'concept',
-                concept_id: 5909884332,
-                concept_name: 'Measurement Alpha Index',
-              },
-              {
-                variable_type: 'concept',
-                concept_id: 2505585697,
-                concept_name: 'Zeta Coefficient',
-              },
-            ],
-          },
-          {
-            name: 'out_prefix',
-            default: 'genesis_vadc',
-            value: '5262244486',
-          },
-
-        ],
-      },
-      progress: '1618/1620',
-      outputs: {
-        parameters: [
-          {
-            name: 'gwas_archive_index',
-            value: {
-              baseid: 'f0bed968-2dc8-48ad-92c6-cfcf902329dc',
-              did: 'dg.TST0/2f0bed968-2dc8-48ad-92c6-cfcf902329dc',
-              rev: 'ed3d2bcf',
-            },
-          },
-        ],
-      },
-      gen3teamproject: '/research_projects/PROJECT_BETA',
-    };
-
-
+  it('test getWorkflowDetails', async () => {
     server.use(
       http.get(`${GEN3_WORKFLOW_API}/status/123`, () => {
-        return HttpResponse.json(data);
+        return HttpResponse.json(detailsData);
       }),
     );
 
-    const { result } = renderHook(() => useGetWorkflowDetailsQuery({ workflowName: '123', workflowUid: '456'}));
+    const { result } = renderHook(() =>
+      useGetWorkflowDetailsQuery({ workflowName: '123', workflowUid: '456' }),
+    );
 
     expect(result.current.isFetching).toBe(true);
 
@@ -173,12 +284,11 @@ describe('cohortApi', () => {
       isFetching: false,
       isSuccess: true,
       isLoading: false,
-      data: data,
+      data: detailsData,
     });
   });
 
-
-  it('test for getWorkflowDetails error', async () => {
+  it('test getWorkflowDetails error', async () => {
     server.use(
       http.get(`${GEN3_WORKFLOW_API}/status/123`, () => {
         return new HttpResponse(null, {
@@ -187,7 +297,9 @@ describe('cohortApi', () => {
       }),
     );
 
-    const { result } = renderHook(() => useGetWorkflowDetailsQuery({ workflowName: '123', workflowUid: '456'}));
+    const { result } = renderHook(() =>
+      useGetWorkflowDetailsQuery({ workflowName: '123', workflowUid: '456' }),
+    );
 
     expect(result.current.isFetching).toBe(true);
 
@@ -201,4 +313,301 @@ describe('cohortApi', () => {
     });
   });
 
+  it('test getWorkflows', async () => {
+    const data = [
+      {
+        name: 'gwas-workflow-5824608351',
+        phase: 'Succeeded',
+        submittedAt: '2025-01-21T19:42:42Z',
+        startedAt: '2025-01-21T19:42:42Z',
+        finishedAt: '2025-01-21T22:10:05Z',
+        wf_name: 'test 1',
+        gen3teamproject: '/synthetic_project',
+        uid: '96816116-0928-4f57-97be-a7d26921b71e',
+      },
+      {
+        name: 'gwas-workflow-9136614877',
+        phase: 'Failed',
+        submittedAt: '2025-01-21T18:51:35Z',
+        startedAt: '2025-01-21T18:51:35Z',
+        finishedAt: '2025-01-21T18:55:23Z',
+        wf_name: 'test 1',
+        gen3teamproject: '/synthetic_project',
+        uid: '2c17fc87-ffea-4b00-bd67-9f8246928905',
+      },
+    ];
+
+    server.use(
+      http.get(`${GEN3_WORKFLOW_API}/workflows`, () => {
+        return HttpResponse.json(data);
+      }),
+    );
+
+    const { result } = renderHook(() => useGetWorkflowsQuery('123'));
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current).toMatchObject({
+      isError: false,
+      isFetching: false,
+      isSuccess: true,
+      isLoading: false,
+      data: data,
+    });
+  });
+
+  it('test getWorkflowsMonthly', async () => {
+    const data = { workflow_run: 0, workflow_limit: 50 };
+
+    server.use(
+      http.get(`${GEN3_WORKFLOW_API}/workflows/user-monthly`, () => {
+        return HttpResponse.json(data);
+      }),
+    );
+
+    server.use(
+      http.get(`${GEN3_WORKFLOW_API}/workflows/user-monthly`, () => {
+        return HttpResponse.json(data);
+      }),
+    );
+
+    const { result } = renderHook(() => useGetWorkflowsMonthlyQuery());
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current).toMatchObject({
+      isError: false,
+      isFetching: false,
+      isSuccess: true,
+      isLoading: false,
+      data: data,
+    });
+  });
+
+  it('test useGetPresignedUrlOrDataForWorkflowArtifactQuery to get a URL', async () => {
+    const urlData = { url: 'https://awspresignedurl.com' };
+    server.use(
+      http.get(`${GEN3_WORKFLOW_API}/status/123`, () => {
+        return HttpResponse.json(detailsData);
+      }),
+      http.get(
+        `${GEN3_FENCE_API}/data/download/dg.TST0/9aee8147-97e7-4b07-9690-bf26e953ed2a`,
+        () => {
+          return HttpResponse.json(urlData);
+        },
+      ),
+    );
+
+    const { result } = renderHook(() =>
+      useGetPresignedUrlOrDataForWorkflowArtifactQuery({
+        workflowName: '123',
+        workflowUid: '456',
+        artifactName: 'gwas_archive_index',
+      }),
+    );
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+    expect(result.current).toMatchObject({
+      isError: false,
+      isFetching: false,
+      isSuccess: true,
+      isLoading: false,
+      data: urlData,
+    });
+  });
+
+  it('test useGetPresignedUrlOrDataForWorkflowArtifactQuery can`t find artifact', async () => {
+    const urlData = { url: 'https://awspresignedurl.com' };
+    server.use(
+      http.get(`${GEN3_WORKFLOW_API}/status/123`, () => {
+        return HttpResponse.json(detailsData);
+      }),
+      http.get(
+        `${GEN3_FENCE_API}/data/download/dg.TST0/9aee8147-97e7-4b07-9690-bf26e953ed2a`,
+        () => {
+          return HttpResponse.json(urlData);
+        },
+      ),
+    );
+
+    const { result } = renderHook(() =>
+      useGetPresignedUrlOrDataForWorkflowArtifactQuery({
+        workflowName: '123',
+        workflowUid: '456',
+        artifactName: 'gwas_archive_index_not_found',
+      }),
+    );
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isError).toBeTruthy());
+
+    expect(result.current).toMatchObject({
+      isError: true,
+      isFetching: false,
+      isSuccess: false,
+      isLoading: false,
+      data: undefined,
+      error: {
+        error: 'Expected 1 artifact with name gwas_archive_index_not_found, found: 0',
+        status: 'CUSTOM_ERROR'
+      },
+    });
+  });
+
+  it('test useGetPresignedUrlOrDataForWorkflowArtifactQuery get data from url', async () => {
+    const resultsData = {
+      "variant_bins": [
+        {
+          "chrom": "c",
+          "qvals": [
+            1.0,
+            9.89,
+            3.94,
+            8.53,
+            6.57,
+            2.89
+          ],
+          "qval_extents": [
+            [
+              8.77,
+              1.11
+            ],
+            [
+              9.53,
+              8.34
+            ],
+            [
+              4.15,
+              9.58
+            ],
+            [
+              9.54,
+              5.51
+            ],
+            [
+              2.52,
+              8.78
+            ],
+            [
+              9.5,
+              9.29
+            ]
+          ],
+          "pos": 7263051
+        },
+        {
+          "chrom": "T",
+          "qvals": [
+            3.39,
+            4.57,
+            81.19
+          ],
+          "qval_extents": [
+            [
+              7.27,
+              8.55
+            ],
+            [
+              8.68,
+              8.15
+            ],
+            [
+              3.88,
+              2.12
+            ]
+          ],
+          "pos": 1233590
+        },
+        {
+          "chrom": "J",
+          "qvals": [
+            1.8,
+            6.14,
+            4.65,
+            83.79
+          ],
+          "qval_extents": [
+            [
+              6.71,
+              3.5300000000000002
+            ],
+            [
+              5.46,
+              8.02
+            ],
+            [
+              8.66,
+              9.17
+            ],
+            [
+              7.57,
+              1.12
+            ]
+          ],
+          "pos": 1362071
+        },
+        {
+          "chrom": "w",
+          "qvals": [],
+          "qval_extents": [
+            [
+              8.39,
+              3.15
+            ],
+            [
+              5.74,
+              4.87
+            ]
+          ],
+          "pos": 15185774
+        }
+      ]
+    };
+
+    const urlData = { url: 'https://awspresignedurl.com' };
+
+    server.use(
+      http.get(`${GEN3_WORKFLOW_API}/status/123`, () => {
+        return HttpResponse.json(detailsData);
+      }),
+      http.get(
+        `${GEN3_FENCE_API}/data/download/dg.TST0/9aee8147-97e7-4b07-9690-bf26e953ed2a`,
+        () => {
+          return HttpResponse.json(urlData);
+        },
+      ),
+      http.get(
+        'https://awspresignedurl.com/',
+        () => {
+          return HttpResponse.json(resultsData);
+        },
+      ),
+    );
+
+    const { result } = renderHook(() =>
+      useGetPresignedUrlOrDataForWorkflowArtifactQuery({
+        workflowName: '123',
+        workflowUid: '456',
+        artifactName: 'gwas_archive_index',
+        retrieveData: true,
+      }),
+    );
+
+    expect(result.current.isFetching).toBe(true);
+
+    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
+
+    expect(result.current).toMatchObject({
+      isError: false,
+      isFetching: false,
+      isSuccess: true,
+      isLoading: false,
+      data: resultsData,
+    });
+  });
 });

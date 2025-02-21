@@ -1,10 +1,10 @@
 export const data = {
-  name: 'gwas-workflow-6549599337',
+  name: 'gwas-workflow-1000001',
   phase: 'Succeeded',
-  gen3username: 'user922@example.com',
-  submittedAt: '2024-12-02T04:20:07Z',
-  startedAt: '2024-12-02T04:20:07Z',
-  finishedAt: '2025-01-07T08:32:55Z',
+  gen3username: 'user996@example.com',
+  submittedAt: '2024-12-23T04:23:53Z',
+  startedAt: '2024-12-23T04:23:53Z',
+  finishedAt: '2025-01-07T02:32:30Z',
   wf_name: 'test 1',
   arguments: {
     parameters: [
@@ -14,45 +14,27 @@ export const data = {
       },
       {
         name: 'variables',
-        value: [
-          {
-            variable_type: 'concept',
-            concept_id: 8852670911,
-            concept_name: 'Eta Composite Score',
-          },
-          {
-            variable_type: 'concept',
-            concept_id: 5909884332,
-            concept_name: 'Measurement Alpha Index',
-          },
-          {
-            variable_type: 'concept',
-            concept_id: 2505585697,
-            concept_name: 'Zeta Coefficient',
-          },
-        ],
+        value:
+          '[{"variable_type": "concept", "concept_id": 5350450469, "concept_name": "Theta Baseline Index"}, {"variable_type": "concept", "concept_id": 1321922298, "concept_name": "Delta Parameter Reading"}, {"variable_type": "concept", "concept_id": 3723846140, "concept_name": "Eta Composite Score"}]',
       },
       {
         name: 'out_prefix',
         default: 'genesis_vadc',
-        value: '5262244486',
+        value: '3859895161',
       },
       {
         name: 'outcome',
-        value: {
-          variable_type: 'concept',
-          concept_id: 2505585697,
-          concept_name: 'Zeta Coefficient',
-        },
+        value:
+          '{"variable_type": "concept", "concept_id": 3723846140, "concept_name": "Eta Composite Score"}',
       },
       {
         name: 'hare_population',
-        value: 'Group A',
+        value: 'Group C',
       },
       {
         name: 'hare_concept_id',
-        default: '9458104020',
-        value: '9458104020',
+        default: '8361572894',
+        value: '8361572894',
       },
       {
         name: 'maf_threshold',
@@ -94,7 +76,7 @@ export const data = {
       },
       {
         name: 'relatedness_matrix_file',
-        value: '/commons-data/QUEENmatDeg3.RData',
+        value: '/commons-data/KINGmatDeg3.RData',
       },
       {
         name: 'widget_table',
@@ -124,31 +106,8 @@ export const data = {
       },
       {
         name: 'gds_files',
-        value: [
-          '/commons-data/gds/chr1.merged.vcf.gz.gds',
-          '/commons-data/gds/chr2.merged.vcf.gz.gds',
-          '/commons-data/gds/chr3.merged.vcf.gz.gds',
-          '/commons-data/gds/chr4.merged.vcf.gz.gds',
-          '/commons-data/gds/chr5.merged.vcf.gz.gds',
-          '/commons-data/gds/chr6.merged.vcf.gz.gds',
-          '/commons-data/gds/chr7.merged.vcf.gz.gds',
-          '/commons-data/gds/chr8.merged.vcf.gz.gds',
-          '/commons-data/gds/chr9.merged.vcf.gz.gds',
-          '/commons-data/gds/chr10.merged.vcf.gz.gds',
-          '/commons-data/gds/chr11.merged.vcf.gz.gds',
-          '/commons-data/gds/chr12.merged.vcf.gz.gds',
-          '/commons-data/gds/chr13.merged.vcf.gz.gds',
-          '/commons-data/gds/chr14.merged.vcf.gz.gds',
-          '/commons-data/gds/chr15.merged.vcf.gz.gds',
-          '/commons-data/gds/chr16.merged.vcf.gz.gds',
-          '/commons-data/gds/chr17.merged.vcf.gz.gds',
-          '/commons-data/gds/chr18.merged.vcf.gz.gds',
-          '/commons-data/gds/chr19.merged.vcf.gz.gds',
-          '/commons-data/gds/chr20.merged.vcf.gz.gds',
-          '/commons-data/gds/chr21.merged.vcf.gz.gds',
-          '/commons-data/gds/chr22.merged.vcf.gz.gds',
-          '/commons-data/gds/chrX.merged.vcf.gz.gds',
-        ],
+        value:
+          '["/commons-data/gds/chr1.merged.vcf.gz.gds", "/commons-data/gds/chr2.merged.vcf.gz.gds", "/commons-data/gds/chr3.merged.vcf.gz.gds", "/commons-data/gds/chr4.merged.vcf.gz.gds", "/commons-data/gds/chr5.merged.vcf.gz.gds", "/commons-data/gds/chr6.merged.vcf.gz.gds", "/commons-data/gds/chr7.merged.vcf.gz.gds", "/commons-data/gds/chr8.merged.vcf.gz.gds", "/commons-data/gds/chr9.merged.vcf.gz.gds", "/commons-data/gds/chr10.merged.vcf.gz.gds", "/commons-data/gds/chr11.merged.vcf.gz.gds", "/commons-data/gds/chr12.merged.vcf.gz.gds", "/commons-data/gds/chr13.merged.vcf.gz.gds", "/commons-data/gds/chr14.merged.vcf.gz.gds", "/commons-data/gds/chr15.merged.vcf.gz.gds", "/commons-data/gds/chr16.merged.vcf.gz.gds", "/commons-data/gds/chr17.merged.vcf.gz.gds", "/commons-data/gds/chr18.merged.vcf.gz.gds", "/commons-data/gds/chr19.merged.vcf.gz.gds", "/commons-data/gds/chr20.merged.vcf.gz.gds", "/commons-data/gds/chr21.merged.vcf.gz.gds", "/commons-data/gds/chr22.merged.vcf.gz.gds", "/commons-data/gds/chrX.merged.vcf.gz.gds"]',
       },
       {
         name: 'internal_api_env',
@@ -162,43 +121,28 @@ export const data = {
     parameters: [
       {
         name: 'gwas_archive_index',
-        value: {
-          baseid: 'f0bed968-2dc8-48ad-92c6-cfcf902329dc',
-          did: 'dg.TST0/2f0bed968-2dc8-48ad-92c6-cfcf902329dc',
-          rev: 'ed3d2bcf',
-        },
+        value:
+          '{"baseid": "af4fb252-d773-4f9b-9a4f-5a7251c54b46", "did": "dg.TST0/9aee8147-97e7-4b07-9690-bf26e953ed2a", "rev": "ed3d2bcf"}',
       },
       {
         name: 'manhattan_plot_index',
-        value: {
-          baseid: '1b96ebb0-14bd-444d-949a-c8eedaf15c18',
-          did: 'dg.TST0/1b96ebb0-14bd-444d-949a-c8eedaf15c18',
-          rev: 'c60b974f',
-        },
+        value:
+          '{"baseid": "7637a41e-cbec-4ba2-8556-3b8a506498bb", "did": "dg.TST0/e41e7a85-baba-4a37-8871-45bc3c375c7f", "rev": "c60b974f"}',
       },
       {
         name: 'attrition_json_index',
-        value: {
-          baseid: '999279d5-9194-4820-afe3-f5d693f74162',
-          did: 'dg.TST0/999279d5-9194-4820-afe3-f5d693f74162',
-          rev: '8ab52ddc',
-        },
+        value:
+          '{"baseid": "a13b170e-e8c1-4750-831f-1b1587bd960a", "did": "dg.TST0/08803c69-3ef9-46c9-b025-fd12e0ed6d23", "rev": "8ab52ddc"}',
       },
       {
         name: 'pheweb_manhattan_json_index',
-        value: {
-          baseid: 'b69f49b5-cfc6-4adc-8b0f-88b11bf64277',
-          did: 'dg.TST0/b69f49b5-cfc6-4adc-8b0f-88b11bf64277',
-          rev: 'ec930d6b',
-        },
+        value:
+          '{"baseid": "6129ca03-c9c1-4b27-b410-6773fac5bcce", "did": "dg.TST0/4dda3cba-636d-400b-ac70-3c8872c4d4ca", "rev": "ec930d6b"}',
       },
       {
         name: 'pheweb_qq_json_index',
-        value: {
-          baseid: 'a5e719e5-11d0-4f9c-b24c-fef6c668f3a2',
-          did: 'dg.TST0/a5e719e5-11d0-4f9c-b24c-fef6c668f3a2',
-          rev: '7dfb5d18',
-        },
+        value:
+          '{"baseid": "4135bb4b-3634-4fce-8bf6-fa533b253585", "did": "dg.TST0/5d458b10-ff4c-4920-8d28-9f2956e6dec8", "rev": "7dfb5d18"}',
       },
     ],
   },

@@ -1,6 +1,11 @@
-import { GEN3_API, GEN3_FENCE_API, gen3Api } from '@gen3/core';
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-
+import { GEN3_API, gen3Api } from '@gen3/core';
+import {
+  BaseQueryFn,
+  QueryDefinition,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+  FetchArgs,
+} from '@reduxjs/toolkit/query';
 const TAGS = 'GWASWorkflow';
 export const GEN3_WORKFLOW_API =
   process.env.NEXT_PUBLIC_GEN3_WORLFLOW_API || `${GEN3_API}/ga4gh/wes/v2`;
@@ -57,8 +62,8 @@ export interface PresignedUrl {
 }
 
 export interface WorkflowMonthly {
-  workflow_run:number;
-  workflow_limit:number
+  workflow_run: number;
+  workflow_limit: number;
 }
 
 // Requests Types
@@ -70,14 +75,15 @@ interface WorkflowDetailsRequest {
 
 interface PresignedUrlWorkflowArtifactRequest extends WorkflowDetailsRequest {
   artifactName: string;
+  retrieveData?: boolean;
 }
 
 /**
- * Generates a presigned URL for a specific file operation such as download or upload.
+ * Gets a presigned URL from Gen3 for an indexed file.
  *
  * @param {string} uid - The unique identifier of the file for which the presigned URL is to be retrieved.
  * @param {any} fetchWithBQ - A function used to perform the API call to fetch the presigned URL.
- * @param {string} [method='download'] - The file operation for which the URL is requested (e.g., 'download', 'upload').
+ * @param {string} [method='download'] - The file operation for which the URL is requested (e.g., 'download').
  * @returns {Promise<{data?: {url: string}, error?: FetchBaseQueryError}>} - A promise that resolves to an object containing either the generated presigned URL or an error.
  */
 export const getPresignedUrl = async (
@@ -85,13 +91,22 @@ export const getPresignedUrl = async (
   fetchWithBQ: any,
   method: string = 'download',
 ) => {
+  const result = await fetchWithBQ({
+    url: `${GEN3_API}/user/data/${method}/${uid}`, // TODO Replace with GEN3_FENCE_API
+  });
+  return result.data
+    ? { data: result.data as PresignedUrl }
+    : { error: result.error as FetchBaseQueryError };
+};
+
+export const getUrlData = async (url: string, fetchWithBQ: any) => {
   const response = await fetchWithBQ({
-    url: `${GEN3_FENCE_API}/data/${method}/${uid}`,
+    url,
   });
   if (response.error) {
     return { error: response.error as FetchBaseQueryError };
   }
-  return { data: { url: response.data.url } };
+  return { data: response.data };
 };
 
 const workflowApi = ResultsApiTags.injectEndpoints({
@@ -105,14 +120,16 @@ const workflowApi = ResultsApiTags.injectEndpoints({
         `${GEN3_WORKFLOW_API}/workflows?team_projects=${currentTeamProject}`,
     }),
     getWorkflowsMonthly: builder.query<WorkflowMonthly, void>({
-      query: () =>  `${GEN3_WORKFLOW_API}/workflows/user-monthly`
+      query: () => `${GEN3_WORKFLOW_API}/workflows/user-monthly`,
     }),
-    getPresignedUrlForWorkflowArtifact: builder.query<
-      PresignedUrl,
-      PresignedUrlWorkflowArtifactRequest
-    >({
-      async queryFn(args, _queryApi, _extraOptions, fetchWithBQ) {
-        const { artifactName, workflowName, workflowUid } = args;
+    getPresignedUrlOrDataForWorkflowArtifact: builder.query({
+      async queryFn(
+        args: PresignedUrlWorkflowArtifactRequest,
+        _queryApi,
+        _extraOptions,
+        fetchWithBQ,
+      ) {
+        const { artifactName, workflowName, workflowUid, retrieveData } = args;
 
         const workflowDetailsResponse = await fetchWithBQ({
           url: `${GEN3_WORKFLOW_API}/status/${workflowName}?uid=${workflowUid}`,
@@ -139,13 +156,30 @@ const workflowApi = ResultsApiTags.injectEndpoints({
           };
         }
 
-        const data = await getPresignedUrl(
-          JSON.parse(results[0].value).did,
+        let parsedValue;
+        try {
+          parsedValue = JSON.parse(results[0].value);
+          if (!parsedValue?.did) {
+            throw new Error(`Missing "did" field in artifact value.`);
+          }
+        } catch (_error: unknown) {
+          return {
+            error: {
+              error: 'Failed to parse artifact value or missing "did"',
+              status: 'CUSTOM_ERROR',
+            } as FetchBaseQueryError,
+          };
+        }
+
+        const presignedUrl = await getPresignedUrl(
+          parsedValue.did,
           fetchWithBQ,
-          'download',
         );
 
-        return data;
+        if (!retrieveData || presignedUrl.data?.url === undefined)
+          return presignedUrl;
+
+        return await getUrlData(presignedUrl.data.url, fetchWithBQ);
       },
     }),
   }),
@@ -155,7 +189,7 @@ export const {
   useGetWorkflowDetailsQuery,
   useGetWorkflowsQuery,
   useLazyGetWorkflowsQuery,
-  useGetPresignedUrlForWorkflowArtifactQuery,
-  useLazyGetPresignedUrlForWorkflowArtifactQuery,
-  useGetWorkflowsMonthlyQuery
+  useGetPresignedUrlOrDataForWorkflowArtifactQuery,
+  useLazyGetPresignedUrlOrDataForWorkflowArtifactQuery,
+  useGetWorkflowsMonthlyQuery,
 } = workflowApi;
