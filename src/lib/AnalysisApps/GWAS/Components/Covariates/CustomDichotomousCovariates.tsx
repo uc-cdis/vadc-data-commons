@@ -1,22 +1,42 @@
-/*
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import SelectCohortDropDown from '../SelectCohort/SelectCohortDropDown';
-import CohortsOverlapDiagram from '../Diagrams/CohortsOverlapDiagram/CohortsOverlapDiagram';
-import './Covariates.css';
+import { State, Action } from '../../Utils/StateManagement/reducer';
+import { Button, TextInput } from '@mantine/core';
+//import SelectCohortDropDown from '../SelectCohort/SelectCohortDropDown';
+//import CohortsOverlapDiagram from '../Diagrams/CohortsOverlapDiagram/CohortsOverlapDiagram';
+//import './Covariates.css';
 
+interface CustomDichotomousCovariatesInput {
+  readonly dispatch: (arg: Action) => void,
+  readonly handleSelect: (chosenCovariate: any) => void,
+  readonly handleClose: () => void,
+  readonly studyPopulationCohort: State['selectedStudyPopulationCohort'],
+  readonly covariates?: State['covariates'],
+  readonly outcome?: State['outcome'],
+  readonly submitButtonLabel?: string,
+  readonly selectedTeamProject: string,
+}
+interface setPopulationType {
+  cohort_name?: string, 
+  size?: number, 
+  cohort_definition_id?: string
+}
+const setPopulation: setPopulationType = {
+  cohort_name: undefined, 
+  size: undefined, 
+  cohort_definition_id: undefined,
+};
 const CustomDichotomousCovariates = ({
   dispatch,
   handleSelect,
   handleClose,
   studyPopulationCohort,
-  covariates,
-  outcome,
-  submitButtonLabel,
+  covariates = [],
+  outcome = null,
+  submitButtonLabel = 'Submit',
   selectedTeamProject,
-}) => {
-  const [firstPopulation, setFirstPopulation] = useState(undefined);
-  const [secondPopulation, setSecondPopulation] = useState(undefined);
+}: CustomDichotomousCovariatesInput) => {
+  const [firstPopulation, setFirstPopulation] = useState(setPopulation);
+  const [secondPopulation, setSecondPopulation] = useState(setPopulation);
   const [providedName, setProvidedName] = useState('');
 
   const handleDichotomousSubmit = () => {
@@ -41,61 +61,59 @@ const CustomDichotomousCovariates = ({
   };
 
   const customDichotomousValidation = providedName.length === 0
-    || firstPopulation === undefined
-    || secondPopulation === undefined;
+    || firstPopulation.cohort_name === undefined
+    || secondPopulation.cohort_name === undefined;
 
   return (
-    <div className='custom-dichotomous-covariates'>
-      <div className='GWASUI-flexRow'>
-        <label htmlFor='phenotype-input'>Phenotype Name</label>
-        <input
-          type='text'
-          id='phenotype-input'
-          className={'GWASUI-providedName'}
-          data-tour='name-input'
+    <div className="">
+      <div className="">
+        <TextInput
+          data-tour="name-input"
+          label="Phenotype Name"
+          placeholder="Provide a name..."
           onChange={(e) => setProvidedName(e.target.value)}
           value={providedName}
-          placeholder='Provide a name...'
         />
         <span
-          className='dichotomous-button-wrapper'
-          data-tour='submit-cancel-buttons'
+          className=""
+          data-tour="submit-cancel-buttons"
         >
-          <button
-            type='button'
-            className='GWASUI-dichBtn cancel-button'
+          <Button
+            variant="outline"
+            size="xl"
+            radius="md"
+            className=""
             onClick={() => handleClose()}
           >
             Cancel
-          </button>
+          </Button>
           <div>
-            <button
-              type='button'
+            <Button
+              size="xl"
+              radius="md"
               disabled={customDichotomousValidation}
-              className={`submit-button ${
-                !customDichotomousValidation ? 'GWASUI-btnEnable' : ''
-              } GWASUI-dichBtn`}
+              className=""
               onClick={() => handleDichotomousSubmit()}
             >
               {submitButtonLabel}
-            </button>
+            </Button>
           </div>
         </span>
       </div>
       <React.Fragment>
         <div>
-          <div className='GWASUI-flexRow'>
+          <div className="GWASUI-flexRow">
             <div
-              data-tour='select-dichotomous'
-              className='GWASUI-flexColumn dichotomous-selection'
+              data-tour="select-dichotomous"
+              className="GWASUI-flexColumn dichotomous-selection"
             >
-              <div className='dichotomous-directions'>
+              <div className="dichotomous-directions">
                 Define a dichotomous variable by study population with 2 other
                 cohorts.
               </div>
               <div>
                 <h3>Get Value 0</h3>
-                <SelectCohortDropDown
+                {/*<SelectCohortDropDown
                   handleCohortSelect={setFirstPopulation}
                   selectedTeamProject={selectedTeamProject}
                 />
@@ -105,24 +123,24 @@ const CustomDichotomousCovariates = ({
                 <SelectCohortDropDown
                   handleCohortSelect={setSecondPopulation}
                   selectedTeamProject={selectedTeamProject}
-                />
+                />*/}
               </div>
             </div>
             <div
-              data-tour='cohorts-overlap-diagram'
-              className='cohorts-overlap-diagram'
+              data-tour="cohorts-overlap-diagram"
+              className="cohorts-overlap-diagram"
             >
-              {!firstPopulation || !secondPopulation ? (
+              {!firstPopulation.cohort_name || !secondPopulation ? (
                 <div>Select your cohorts to assess overlap</div>
               ) : (
-                <CohortsOverlapDiagram
+                <React.Fragment>{/*<CohortsOverlapDiagram
                   dispatch={dispatch}
                   selectedStudyPopulationCohort={studyPopulationCohort}
                   selectedCaseCohort={firstPopulation}
                   selectedControlCohort={secondPopulation}
                   selectedCovariates={covariates}
                   outcome={outcome}
-                />
+                />*/}</React.Fragment>
               )}
             </div>
           </div>
@@ -133,23 +151,4 @@ const CustomDichotomousCovariates = ({
   );
 };
 
-CustomDichotomousCovariates.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  handleSelect: PropTypes.func.isRequired,
-  studyPopulationCohort: PropTypes.object.isRequired,
-  covariates: PropTypes.array,
-  outcome: PropTypes.object,
-  submitButtonLabel: PropTypes.string,
-  handleClose: PropTypes.func.isRequired,
-  selectedTeamProject: PropTypes.string.isRequired,
-};
-
-CustomDichotomousCovariates.defaultProps = {
-  covariates: [],
-  outcome: null,
-  submitButtonLabel: 'Submit',
-};
-
 export default CustomDichotomousCovariates;
-
-*/
