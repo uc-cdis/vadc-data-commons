@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { State, Action } from '../../Utils/StateManagement/reducer';
 import { MantineProvider, Button, Group } from '@mantine/core';
@@ -7,18 +8,6 @@ import ContinuousCovariates from '../../Components/Covariates/ContinuousCovariat
 import CustomDichotomousCovariates from '../../Components/Covariates/CustomDichotomousCovariates';
 import ACTIONS from '../../Utils/StateManagement/Actions';
 
-/*SelectOutcome.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  studyPopulationCohort: PropTypes.object.isRequired,
-  outcome: PropTypes.object,
-  covariates: PropTypes.array,
-  selectedTeamProject: PropTypes.string.isRequired,
-};
-
-SelectOutcome.defaultProps = {
-  outcome: null,
-  covariates: [],
-};*/
 interface SelectOutcomeInput {
   readonly dispatch: (arg: Action) => void,
   readonly studyPopulationCohort: State['selectedStudyPopulationCohort'],
