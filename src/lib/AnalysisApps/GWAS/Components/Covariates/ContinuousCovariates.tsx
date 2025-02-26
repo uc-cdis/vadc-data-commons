@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 //import Covariates from './Covariates';
 import { State, Action } from '../../Utils/StateManagement/reducer';

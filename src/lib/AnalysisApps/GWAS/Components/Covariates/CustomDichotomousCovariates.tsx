@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { State, Action } from '../../Utils/StateManagement/reducer';
 import { Button, TextInput } from '@mantine/core';

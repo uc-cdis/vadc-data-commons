@@ -1,4 +1,3 @@
-import React, { useState, useReducer } from 'react';
 import GWASContainer from './GWASContainer';
 
 import { Meta, StoryObj } from '@storybook/react';
