@@ -47,7 +47,7 @@ const HomeTable = ({ data }: { data: object[] }) => {
   });
 
   return (
-    <div className="mt-">
+    <div className="mt-5">
       <div>
         <MantineReactTable table={table} />;
       </div>
