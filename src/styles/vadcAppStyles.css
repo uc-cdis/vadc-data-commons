@@ -1,5 +1,15 @@
 /* VADC APP STYLES */
 
+/* TABLES */
+table input[type='checkbox']:checked {
+  background-image: unset;
+}
+
+button.mantine-DateInput-calendarHeaderControl svg {
+  height: 15px;
+  width: 15px;
+}
+
 /* BUTTONS */
 .mantine-Button-root.mantine-UnstyledButton-root:not([data-disabled='true']),
 .mantine-Pagination-control.mantine-active {

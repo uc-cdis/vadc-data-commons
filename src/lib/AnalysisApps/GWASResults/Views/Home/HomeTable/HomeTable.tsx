@@ -1,4 +1,62 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import {
+  MantineReactTable,
+  useMantineReactTable,
+  type MRT_ColumnDef,
+  MRT_GlobalFilterTextInput,
+  MRT_ToggleFiltersButton,
+} from 'mantine-react-table';
+import { Box, Button, Flex, Menu, Text, Title } from '@mantine/core';
+import { IconUserCircle, IconSend } from '@tabler/icons-react';
+
+const HomeTable = ({ data }: { data: object[] }) => {
+  const columns = useMemo<MRT_ColumnDef<Object>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessorKey: 'name', //simple recommended way to define a column
+      },
+      {
+        header: 'Job Status',
+        accessorKey: 'phase', //alternate way to access data if processing logic is needed
+      },
+      {
+        accessorFn: (row) => {
+          //convert to Date for sorting and filtering
+          const sDay = new Date(row.finishedAt);
+          sDay.setHours(0, 0, 0, 0); // remove time from date (useful if filter by equals exact date)
+          return sDay;
+        },
+        id: 'finishedAt',
+        header: 'Date/Time Finished',
+        filterVariant: 'date-range',
+        sortingFn: 'datetime',
+        enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+        Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(), //render Date as a string
+        Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
+      },
+    ],
+    [],
+  );
+  const table = useMantineReactTable({
+    columns,
+    data, //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    enableRowSelection: true, //enable some features
+    enableColumnOrdering: false,
+    enableGlobalFilter: false, //turn off a feature
+  });
+
+  return (
+    <div className="mt-">
+      <div>
+        <MantineReactTable table={table} />;
+      </div>
+    </div>
+  );
+};
+
+export default HomeTable;
+
 /* import {
   Button, Table, Space, Input, DatePicker, Select,
 } from 'antd';
@@ -17,16 +75,8 @@ import {
 import VIEWS from '../../../Utils/ViewsEnumeration';
 import isIterable from '../../../Utils/isIterable';
 import LoadingErrorMessage from '../../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
- */
 
-const HomeTable = ({ data }: { data: object }) => {
-  data.toString(); // placeholder to use variable
-  return (
-    <div className="mt-4 h-96 flex items-center justify-center bg-gray-300 text-4xl text-center">
-      Home Table Component
-    </div>
-  );
-  /*
+
   const {
     setCurrentView,
     selectedRowData,
@@ -372,6 +422,3 @@ const HomeTable = ({ data }: { data: object }) => {
     </div>
   );
   */
-};
-
-export default HomeTable;

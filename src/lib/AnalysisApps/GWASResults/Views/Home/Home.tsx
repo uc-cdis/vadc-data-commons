@@ -6,6 +6,7 @@ import HomeTable from './HomeTable/HomeTable';
 // import LoadingErrorMessage from '../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
 // import { Loader } from '@mantine/core';
 import ManageColumns from './ManageColumns/ManageColumns';
+import { HomeTableData } from './HomeTableData';
 // import { fetchGwasWorkflows } from '../../Utils/gwasWorkflowApi';
 
 const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
@@ -19,7 +20,7 @@ const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
   ); */
   () => selectedTeamProject; // placeholder for now to avoid compilation & linting errors.
 
-  const data = {};
+  const data = HomeTableData;
 
   /* if (status === 'loading') {
     return (
