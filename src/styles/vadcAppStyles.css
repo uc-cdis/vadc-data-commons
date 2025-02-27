@@ -5,9 +5,23 @@ table input[type='checkbox']:checked {
   background-image: unset;
 }
 
+div.mantine-DateInput-calendarHeader {
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
 button.mantine-DateInput-calendarHeaderControl svg {
-  height: 15px;
-  width: 15px;
+  height: 15px !important;
+  width: 15px !important;
+  margin: 0 15px;
+}
+button.mantine-DateInput-calendarHeaderControl svg[data-direction='previous'] {
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+button.mantine-DateInput-calendarHeaderControl svg {
+  transform: rotate(-90deg);
+  transform-origin: center;
 }
 
 /* BUTTONS */
