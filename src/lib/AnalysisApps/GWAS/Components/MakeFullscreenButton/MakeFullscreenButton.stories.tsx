@@ -3,6 +3,8 @@ import MakeFullscreenButton from './MakeFullscreenButton';
 import FullscreenSelectors from './FullscreenSelectors';
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within, expect } from '@storybook/test';
+import { MantineProvider } from '@mantine/core';
+import { GWASTheme } from '../../GWASContainer';
 
 const meta: Meta<typeof MakeFullscreenButton> = {
   title: 'GWASAPP/MakeFullscreenButton ',
@@ -22,7 +24,7 @@ const MakeFullscreenButtonWithElementsToHide = () => {
     };
   };
   return (
-    <React.Fragment>
+    <MantineProvider theme={GWASTheme}>
       <div>
         {FullscreenSelectors.map((selectorString, iterator) => (
           <React.Fragment key={iterator}>
@@ -51,7 +53,7 @@ const MakeFullscreenButtonWithElementsToHide = () => {
         <br />
       </div>
       <MakeFullscreenButton />
-    </React.Fragment>
+    </MantineProvider>
   );
 };
 
