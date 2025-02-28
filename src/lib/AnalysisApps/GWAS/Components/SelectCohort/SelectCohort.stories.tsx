@@ -82,4 +82,5 @@ export const MockedError: Story = {
       ],
     },
   },
+  render: () => <SelectCohortWithHooks />,
 };

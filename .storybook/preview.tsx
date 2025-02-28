@@ -1,8 +1,13 @@
 import React from 'react';
 import type { Preview } from '@storybook/react';
 import { MantineProvider } from '@mantine/core';
-import '../src/styles/globals.css';
 import { initialize, mswLoader } from 'msw-storybook-addon';
+import theme from '../src/mantineTheme';
+
+import '../src/styles/globals.css';
+import '@fontsource/montserrat';
+import '@fontsource/source-sans-pro';
+import '@fontsource/poppins';
 
 /*
  * Initializes MSW
@@ -23,7 +28,7 @@ const preview: Preview = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <MantineProvider>
+      <MantineProvider theme={theme}>
         <Story />
       </MantineProvider>
     ),
