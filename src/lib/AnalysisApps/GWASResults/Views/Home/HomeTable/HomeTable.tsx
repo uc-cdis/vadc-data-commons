@@ -113,6 +113,7 @@ const HomeTable = ({ data }: { data: WorkflowData[] }) => {
     enableRowSelection: false, //enable some features
     enableColumnOrdering: false,
     enableGlobalFilter: false, //turn off a feature
+    initialState: { showColumnFilters: true },
   });
 
   return (
