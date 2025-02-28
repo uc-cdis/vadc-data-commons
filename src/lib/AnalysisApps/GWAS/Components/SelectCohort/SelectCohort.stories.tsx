@@ -6,8 +6,6 @@ import initialState from '../../Utils/StateManagement/InitialState';
 import { CohortsEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import type { Meta, StoryObj } from '@storybook/react';
 import { http, HttpResponse, delay } from 'msw';
-import { MantineProvider } from '@mantine/core';
-import { GWASTheme } from '../../GWASContainer';
 
 const meta: Meta<typeof SelectCohort> = {
   title: 'GWASAPP/SelectCohort',
@@ -49,14 +47,12 @@ const SelectCohortWithHooks = () => {
       payload: selectedRow,
     });
   };
-    return (
-      <MantineProvider theme={GWASTheme}>
-        <SelectCohort
-        selectedTeamProject=""
-        selectedCohort={state.selectedStudyPopulationCohort}
-        handleCohortSelect={handleStudyPopulationSelect}
-      />
-    </MantineProvider>
+  return (
+    <SelectCohort
+      selectedTeamProject=""
+      selectedCohort={state.selectedStudyPopulationCohort}
+      handleCohortSelect={handleStudyPopulationSelect}
+    />
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { MantineProvider, Button, Group, createTheme } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import ProgressBar from './Components/ProgressBar/ProgressBar';
 import { GWASAppSteps, checkFinalPopulationSizeZero } from './Utils/constants';
 // import { SourceContextProvider } from './Utils/Source';
@@ -17,15 +17,6 @@ import TeamProjectHeader from '../SharedUtils/TeamProject/TeamProjectHeader/Team
 // import WorkflowLimitsDashboard from '../SharedUtils/WorkflowLimitsDashboard/WorkflowLimitsDashboard';
 // import './GWASApp.css';
 
-export const GWASTheme = createTheme({
-  components: {
-    Button: Button.extend({
-      defaultProps: {
-        color: '#2e77b8',
-      }
-    }),
-  },
-});
 const GWASContainer = () => {
   const [state, dispatch] = useReducer(reducer, InitializeCurrentState());
   const generateStep = () => {
@@ -114,7 +105,7 @@ const GWASContainer = () => {
   }
 
   return (
-    <MantineProvider theme={GWASTheme}>
+    <>
       <div>
         <div className="flex justify-between pb-4">
           <h1 className="text-3xl pb-5 font-medium">Gen3 GWAS</h1>
@@ -183,7 +174,7 @@ const GWASContainer = () => {
           <MakeFullscreenButton />
         </div>
       </div>
-    </MantineProvider>
+    </>
   );
 };
 

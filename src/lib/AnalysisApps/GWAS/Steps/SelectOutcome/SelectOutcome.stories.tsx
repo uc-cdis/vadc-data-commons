@@ -1,8 +1,6 @@
 import React, { useReducer } from 'react';
 import reducer from '../../Utils/StateManagement/reducer';
 import InitializeCurrentState from '../../Utils/StateManagement/InitializeCurrentState';
-import { MantineProvider } from '@mantine/core';
-import { GWASTheme } from '../../GWASContainer';
 
 import { Meta, StoryObj } from '@storybook/react';
  
@@ -30,7 +28,5 @@ const SelectCovariatesWithHooks = () => {
 };
  
 export const Mock: Story = {
-  render: () => <MantineProvider theme={GWASTheme}>
-      <SelectCovariatesWithHooks />
-    </MantineProvider>,
+  render: () => <SelectCovariatesWithHooks />,
 };
