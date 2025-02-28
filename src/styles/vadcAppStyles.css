@@ -24,17 +24,53 @@ button.mantine-DateInput-calendarHeaderControl svg {
   transform-origin: center;
 }
 
+table .mantine-Button-root.mantine-UnstyledButton-root[data-variant='subtle'] {
+  width: 40px; /* Set width */
+  height: 40px; /* Set height */
+  border-radius: 50%; /* Make it circular */
+}
+
+.results-app-hometable th {
+  background-color: #e9eef2;
+}
+.results-app-hometable th .mantine-ActionIcon-icon svg path {
+  stroke: #333;
+}
+
 /* BUTTONS */
 .mantine-Button-root.mantine-UnstyledButton-root:not([data-disabled='true']),
 .mantine-Pagination-control.mantine-active {
   background-color: #2e77b8;
   color: #fff;
 }
+
 .mantine-Button-root.mantine-UnstyledButton-root:not(
     [data-disabled='true']
   ):hover,
 .mantine-Pagination-control.mantine-active:hover {
   background-color: #05b8ee;
+}
+
+/* Subtle Buttons */
+.mantine-Button-root.mantine-UnstyledButton-root[data-variant='subtle'] {
+  background-color: transparent;
+  color: unset;
+  padding: 0;
+}
+.mantine-Button-root.mantine-UnstyledButton-root[data-variant='subtle']:hover {
+  background-color: #2e77b8;
+  color: white;
+}
+
+/* Outline Buttons */
+.mantine-Button-root.mantine-UnstyledButton-root[data-variant='outline'] {
+  background-color: white;
+  border: 1px solid #194c90;
+  color: #194c90;
+}
+.mantine-Button-root.mantine-UnstyledButton-root[data-variant='outline']:hover {
+  background-color: white;
+  color: #194c90;
 }
 
 /* Modal */

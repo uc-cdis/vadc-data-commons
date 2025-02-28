@@ -6,21 +6,57 @@ import {
   MRT_GlobalFilterTextInput,
   MRT_ToggleFiltersButton,
 } from 'mantine-react-table';
-import { Box, Button, Flex, Menu, Text, Title } from '@mantine/core';
-import { IconUserCircle, IconSend } from '@tabler/icons-react';
+import { Box, Button, Flex, Text, Title, Menu } from '@mantine/core';
+import { IconDots } from '@tabler/icons-react';
 
-const HomeTable = ({ data }: { data: object[] }) => {
-  const columns = useMemo<MRT_ColumnDef<Object>[]>(
+type WorkflowData = {
+  name: string;
+  phase: string;
+  gen3username: string;
+  submittedAt: string; // ISO 8601 date string
+  startedAt: string; // ISO 8601 date string
+  finishedAt: string; // ISO 8601 date string
+  wf_name: string;
+  gen3teamproject: string;
+  uid: string; // UUID
+};
+
+const HomeTable = ({ data }: { data: WorkflowData[] }) => {
+  const columns = useMemo<MRT_ColumnDef<WorkflowData>[]>(
     () => [
       {
-        header: 'Name',
+        header: 'Run ID',
         accessorKey: 'name', //simple recommended way to define a column
+      },
+      {
+        header: 'User Name',
+        accessorKey: 'gen3username', //simple recommended way to define a column
+      },
+      {
+        header: 'Workflow Name',
+        accessorKey: 'wf_name', //simple recommended way to define a column
+      },
+      {
+        header: 'Date/Time Submitted',
+        accessorFn: (row) => {
+          //convert to Date for sorting and filtering
+          const sDay = new Date(row.finishedAt);
+          sDay.setHours(0, 0, 0, 0); // remove time from date (useful if filter by equals exact date)
+          return sDay;
+        },
+        id: 'submittedAt',
+        filterVariant: 'date-range',
+        sortingFn: 'datetime',
+        enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+        Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(), //render Date as a string
+        Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
       },
       {
         header: 'Job Status',
         accessorKey: 'phase', //alternate way to access data if processing logic is needed
       },
       {
+        header: 'Date/Time Finished',
         accessorFn: (row) => {
           //convert to Date for sorting and filtering
           const sDay = new Date(row.finishedAt);
@@ -28,12 +64,45 @@ const HomeTable = ({ data }: { data: object[] }) => {
           return sDay;
         },
         id: 'finishedAt',
-        header: 'Date/Time Finished',
         filterVariant: 'date-range',
         sortingFn: 'datetime',
         enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
         Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(), //render Date as a string
         Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
+      },
+      {
+        header: 'View Details',
+        minSize: 400,
+        Cell: ({ cell }) => (
+          <div>
+            <Button className="mr-4" variant="outline">
+              Input
+            </Button>
+            <Button variant="outline">Execution</Button>
+            <Button className="ml-4" variant="outline">
+              Results
+            </Button>
+          </div>
+        ),
+      },
+      {
+        header: 'Actions',
+        Cell: ({ cell }) => (
+          <div className="min-w-[100px]">
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Button variant="subtle">
+                  <IconDots />
+                </Button>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item>Download</Menu.Item>
+                <Menu.Item>Retry</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </div>
+        ),
       },
     ],
     [],
@@ -41,13 +110,13 @@ const HomeTable = ({ data }: { data: object[] }) => {
   const table = useMantineReactTable({
     columns,
     data, //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-    enableRowSelection: true, //enable some features
+    enableRowSelection: false, //enable some features
     enableColumnOrdering: false,
     enableGlobalFilter: false, //turn off a feature
   });
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 results-app-hometable">
       <div>
         <MantineReactTable table={table} />;
       </div>

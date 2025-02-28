@@ -38,7 +38,7 @@ const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
   } */
   return (
     <React.Fragment>
-      <ManageColumns />
+      {/* <ManageColumns /> */}
       <HomeTable data={data} />
     </React.Fragment>
   );
