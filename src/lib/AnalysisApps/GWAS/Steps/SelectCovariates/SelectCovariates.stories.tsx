@@ -24,7 +24,7 @@ const SelectCovariatesWithHooks = () => {
       covariates={state.covariates}
       dispatch={dispatch}
       selectedTeamProject={state.selectedTeamProject}
-    />
+    />;
 };
  
 export const Mock: Story = {

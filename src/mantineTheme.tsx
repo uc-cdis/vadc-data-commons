@@ -1,4 +1,4 @@
-import { createTheme, mergeThemeOverrides, Button, Pagination } from '@mantine/core';
+import { createTheme, mergeThemeOverrides } from '@mantine/core';
 import { GEN3_COMMONS_NAME } from '@gen3/core';
 import { TenStringArray, createMantineTheme } from '@gen3/frontend';
 
