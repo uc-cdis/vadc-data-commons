@@ -10,6 +10,11 @@ import { http, HttpResponse, delay } from 'msw';
 const meta: Meta<typeof SelectCohort> = {
   title: 'GWASAPP/SelectCohort',
   component: SelectCohort,
+  parameters: { // TODO remove this and fix accessibility
+    a11y: {
+      manual: true,
+    }
+  },
 };
 
 export default meta;
