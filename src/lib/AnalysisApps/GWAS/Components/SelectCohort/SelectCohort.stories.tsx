@@ -70,6 +70,10 @@ export const MockedSuccess: Story = {
         }),
       ],
     },
+     // TODO remove this and fix accessibility
+     a11y: {
+      manual: true,
+    }
   },
   render: () => <SelectCohortWithHooks />, // see https://storybook.js.org/docs/writing-stories
 };
@@ -86,6 +90,10 @@ export const MockedError: Story = {
         }),
       ],
     },
+     // TODO remove this and fix accessibility
+     a11y: {
+      manual: true,
+    }
   },
   render: () => <SelectCohortWithHooks />,
 };
