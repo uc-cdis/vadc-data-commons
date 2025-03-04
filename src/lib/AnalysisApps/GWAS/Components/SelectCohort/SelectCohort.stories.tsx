@@ -11,9 +11,9 @@ const meta: Meta<typeof SelectCohort> = {
   title: 'GWASAPP/SelectCohort',
   component: SelectCohort,
   parameters: { // TODO remove this and fix accessibility
-    axe: {
-      skip: true,
-    }
+    a11y: {
+      disable: true,
+    },
   },
 };
 
@@ -69,9 +69,6 @@ export const MockedSuccess: Story = {
           return HttpResponse.json(TestData);
         }),
       ],
-    },// TODO remove this and fix accessibility
-    axe: {
-      skip: true,
     },
   },
   render: () => <SelectCohortWithHooks />, // see https://storybook.js.org/docs/writing-stories
@@ -88,9 +85,6 @@ export const MockedError: Story = {
           });
         }),
       ],
-    },// TODO remove this and fix accessibility
-    axe: {
-      skip: true,
     },
   },
   render: () => <SelectCohortWithHooks />,
