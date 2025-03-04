@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Group, Button } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import ProgressBar from './Components/ProgressBar/ProgressBar';
 import { GWASAppSteps, checkFinalPopulationSizeZero } from './Utils/constants';
 // import { SourceContextProvider } from './Utils/Source';
@@ -8,8 +8,8 @@ import reducer from './Utils/StateManagement/reducer';
 import AttritionTableWrapper from './Components/AttritionTableWrapper/AttritionTableWrapper';
 import SelectStudyPopulation from './Steps/SelectStudyPopulation/SelectStudyPopulation';
 // import ConfigureGWAS from './Steps/ConfigureGWAS/ConfigureGWAS';
-// import SelectOutcome from './Steps/SelectOutcome/SelectOutcome';
-// import SelectCovariates from './Steps/SelectCovariates/SelectCovariates';
+import SelectOutcome from './Steps/SelectOutcome/SelectOutcome';
+import SelectCovariates from './Steps/SelectCovariates/SelectCovariates';
 // import DismissibleMessagesList from './Components/DismissibleMessagesList/DismissibleMessagesList';
 import MakeFullscreenButton from './Components/MakeFullscreenButton/MakeFullscreenButton';
 import InitializeCurrentState from './Utils/StateManagement/InitializeCurrentState';
@@ -20,7 +20,7 @@ import TeamProjectHeader from '../SharedUtils/TeamProject/TeamProjectHeader/Team
 const GWASContainer = () => {
   const [state, dispatch] = useReducer(reducer, InitializeCurrentState());
   const generateStep = () => {
-    console.log('state.currentStep', state.currentStep);
+    console.log('state.currentStep', state.currentStep, state);
     switch (state.currentStep) {
       case 0:
         return (
@@ -32,7 +32,7 @@ const GWASContainer = () => {
             />
           </div>
         );
-      /*
+
     case 1:
       return (
         <SelectOutcome
@@ -52,7 +52,7 @@ const GWASContainer = () => {
           dispatch={dispatch}
           selectedTeamProject={state.selectedTeamProject}
         />
-      );
+      );/*
     case 3:
       return (
         <ConfigureGWAS
