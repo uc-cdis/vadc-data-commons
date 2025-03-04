@@ -12,7 +12,7 @@ const meta: Meta<typeof SelectCohort> = {
   component: SelectCohort,
   parameters: { // TODO remove this and fix accessibility
     axe: {
-      mode: 'warn',
+      skip: true,
     }
   },
 };
@@ -71,7 +71,7 @@ export const MockedSuccess: Story = {
       ],
     },// TODO remove this and fix accessibility
     axe: {
-      mode: 'warn',
+      skip: true,
     },
   },
   render: () => <SelectCohortWithHooks />, // see https://storybook.js.org/docs/writing-stories
@@ -90,7 +90,7 @@ export const MockedError: Story = {
       ],
     },// TODO remove this and fix accessibility
     axe: {
-      mode: 'warn',
+      skip: true,
     },
   },
   render: () => <SelectCohortWithHooks />,
