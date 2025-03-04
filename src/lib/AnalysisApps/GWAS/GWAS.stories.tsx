@@ -6,11 +6,6 @@ import { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<typeof GWASContainer> = {
   title: 'GWASAPP',
   component: GWASContainer,
-  parameters: { // TODO remove this and fix accessibility
-    a11y: {
-      manual: true,
-    }
-  },
 };
  
 export default meta;
