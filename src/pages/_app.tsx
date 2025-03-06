@@ -1,18 +1,17 @@
 import App, { AppProps, AppContext, AppInitialProps } from 'next/app';
-import React, { useState,useEffect, useRef ,Suspense} from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { MantineProvider } from '@mantine/core';
 import { Faro, FaroErrorBoundary, withFaroProfiler } from '@grafana/faro-react';
 import { initGrafanaFaro } from '../lib/Grafana/grafana';
 import mantinetheme from '../mantineTheme';
-
 
 import {
   Gen3Provider,
   type ModalsConfig,
   RegisteredIcons,
   SessionConfiguration,
+  registerExplorerDefaultCellRenderers,
   // registerCohortDiscoveryApp,
-  registerCohortDiversityApp,
   registerCohortBuilderDefaultPreviewRenderers,
   registerMetadataSchemaApp,
 } from '@gen3/frontend';
@@ -64,9 +63,10 @@ const Gen3App = ({
     //   process.env.NEXT_PUBLIC_FARO_APP_ENVIRONMENT != "local" &&
     //   !faroRef.current
     // ) {
+
     if (!faroRef.current) faroRef.current = initGrafanaFaro();
+    registerExplorerDefaultCellRenderers();
     //  registerCohortDiscoveryApp();
-    registerCohortDiversityApp();
     registerMetadataSchemaApp();
     registerCohortBuilderDefaultPreviewRenderers();
     registerCohortTableCustomCellRenderers();
