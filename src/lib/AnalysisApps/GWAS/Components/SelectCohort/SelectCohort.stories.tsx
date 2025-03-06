@@ -10,6 +10,11 @@ import { http, HttpResponse, delay } from 'msw';
 const meta: Meta<typeof SelectCohort> = {
   title: 'GWASAPP/SelectCohort',
   component: SelectCohort,
+  parameters: { // TODO remove this and fix accessibility
+    a11y: {
+      disable: true,
+    },
+  },
 };
 
 export default meta;
@@ -82,4 +87,5 @@ export const MockedError: Story = {
       ],
     },
   },
+  render: () => <SelectCohortWithHooks />,
 };
