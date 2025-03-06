@@ -1,14 +1,14 @@
 import { addUniqueObjectToArray } from '../constants';
 import ACTIONS from './Actions';
 
-type Action = {
+export interface Action {
   type: string;
-  payload: any;
+  payload?: any;
 };
 
-type State = {
+export interface State {
   outcome: any;
-  selectedStudyPopulationCohort: any;
+  selectedStudyPopulationCohort: Action['payload'];
   covariates: any[];
   imputationScore: number;
   mafThreshold: number;

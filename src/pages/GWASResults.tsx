@@ -1,5 +1,4 @@
 import React from 'react';
-import { Center, Text, Paper } from '@mantine/core';
 import {
   NavPageLayout,
   NavPageLayoutProps,
@@ -25,13 +24,9 @@ const GWASResults = ({ headerProps, footerProps }: NavPageLayoutProps) => {
 
       <ProtectedContent>
       <div className="w-full m-10">
-        <Center>
-          <Paper shadow="md" p="xl" withBorder>
-            <h1>GWASResults</h1>
-            <Text>This is a example custom page in Gen3</Text>
-            <Text>You can add your own content here.</Text>
-          </Paper>
-        </Center>
+        <div className="w-full p-5">
+          <GWASResultsContainer />
+        </div>
       </div>
       </ProtectedContent>
     </NavPageLayout>
