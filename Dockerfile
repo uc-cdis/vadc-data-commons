@@ -1,5 +1,3 @@
-# docker build -t ff .
-# docker run -p 3000:3000 -it ff
 # Build stage
 FROM node:20-slim AS builder
 
@@ -18,6 +16,7 @@ RUN npm install @swc/core @napi-rs/magic-string && \
 FROM node:20-slim AS runner
 
 WORKDIR /gen3
+ENV PORT=3000
 
 RUN addgroup --system --gid 1001 nextjs && \
     adduser --system --uid 1001 nextjs
