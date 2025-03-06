@@ -5,6 +5,7 @@ import {
   getNavPageLayoutPropsFromConfig, ProtectedContent,
 } from '@gen3/frontend';
 import { GetServerSideProps } from 'next';
+import GWASResultsContainer from '@/lib/AnalysisApps/GWASResults/GWASResultsContainer';
 import { useGetWorkflowsMonthlyQuery } from '@/lib/AnalysisApps/Results/Utils/workflowApi';
 
 const GWASResults = ({ headerProps, footerProps }: NavPageLayoutProps) => {
