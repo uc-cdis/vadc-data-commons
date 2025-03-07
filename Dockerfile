@@ -1,3 +1,5 @@
+# docker build -t ff .
+# docker run -p 3000:3000 -it ff
 # Build stage
 FROM node:20-slim AS builder
 
