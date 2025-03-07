@@ -23,7 +23,7 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
   basePath: process.env.BASE_PATH || '',
-  images:{
+  images:{ // This is for QA FF path
     loader:"custom",
     loaderFile:"next-custom-image-loader.js",
   },
