@@ -11,6 +11,7 @@ import {
   RegisteredIcons,
   SessionConfiguration,
   registerExplorerDefaultCellRenderers,
+  // registerCohortDiscoveryApp,
   registerCohortBuilderDefaultPreviewRenderers,
   registerMetadataSchemaApp,
 } from '@gen3/frontend';
@@ -29,9 +30,9 @@ import { loadContent } from '@/lib/content/loadContent';
 import Loading from '../components/Loading';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const ReactDOM = require('react-dom');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const axe = require('@axe-core/react');
   axe(React, ReactDOM, 1000);
 }
@@ -43,13 +44,16 @@ interface Gen3AppProps {
 }
 
 const Gen3App = ({
-  Component,
-  pageProps,
-  icons,
-  sessionConfig,
-  modalsConfig,
-}: AppProps & Gen3AppProps) => {
-  const isFirstRender = useRef(true);
+                   Component,
+                   pageProps,
+                   icons,
+                   sessionConfig,
+                   modalsConfig,
+                 }: AppProps & Gen3AppProps) => {
+  useEffect(() => {
+    setDRSHostnames(drsHostnames);
+  }, []);
+
   const faroRef = useRef<null | Faro>(null);
 
   useEffect(() => {
@@ -61,16 +65,13 @@ const Gen3App = ({
     // ) {
 
     if (!faroRef.current) faroRef.current = initGrafanaFaro();
-    if (isFirstRender.current) {
-      setDRSHostnames(drsHostnames);
-      registerMetadataSchemaApp();
-      registerExplorerDefaultCellRenderers();
-      registerCohortBuilderDefaultPreviewRenderers();
-      registerCohortTableCustomCellRenderers();
-      registerCustomExplorerDetailsPanels();
-      isFirstRender.current = false;
-      console.log('Gen3 App initialized');
-    }
+    registerExplorerDefaultCellRenderers();
+    //  registerCohortDiscoveryApp();
+    registerMetadataSchemaApp();
+    registerCohortBuilderDefaultPreviewRenderers();
+    registerCohortTableCustomCellRenderers();
+    registerCustomExplorerDetailsPanels();
+    // }
   }, []);
 
   const [isClient, setIsClient] = useState(false);
@@ -101,6 +102,7 @@ const Gen3App = ({
     </React.Fragment>
   );
 };
+
 
 // TODO: replace with page router
 Gen3App.getInitialProps = async (
