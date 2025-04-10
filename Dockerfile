@@ -11,6 +11,7 @@ COPY ./src ./src
 COPY ./public ./public
 COPY ./config ./config
 COPY ./start.sh ./
+COPY ./next-custom-image-loader.js ./
 RUN npm install @swc/core @napi-rs/magic-string && \
     npm run build
 
