@@ -39,8 +39,8 @@
         "name": "Help and Guidance"
       },
       {
-        "href": "mailto:vadc-support@gen3.org",
-        "name": "Email Support"
+        "href": "https://gen3.org/resources/user/",
+        "name": "Documentation"
       }
     ],
     "loginButtonVisibility": "visible"
