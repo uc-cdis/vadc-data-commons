@@ -31,14 +31,14 @@ const TeamProjectModal: React.FC<TeamProjectModalProps> = ({
   const router = useRouter();
   const closeAndUpdateTeamProject = () => {
     setIsModalOpen(false);
-    selectedTeamProject && setBannerText(selectedTeamProject);
-    runningApplicationClientSide &&
-      selectedTeamProject &&
+    if (selectedTeamProject) setBannerText(selectedTeamProject);
+    if (runningApplicationClientSide &&
+      selectedTeamProject)
       localStorage.setItem('teamProject', selectedTeamProject);
   };
   useEffect(() => {
     // non-editable view should redirect to app selection if user doesn't have a storedTeamProject
-    redirect && router.push('/');
+    if(redirect) router.push('/');
   }, [redirect]);
   const redirectToHomepage = () => {
     setRedirect(true);
