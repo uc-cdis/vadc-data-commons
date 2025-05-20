@@ -20,6 +20,7 @@ const IsJsonString = (str: unknown): boolean => {
     return typeof parsed === 'object' && parsed !== null;
   } catch (e) {
     // Parsing failed; return false
+    console.log(e);
     return false;
   }
 };

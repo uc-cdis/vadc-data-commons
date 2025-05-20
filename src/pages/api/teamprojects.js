@@ -5,10 +5,10 @@ export default function handler(req, res) {
   const data = {
     teams: [
       {
-        teamName: '/gwas_projects/project1',
+        teamName: '/team_projects/project1',
       },
       {
-        teamName: '/gwas_projects/project2',
+        teamName: '/team_projects/project2',
       },
     ],
   };

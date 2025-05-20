@@ -4,6 +4,7 @@ const localStorageAvailable = () => {
     localStorage.removeItem('1');
     return true;
   } catch (e) {
+    console.log(e);
     return false;
   }
 };
