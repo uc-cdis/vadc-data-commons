@@ -1,0 +1,186 @@
+import React, { useReducer } from 'react';
+import { Button, Group } from '@mantine/core';
+import ProgressBar from './Components/ProgressBar/ProgressBar';
+import { PLPAppSteps, checkFinalPopulationSizeZero } from  './Utils/constants';
+// import { SourceContextProvider } from './Utils/Source';
+import reducer from './Utils/StateManagement/reducer';
+import ACTIONS from './Utils/StateManagement/Actions';
+// import AttritionTableWrapper from './Components/AttritionTableWrapper/AttritionTableWrapper';
+import SelectStudyPopulation from './Steps/SelectStudyPopulation/SelectStudyPopulation';
+import SelectOutcomeCohort from './Steps/SelectOutcomeCohort/SelectOutcomeCohort';
+
+import DefineDatasetObservationWindow from './Steps/DefineDatasetObservationWindow/DefineDatasetObservationWindow';
+import DefineOutcomeObservationWindow from './Steps/DefineOutcomeObservationWindow/DefineOutcomeObservationWindow';
+// import DismissibleMessagesList from './Components/DismissibleMessagesList/DismissibleMessagesList';
+//import MakeFullscreenButton from './Components/MakeFullscreenButton/MakeFullscreenButton';
+import InitializeCurrentState from './Utils/StateManagement/InitializeCurrentState';
+import TeamProjectHeader from '../SharedUtils/TeamProject/TeamProjectHeader/TeamProjectHeader';
+// import WorkflowLimitsDashboard from '../SharedUtils/WorkflowLimitsDashboard/WorkflowLimitsDashboard';
+
+const PLPContainer = () => {
+  const [state, dispatch] = useReducer(reducer, InitializeCurrentState());
+  const generateStep = () => {
+    console.log('state.currentStep', state.currentStep, state);
+    switch (state.currentStep) {
+      case 0:
+        return (
+          <div data-tour="cohort-intro" className="min-w-[500px]">
+            <div>
+              In this step, you can select an initial dataset for Patient Level Prediction (PLP) training,
+              validation, and testing. This initial dataset is a user-created cohort in Atlas. You will
+              have the opportunity to split this dataset into training, validation, and testing in Step 6.
+            </div>
+            <br/>
+            <SelectStudyPopulation
+              selectedCohort={state.selectedStudyPopulationCohort}
+              dispatch={dispatch}
+              selectedTeamProject={state.selectedTeamProject}
+            />
+          </div>
+        );
+    case 1:
+      return (
+        <div data-tour="cohort-intro" >
+          <div>
+            In this step, you can define a look-back period in days.
+            This period specifies how many days of prior clinical history to include for
+            each patient relative to their cohort entry date in the initial dataset.
+          </div>
+          <br/>
+          <DefineDatasetObservationWindow
+            datasetObservationWindow={state.datasetObservationWindow}
+            dispatch={dispatch}
+            selectedTeamProject={state.selectedTeamProject}
+          />
+          <br/>
+        </div>
+      );
+    case 2:
+      return (
+        <div data-tour="cohort-intro" className="min-w-[500px]">
+          <div>
+            In this step, you can select the outcome you want for the model to learn to predict.
+            The outcome dataset is a user-created cohort in Atlas. This information will be used
+            to create outcome labels for all individuals in the initial dataset.
+          </div>
+          <br/>
+          <SelectOutcomeCohort
+            selectedCohort={state.selectedOutcomeCohort}
+            dispatch={dispatch}
+            selectedTeamProject={state.selectedTeamProject}
+          />
+        </div>
+      );
+    case 3:
+      return (
+        <div data-tour="cohort-intro" >
+          <div>
+            In this step, you can define an outcome observation period in days. This period specifies how many days to look for the outcome
+            of interest to occur for each patient relative to their cohort entry date in the initial dataset.
+            This is also known as the time-at-risk window.
+          </div>
+          <br/>
+          <DefineOutcomeObservationWindow
+            outcomeObservationWindow={state.outcomeObservationWindow}
+            dispatch={dispatch}
+            selectedTeamProject={state.selectedTeamProject}
+          />
+          <br/>
+        </div>
+      );/*
+    case 4:
+      return (
+        ...
+      );
+    */
+      default:
+        return null;
+    }
+  };
+
+  let nextButtonEnabled = true;
+
+  // step specific conditions where progress to next step needs to be blocked:
+  if (
+    (state.currentStep === 0 && !state.selectedStudyPopulationCohort) ||
+    (state.currentStep === 1 && !state.datasetObservationWindow) ||
+    (state.currentStep === 2 && !state.selectedOutcomeCohort) ||
+    (state.currentStep === 3 && !state.outcomeObservationWindow) ||
+    (state.currentStep === 3 &&
+      checkFinalPopulationSizeZero(state.finalPopulationSizes))
+  ) {
+    nextButtonEnabled = false;
+  }
+
+  return (
+    <React.Fragment>
+      <div>
+        <div className="flex justify-between pb-4">
+          <h1 className="text-3xl pb-5 font-medium">Patient Level Prediction</h1>
+          <TeamProjectHeader isEditable={false} />
+        </div>
+      </div>
+      <p className="pb-8 text-sm">
+      Use this app for building Patient Level Prediction (PLP) models
+      </p>
+      <ProgressBar
+        currentStep={state.currentStep}
+        selectionMode={state.selectionMode}
+      />
+      {/* <AttritionTableWrapper
+        covariates={state.covariates}
+        selectedCohort={state.selectedStudyPopulationCohort}
+        outcome={state.outcome}
+      /> */}
+      {/* <SourceContextProvider>  <WorkflowLimitsDashboard />
+
+
+      <DismissibleMessagesList
+        messages={state.messages}
+        dismissMessage={(chosenMessage) => {
+          dispatch({
+            type: ACTIONS.DELETE_MESSAGE,
+            payload: chosenMessage,
+          });
+        }}
+      /> */}
+      <div data-testid="GWASApp" className="p-4">
+        <div className="steps-wrapper">
+          <div className="steps-content">
+            <Group justify={'center'}>{generateStep()}</Group>
+          </div>
+          <div
+            className="flex justify-between w-full"
+            data-testid="steps-action"
+          >
+            <Button
+              className="GWASUI-navBtn GWASUI-navBtn__next"
+              onClick={() => {
+                dispatch({ type: ACTIONS.DECREMENT_CURRENT_STEP });
+              }}
+              disabled={state.currentStep < 1}
+            >
+              Previous
+            </Button>
+            {/* If user is on the last step, do not show the next button */}
+            {state.currentStep < PLPAppSteps.length && (
+              <Button
+                data-tour="next-button"
+                className="GWASUI-navBtn GWASUI-navBtn__next"
+                onClick={() => {
+                  dispatch({ type: ACTIONS.INCREMENT_CURRENT_STEP });
+                }}
+                disabled={!nextButtonEnabled}
+              >
+                Next
+              </Button>
+            )}
+          </div>
+          {/* <MakeFullscreenButton /> */}
+        </div>
+      </div>
+    </React.Fragment>
+  );
+};
+
+export default PLPContainer;
