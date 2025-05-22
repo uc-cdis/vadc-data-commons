@@ -28,6 +28,8 @@ const DefineDatasetObservationWindow = ({
         placeholder="Enter number of days"
         min={0}
         value={datasetObservationWindow}
+        rightSection="days"
+        rightSectionWidth={50}
         onChange={(e) => handleDefineDatasetObservationWindow(toInteger(e))}
       />
     </div>

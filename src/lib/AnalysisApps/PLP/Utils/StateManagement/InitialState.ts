@@ -3,6 +3,8 @@ const initialState = {
   datasetObservationWindow: 0,
   selectedOutcomeCohort: null,
   outcomeObservationWindow: 0,
+  minimumCovariateOccurrence: 0.1,
+  useAllCovariates: true,
   // covariates: [],
   // imputationScore: 0.3,
   // mafThreshold: 0.01,

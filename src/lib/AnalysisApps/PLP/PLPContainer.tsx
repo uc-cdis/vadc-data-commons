@@ -11,6 +11,7 @@ import SelectOutcomeCohort from './Steps/SelectOutcomeCohort/SelectOutcomeCohort
 
 import DefineDatasetObservationWindow from './Steps/DefineDatasetObservationWindow/DefineDatasetObservationWindow';
 import DefineOutcomeObservationWindow from './Steps/DefineOutcomeObservationWindow/DefineOutcomeObservationWindow';
+import AddCovariates from './Steps/AddCovariates/AddCovariates';
 // import DismissibleMessagesList from './Components/DismissibleMessagesList/DismissibleMessagesList';
 //import MakeFullscreenButton from './Components/MakeFullscreenButton/MakeFullscreenButton';
 import InitializeCurrentState from './Utils/StateManagement/InitializeCurrentState';
@@ -87,12 +88,26 @@ const PLPContainer = () => {
           />
           <br/>
         </div>
-      );/*
+      );
     case 4:
       return (
-        ...
+        <div data-tour="cohort-intro" >
+          <div>
+          By default, the model will use all covariates from the clinical history available in the Dataset Observation
+          Window (Step 2) and infer covariates with maximum predictive power. In this step, you can specify the minimal
+          frequency (in percentage) for covariates to be included (default = 0.1%). If covariate frequency in the initial
+          dataset is lower, the covariate will be excluded.
+          </div>
+          <br/>
+          <AddCovariates
+            minimumCovariateOccurrence={state.minimumCovariateOccurrence}
+            useAllCovariates={state.useAllCovariates}
+            dispatch={dispatch}
+            selectedTeamProject={state.selectedTeamProject}
+          />
+          <br/>
+        </div>
       );
-    */
       default:
         return null;
     }

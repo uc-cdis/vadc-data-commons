@@ -28,6 +28,8 @@ const DefineOutcomeObservationWindow = ({
         placeholder="Enter number of days"
         min={0}
         value={outcomeObservationWindow}
+        rightSection="days"
+        rightSectionWidth={50}
         onChange={(e) => handleDefineOutcomeObservationWindow(toInteger(e))}
       />
     </div>
