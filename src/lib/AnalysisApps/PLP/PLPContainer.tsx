@@ -12,6 +12,8 @@ import SelectOutcomeCohort from './Steps/SelectOutcomeCohort/SelectOutcomeCohort
 import DefineDatasetObservationWindow from './Steps/DefineDatasetObservationWindow/DefineDatasetObservationWindow';
 import DefineOutcomeObservationWindow from './Steps/DefineOutcomeObservationWindow/DefineOutcomeObservationWindow';
 import AddCovariates from './Steps/AddCovariates/AddCovariates';
+import DefineTestAndValidationDatasets from './Steps/DefineTestAndValidationDatasets/DefineTestAndValidationDatasets';
+import SelectModelAndParameters from './Steps/SelectModelAndParameters/SelectModelAndParameters';
 // import DismissibleMessagesList from './Components/DismissibleMessagesList/DismissibleMessagesList';
 //import MakeFullscreenButton from './Components/MakeFullscreenButton/MakeFullscreenButton';
 import InitializeCurrentState from './Utils/StateManagement/InitializeCurrentState';
@@ -108,8 +110,46 @@ const PLPContainer = () => {
           <br/>
         </div>
       );
-      default:
-        return null;
+    case 5:
+      return (
+        <div data-tour="cohort-intro" >
+          <div>
+            In this step, you can split the initial dataset into training, validation, and test datasets. You can specify
+            what percentage of data to use for the test dataset - this data will be set aside for testing the model,
+            and the rest will be used as the training dataset. You can set the number of folds (k) for cross-validation - the
+            training dataset will be split into equally sized k folds and for each fold, the model will be trained on all
+            training data except the held-out fold, and evaluated by generating predictions for the held-out fold.
+          </div>
+          <br/>
+          <DefineTestAndValidationDatasets
+            numberOfCrossValidationFolds={state.numberOfCrossValidationFolds}
+            percentageOfDataToUseAsTest={state.percentageOfDataToUseAsTest}
+            dispatch={dispatch}
+            selectedTeamProject={state.selectedTeamProject}
+          />
+          <br/>
+        </div>
+      );
+    case 6:
+      return (
+        <div data-tour="cohort-intro" >
+          <div>
+            In this step, you can select a machine learning model and its parameters.
+            Depending on the selected model, relevant parameters will be presented, and
+            you can adjust them.
+          </div>
+          <br/>
+          <SelectModelAndParameters
+            model={state.model}
+            modelParameters={state.modelParameters}
+            dispatch={dispatch}
+            selectedTeamProject={state.selectedTeamProject}
+          />
+          <br/>
+        </div>
+      );
+    default:
+      return null;
     }
   };
 

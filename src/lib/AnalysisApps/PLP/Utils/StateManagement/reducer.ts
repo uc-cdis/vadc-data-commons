@@ -12,6 +12,11 @@ export interface State {
   outcomeObservationWindow: number;
   minimumCovariateOccurrence: number;
   useAllCovariates: boolean;
+  numberOfCrossValidationFolds: number,
+  percentageOfDataToUseAsTest: number,
+  model: string,
+  modelParameters: string,
+  finalPopulationSizes: any[];
   currentStep: number;
   selectionMode: string;
   messages: any[];
@@ -32,6 +37,10 @@ const reducer = (state: State, action: Action) => {
       return { ...state, minimumCovariateOccurrence: action.payload };
     case ACTIONS.SET_USE_ALL_COVARIATES:
       return { ...state, useAllCovariates: action.payload };
+    case ACTIONS.SET_NUMBER_OF_CROSS_VALIDATION_FOLDS:
+      return { ...state, numberOfCrossValidationFolds: action.payload };
+    case ACTIONS.SET_PERCENTAGE_OF_DATA_TO_USE_AS_TEST:
+      return { ...state, percentageOfDataToUseAsTest: action.payload };
     case ACTIONS.INCREMENT_CURRENT_STEP:
       return { ...state, currentStep: state.currentStep + 1 };
     case ACTIONS.DECREMENT_CURRENT_STEP:

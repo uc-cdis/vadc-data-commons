@@ -5,6 +5,8 @@ const ACTIONS = {
   SET_OUTCOME_OBSERVATION_WINDOW: 'setOutcomeObservationWindow',
   SET_MINIMUM_COVARIATE_OCCURRENCE: 'setMinimumCovariateOccurrence',
   SET_USE_ALL_COVARIATES: 'setUseAllCovariates',
+  SET_NUMBER_OF_CROSS_VALIDATION_FOLDS: 'setNumberOfCrossValidationFolds',
+  SET_PERCENTAGE_OF_DATA_TO_USE_AS_TEST: 'setPercentageOfDataToUseAsTest',
   DECREMENT_CURRENT_STEP: 'decrementCurrentStep',
   INCREMENT_CURRENT_STEP: 'incrementCurrentStep',
   SET_CURRENT_STEP: 'setCurrentStep',
