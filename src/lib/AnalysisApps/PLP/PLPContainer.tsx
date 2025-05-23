@@ -5,7 +5,7 @@ import { PLPAppSteps, checkFinalPopulationSizeZero } from  './Utils/constants';
 // import { SourceContextProvider } from './Utils/Source';
 import reducer from './Utils/StateManagement/reducer';
 import ACTIONS from './Utils/StateManagement/Actions';
-// import AttritionTableWrapper from './Components/AttritionTableWrapper/AttritionTableWrapper';
+import AttritionTableWrapper from './Components/AttritionTableWrapper/AttritionTableWrapper';
 import SelectStudyPopulation from './Steps/SelectStudyPopulation/SelectStudyPopulation';
 import SelectOutcomeCohort from './Steps/SelectOutcomeCohort/SelectOutcomeCohort';
 
@@ -182,11 +182,11 @@ const PLPContainer = () => {
         currentStep={state.currentStep}
         selectionMode={state.selectionMode}
       />
-      {/* <AttritionTableWrapper
+      <AttritionTableWrapper
         covariates={state.covariates}
         selectedCohort={state.selectedStudyPopulationCohort}
         outcome={state.outcome}
-      /> */}
+      />
       {/* <SourceContextProvider>  <WorkflowLimitsDashboard />
 
 
