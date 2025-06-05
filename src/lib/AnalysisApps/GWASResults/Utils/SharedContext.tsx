@@ -3,8 +3,8 @@ import { HomeTableStateType } from '../Views/Home/HomeTableState/InitialHomeTabl
 
 interface SharedContextType {
     setCurrentView?: React.Dispatch<React.SetStateAction<string>>;
-    selectedRowData?: {}; // TODO fill out
-    setSelectedRowData?: React.Dispatch<React.SetStateAction<{}>>;
+    selectedRowData?: unknown; // TODO fill out
+    setSelectedRowData?: React.Dispatch<React.SetStateAction<unknown>>;
     homeTableState?: HomeTableStateType;
     setHomeTableState?: React.Dispatch<React.SetStateAction<HomeTableStateType>>;
 }

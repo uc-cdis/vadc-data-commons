@@ -91,7 +91,7 @@ const getMockPhase = (requestCount: number) => {
   }
 };
 
-let workflowList = TableData;
+const workflowList = TableData;
 const minWorkflowNum = 1e8;
 const maxWorkflowNum = 1e9 - 1;
 const createWorkflowNum = () =>
