@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 //import { QueryClient, QueryClientProvider } from 'react-query';
 import SharedContext from '../../Utils/SharedContext';
@@ -9,10 +9,6 @@ import TableData from '../../TestData/TableData';
 import InitialHomeTableState from './HomeTableState/InitialHomeTableState';
 import { GwasWorkflowEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import { http, HttpResponse, delay } from 'msw';
-
-const setCurrentView = (input: string) => {
-  alert(`setCurrentView called with ${input}`);
-};
 
 // this is to forvce the page to reload due to mock service worker
 const forceReloadDecorator = (storyFn: any, context: any) => {
@@ -59,6 +55,10 @@ const TestData = [
 const MockTemplate = () => {
   const [selectedRowData, setSelectedRowData] = useState({});
   const [homeTableState, setHomeTableState] = useState(InitialHomeTableState);
+  const [currentView, setCurrentView] = useState('home');
+  useEffect(() => {
+    alert(`setCurrentView called with ${currentView}`);
+  }, [currentView]);
   return (
       <SharedContext.Provider
         value={{
