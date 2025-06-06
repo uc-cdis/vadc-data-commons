@@ -4,7 +4,7 @@ import EditIcon from './Icons/EditIcon';
 import isEnterOrSpace from '../../AccessibilityUtils/IsEnterOrSpace';
 import TeamProjectModal from '../TeamProjectModal/TeamProjectModal';
 import IsCurrentTeamProjectValid from './IsCurrentTeamProjectValid';
-import { TeamProjectsEndpoint } from '../../Endpoints';
+//import { TeamProjectsEndpoint } from '../../Endpoints';
 import { Loader } from '@mantine/core';
 import useSWR from 'swr';
 
@@ -48,9 +48,22 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
   }, [redirect]);
 
   // SWR CODE
-  const { data, error, isLoading } = useSWR(TeamProjectsEndpoint, (...args) =>
+  /*const { data, error, isLoading } = useSWR(TeamProjectsEndpoint, (...args) =>
     fetch(...args).then((res) => res.json()),
-  );
+  );*/
+  // TODO: Replace with actual API call when available
+  const data = {
+    teams: [
+        {
+          teamName: '/gwas_projects/project1',
+        },
+        {
+          teamName: '/gwas_projects/project2',
+        },
+      ],
+    };
+  const error = 'success';
+  const isLoading = false;
 
   let currentTeamProjectIsValid = false;
   if (data) {
@@ -107,7 +120,7 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
           setIsModalOpen={setIsModalOpen}
           setBannerText={setBannerText}
           data={data}
-          status={error ? 'error' : 'loading'}
+          status={error}
           selectedTeamProject={selectedTeamProject}
           setSelectedTeamProject={setSelectedTeamProject}
         />
