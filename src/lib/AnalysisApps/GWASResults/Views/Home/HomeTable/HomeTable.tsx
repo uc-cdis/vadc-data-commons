@@ -12,11 +12,11 @@ import SharedContext from '../../../Utils/SharedContext';
 //import ActionsDropdown from './ActionsDropdown/ActionsDropdown';
 import Icons from './TableIcons/Icons';
 import PHASES from '../../../Utils/PhasesEnumeration';
-//import VIEWS from '../../../Utils/ViewsEnumeration';
+import VIEWS from '../../../Utils/ViewsEnumeration';
 //import isIterable from '../../../Utils/isIterable';
 import {Button} from '@mantine/core';
 
-interface Jobs {
+export interface GWASResultsJobs {
     name: string;
     gen3username: string;
     wf_name: string;
@@ -28,7 +28,7 @@ interface Jobs {
     phase: string;
   };
 
-const HomeTable = ({ data }: { data: Jobs[] }) => {
+const HomeTable = ({ data }: { data: GWASResultsJobs[] }) => {
   const {
     setCurrentView,
     selectedRowData,
@@ -37,7 +37,14 @@ const HomeTable = ({ data }: { data: Jobs[] }) => {
     setHomeTableState,
   } = useContext(SharedContext);
 
-  const columns = useMemo<MRT_ColumnDef<Jobs>[]>(
+  if (!setCurrentView) {
+    throw new Error('setCurrentView is not defined in SharedContext');
+  }
+  if (!setSelectedRowData) {
+    throw new Error('setSelectedRowData is not defined in SharedContext');
+  }
+
+  const columns = useMemo<MRT_ColumnDef<GWASResultsJobs>[]>(
     () => [
     {
       header: 'Run ID',
@@ -106,24 +113,24 @@ const HomeTable = ({ data }: { data: Jobs[] }) => {
           <div className='flex items-center gap-2'>
             <Button
               onClick={() => {
-                //setSelectedRowData(record);
-                //setCurrentView(VIEWS.input);
+                setSelectedRowData(record);
+                setCurrentView(VIEWS.input);
               }}
             >
               Input
             </Button>
             <Button
               onClick={() => {
-                //setSelectedRowData(record);
-                //setCurrentView(VIEWS.execution);
+                setSelectedRowData(record);
+                setCurrentView(VIEWS.execution);
               }}
             >
               Execution
             </Button>
             <Button
               onClick={() => {
-                //setSelectedRowData(record);
-                //setCurrentView(VIEWS.results);
+                setSelectedRowData(record);
+                setCurrentView(VIEWS.results);
               }}
               disabled={record.phase !== PHASES.Succeeded}
             >

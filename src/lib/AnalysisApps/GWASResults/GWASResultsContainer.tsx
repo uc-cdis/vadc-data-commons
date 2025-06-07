@@ -7,11 +7,12 @@ import SharedContext from './Utils/SharedContext';
 import VIEWS from './Utils/ViewsEnumeration';
 import InitialHomeTableState from './Views/Home/HomeTableState/InitialHomeTableState';
 import TeamProjectHeader from '../SharedUtils/TeamProject/TeamProjectHeader/TeamProjectHeader';
+import { GWASResultsJobs } from './Views/Home/HomeTable/HomeTable';
 // import WorkflowLimitsDashboard from '../SharedUtils/WorkflowLimitsDashboard/WorkflowLimitsDashboard';
 
 const GWASResultsContainer = () => {
   const [currentView, setCurrentView] = useState('home');
-  const [selectedRowData, setSelectedRowData] = useState({});
+  const [selectedRowData, setSelectedRowData] = useState({} as GWASResultsJobs);
   const [homeTableState, setHomeTableState] = useState(InitialHomeTableState);
   const [selectedTeamProject] = useState(
     localStorage.getItem('teamProject') || '',

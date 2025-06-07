@@ -9,6 +9,7 @@ import TableData from '../../TestData/TableData';
 import InitialHomeTableState from './HomeTableState/InitialHomeTableState';
 import { GwasWorkflowEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import { http, HttpResponse, delay } from 'msw';
+import { GWASResultsJobs } from './HomeTable/HomeTable';
 
 // this is to forvce the page to reload due to mock service worker
 const forceReloadDecorator = (storyFn: any, context: any) => {
@@ -53,7 +54,7 @@ const TestData = [
 ];
 
 const MockTemplate = () => {
-  const [selectedRowData, setSelectedRowData] = useState({});
+  const [selectedRowData, setSelectedRowData] = useState({} as GWASResultsJobs);
   const [homeTableState, setHomeTableState] = useState(InitialHomeTableState);
   const [currentView, setCurrentView] = useState('home');
   useEffect(() => {
