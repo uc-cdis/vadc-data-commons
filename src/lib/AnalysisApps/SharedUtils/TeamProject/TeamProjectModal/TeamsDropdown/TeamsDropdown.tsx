@@ -7,8 +7,8 @@ interface Team {
 
 interface TeamsDropdownProps {
   teams: Team[];
-  selectedTeamProject: string | null | false;
-  setSelectedTeamProject: (selectedTeamProject: string) => void;
+  selectedTeamProject: string | null;
+  setSelectedTeamProject: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const TeamsDropdown: React.FC<TeamsDropdownProps> = ({
@@ -16,22 +16,15 @@ const TeamsDropdown: React.FC<TeamsDropdownProps> = ({
   selectedTeamProject,
   setSelectedTeamProject,
 }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-    setSelectedTeamProject(selectedValue);
-  };
-
-  const selectedValue =
-    selectedTeamProject === null || selectedTeamProject === false
-      ? 'placeholder'
-      : selectedTeamProject;
 
   return (
     <div data-testid="teams-dropdown">
       <Select
-        label="Select Team Project"
+        label="Please select your team"
         placeholder="-select one of the team projects below-"
+        value={selectedTeamProject}
         data={teams.map((team) => team.teamName)}
+        onChange={setSelectedTeamProject}
       />
     </div>
   );

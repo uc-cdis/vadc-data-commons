@@ -19,7 +19,6 @@ const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
     `${GEN3_API}/${GwasWorkflowEndpoint}?team_projects=${selectedTeamProject}`,
     (...args) => fetch(...args).then((res) => res.json().then(tranformDates)),
   );
-  console.log(data, error, isLoading, isValidating )
 
   if (isLoading || isValidating) {
     return (

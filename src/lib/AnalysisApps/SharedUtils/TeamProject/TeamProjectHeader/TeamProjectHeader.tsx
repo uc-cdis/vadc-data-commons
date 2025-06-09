@@ -18,9 +18,7 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bannerText, setBannerText] = useState('- -');
-  const [selectedTeamProject, setSelectedTeamProject] = useState(
-    runningApplicationClientSide && localStorage.getItem('teamProject'),
-  );
+  const [selectedTeamProject, setSelectedTeamProject] = useState<string | null>(runningApplicationClientSide && localStorage.getItem('teamProject') || null);
   const [redirect, setRedirect] = useState(false);
 
   const showModal = () => {
@@ -82,7 +80,6 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
     if (storedTeamProject) {
       setBannerText(storedTeamProject);
     } else if (isEditable) {
-      setSelectedTeamProject(null);
       showModal();
     }
     rerouteToAppSelectionIfNeeded();
