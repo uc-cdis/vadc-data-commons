@@ -1,4 +1,5 @@
 import React from 'react';
+import { Select } from '@mantine/core';
 
 interface Team {
   teamName: string;
@@ -27,27 +28,11 @@ const TeamsDropdown: React.FC<TeamsDropdownProps> = ({
 
   return (
     <div data-testid="teams-dropdown">
-      <label id="team-select-label" className="sr-only" htmlFor="team-select">
-        Select Team Project
-      </label>
-      <select
-        id="team-select"
-        className="mb-6 w-full"
-        aria-labelledby="team-select-label"
-        value={selectedValue}
-        onChange={handleChange}
-      >
-        {selectedTeamProject === null && (
-          <option value="placeholder" disabled>
-            -select one of the team projects below-
-          </option>
-        )}
-        {teams.map((team, index) => (
-          <option key={index} value={team.teamName}>
-            {team.teamName}
-          </option>
-        ))}
-      </select>
+      <Select
+        label="Select Team Project"
+        placeholder="-select one of the team projects below-"
+        data={teams.map((team) => team.teamName)}
+      />
     </div>
   );
 };
