@@ -8,6 +8,8 @@ import VIEWS from './Utils/ViewsEnumeration';
 import InitialHomeTableState from './Views/Home/HomeTableState/InitialHomeTableState';
 import TeamProjectHeader from '../SharedUtils/TeamProject/TeamProjectHeader/TeamProjectHeader';
 import { GWASResultsJobs } from './Views/Home/HomeTable/HomeTable';
+import Link from 'next/link';
+import { Anchor, Title } from '@mantine/core';
 // import WorkflowLimitsDashboard from '../SharedUtils/WorkflowLimitsDashboard/WorkflowLimitsDashboard';
 
 const GWASResultsContainer = () => {
@@ -39,8 +41,9 @@ const GWASResultsContainer = () => {
   return (
     <div data-testid="GWASResults">
       <div>
+        <Anchor component={Link} href="/resource-browser"> ← Back to Apps</Anchor>
         <div className="flex justify-between pb-4">
-          <h1 className="text-3xl pb-5 font-medium">GWAS Results</h1>
+          <Title order={1}>GWAS Results</Title>
           <TeamProjectHeader isEditable={false} />
         </div>
       </div>

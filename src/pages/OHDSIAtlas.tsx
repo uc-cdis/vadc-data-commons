@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title } from '@mantine/core';
+import { Title, Anchor } from '@mantine/core';
 import {
   NavPageLayout,
   NavPageLayoutProps,
@@ -7,6 +7,7 @@ import {
   ProtectedContent,
 } from '@gen3/frontend';
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 
 const OHDSIAtlas = ({ headerProps, footerProps }: NavPageLayoutProps) => {
   const iframeUrl = `https://atlas.${window.location.hostname}/WebAPI/user/login/openid?redirectUrl=/home`;
@@ -44,6 +45,7 @@ const OHDSIAtlas = ({ headerProps, footerProps }: NavPageLayoutProps) => {
       <ProtectedContent>
         <div className="w-full mx-10 relative flex flex-col">
           <div>
+            <Anchor component={Link} href="/resource-browser"> ← Back to Apps</Anchor>
             <Title order={1}>OHDSI Atlas</Title>
             <p>Use this App for cohort creation. These will be automatically populated in the Gen3 GWAS App</p>
           </div>
