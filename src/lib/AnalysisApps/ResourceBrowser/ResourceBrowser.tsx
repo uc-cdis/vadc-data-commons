@@ -42,7 +42,6 @@ const ResourceBrowser = () => {
     <div className="p-5">
       <div className="flex justify-between py-4">
         <Title order={1}>Apps</Title>
-        <h1 className="text-3xl pb-5 font-medium">Apps</h1>
         <TeamProjectHeader isEditable />
       </div>
 
