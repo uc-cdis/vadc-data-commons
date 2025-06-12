@@ -27,12 +27,6 @@ const cellKeys: Key[][] = [
   ['A3', 'B3', 'C3'],
 ];
 
-const descriptions = [
-  'Initial data cohort',
-  'Observation window (365 days)',
-  'Time-at-risk (90 days)',
-];
-
 export const AttritionTable: React.FC<AttritionTableProps> = ({
   selectedStudyPopulationCohort,
   datasetObservationWindow,
@@ -40,6 +34,11 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
   outcomeObservationWindow,
 }) => {
   const { sourceId } = useSourceContext();
+  const descriptions = [
+    'Initial data cohort',
+    `Observation window (${datasetObservationWindow} days)`,
+    `Time-at-risk (${outcomeObservationWindow} days)`,
+  ];
 
   const getOverlapWithOutcome = async () => {
     if (! (selectedStudyPopulationCohort && selectedOutcomeCohort) ) {
@@ -52,7 +51,7 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
     }
-    const responseData = await response.json(); // this response has the form: { cohort_overlap: { case_control_overlap: 648242 }}
+    const responseData = await response.json();
     return responseData.cohort_overlap?.case_control_overlap;
   };
 
