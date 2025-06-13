@@ -61,16 +61,6 @@ const JobSubmitModal: React.FC<Props> = ({
     });
   };
 
-  const getCommandName = (model: string) => {
-    if (model === "Random Forest") {
-      return "setRandomForest";
-    } else if (model === "Lasso Logistic Regression") {
-      return "setLassoLogisticRegression";
-    } else {
-      return "";
-    }
-  }
-
   // Submit workflow request
   const handleSubmit = async () => {
     try {
@@ -97,7 +87,6 @@ const JobSubmitModal: React.FC<Props> = ({
         model_list: [
           {
             name: model,
-            command: getCommandName(model),
             params: modelParameters[model]
           },
         ]

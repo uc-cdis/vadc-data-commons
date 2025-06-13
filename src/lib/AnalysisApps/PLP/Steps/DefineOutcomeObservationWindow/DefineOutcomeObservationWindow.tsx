@@ -28,7 +28,7 @@ const DefineOutcomeObservationWindow = ({
         value={outcomeObservationWindow}
         rightSection="days"
         rightSectionWidth={50}
-        onChange={(e) => handleDefineOutcomeObservationWindow(toInteger(e))}
+        onChange={(e) => handleDefineOutcomeObservationWindow(toInteger(e))}  // TODO - debounce?
       />
     </div>
   );

@@ -34,6 +34,7 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
   outcomeObservationWindow,
 }) => {
   const { sourceId } = useSourceContext();
+  const steps = [ 1, 2, 4 ]; // the workflow step related to each description below
   const descriptions = [
     'Initial data cohort',
     `Observation window (${datasetObservationWindow} days)`,
@@ -198,7 +199,7 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
       <tbody>
         {cellKeys.map((row, i) => (
           <tr key={i}>
-            <td>{i + 1}</td>
+            <td>{steps[i]}</td>
             <td>{descriptions[i]}</td>
             {row.map((key) => (
               <td key={key}>{getValueForKey(key)}</td>
