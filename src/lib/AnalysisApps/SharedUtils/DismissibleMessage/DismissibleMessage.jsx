@@ -1,7 +1,6 @@
-/*
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './DismissibleMessage.css';
+import styles from './DismissibleMessage.module.css';
 import isEnterOrSpace from '../AccessibilityUtils/IsEnterOrSpace';
 
 const DismissibleMessage = ({
@@ -18,9 +17,9 @@ const DismissibleMessage = ({
   return (
     <React.Fragment>
       {open === true && (
-        <div className={`dismissable-message ${messageType}`}>
+        <div className={styles[`dismissable_message_${messageType}`]}>
           <span
-            className='dismissable-message_close'
+            className={styles.dismissable_message_close}
             tabIndex='0'
             role='button'
             aria-label='Close Message'
@@ -32,7 +31,7 @@ const DismissibleMessage = ({
             X
           </span>
           <div>{title}</div>
-          <div className='dismissable-message-description'>{description}</div>
+          <div className={styles.dismissable_message_description}>{description}</div>
         </div>
       )}
     </React.Fragment>
@@ -51,5 +50,3 @@ DismissibleMessage.defaultProps = {
 };
 
 export default DismissibleMessage;
-
-*/
