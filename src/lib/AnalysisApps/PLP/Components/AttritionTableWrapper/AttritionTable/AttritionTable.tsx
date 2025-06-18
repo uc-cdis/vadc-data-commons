@@ -106,7 +106,7 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
     A3: null, B3: null, C3: null,
   });
 
-  const [errors, setErrors] = useState<ValueMap>({
+  const [errors] = useState<ValueMap>({
     A1: null, B1: null, C1: null,
     A2: null, B2: null, C2: null,
     A3: null, B3: null, C3: null,
@@ -138,7 +138,7 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
 
   useEffect(() => {
     const compute = async (initialValues: ValueMap, recalculateAll: boolean) => {
-      let result: ValueMap = { ...initialValues };
+      const result: ValueMap = { ...initialValues };
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
           const key = cellKeys[row][col];
@@ -161,8 +161,8 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
     };
 
     (async () => {
-        let firstPassValues = await compute(values, true); // First pass
-        let secondPassValues = await compute(firstPassValues, false); // Second pass using updated values
+        const firstPassValues = await compute(values, true); // First pass
+        const secondPassValues = await compute(firstPassValues, false); // Second pass using updated values
         setValues(secondPassValues); // Update state with final result
     })();
 
