@@ -4,6 +4,6 @@ export const PLPAppSteps = [
   'Select Outcome of Interest',
   'Define Outcome Observation Window',
   'Add Covariates',
-  'Define Test and Validation Datasets',
+  'Define Training, Testing and Validation Datasets',
   'Select Model and Parameters',
 ];

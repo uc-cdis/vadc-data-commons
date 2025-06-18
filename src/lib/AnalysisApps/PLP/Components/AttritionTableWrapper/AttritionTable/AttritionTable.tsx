@@ -8,6 +8,7 @@ interface AttritionTableProps {
   datasetObservationWindow: number;
   selectedOutcomeCohort: cohort;
   outcomeObservationWindow: number;
+  percentageOfDataToUseAsTest: number;
 }
 
 interface cohort { // TODO - centralize this interface
@@ -16,15 +17,16 @@ interface cohort { // TODO - centralize this interface
   size: number;
 }
 
-type Key = 'A1' | 'B1' | 'C1' | 'A2' | 'B2' | 'C2' | 'A3' | 'B3' | 'C3';
+type Key = 'A1' | 'B1' | 'C1' | 'D1' | 'A2' | 'B2' | 'C2' | 'D2' | 'A3' | 'B3' | 'C3' | 'D3' | 'A4' | 'B4' | 'C4'| 'D4' ;
 type ValueMap = Record<Key, number | null>;
 type LoadingMap = Record<Key, boolean>;
 const ComputeError = 1;
 
 const cellKeys: Key[][] = [
-  ['A1', 'B1', 'C1'],
-  ['A2', 'B2', 'C2'],
-  ['A3', 'B3', 'C3'],
+  ['A1', 'B1', 'C1', 'D1'],
+  ['A2', 'B2', 'C2', 'D2'],
+  ['A3', 'B3', 'C3', 'D3'],
+  ['A4', 'B4', 'C4', 'D4'],
 ];
 
 export const AttritionTable: React.FC<AttritionTableProps> = ({
@@ -32,14 +34,25 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
   datasetObservationWindow,
   selectedOutcomeCohort,
   outcomeObservationWindow,
+  percentageOfDataToUseAsTest,
 }) => {
   const { sourceId } = useSourceContext();
-  const steps = [ 1, 2, 4 ]; // the workflow step related to each description below
+  const steps = [ 1, 2, 4, 6 ]; // the workflow step related to each description below
   const descriptions = [
     'Initial data cohort',
     `Observation window (${datasetObservationWindow} days)`,
     `Time-at-risk (${outcomeObservationWindow} days)`,
+    `Training set (${100-percentageOfDataToUseAsTest} %)`,
   ];
+
+  const getTraininSetSize = async (baseSize: number | null) => {
+    if (! (percentageOfDataToUseAsTest && baseSize)) {
+      return null;
+    } else {
+      return Math.round(baseSize * (100-percentageOfDataToUseAsTest)/100);
+    }
+  }
+
 
   const getOverlapWithOutcome = async () => {
     if (! (selectedStudyPopulationCohort && selectedOutcomeCohort) ) {
@@ -101,46 +114,58 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
   };
 
   const [values, setValues] = useState<ValueMap>({
-    A1: null, B1: null, C1: null,
-    A2: null, B2: null, C2: null,
-    A3: null, B3: null, C3: null,
+    A1: null, B1: null, C1: null, D1: null,
+    A2: null, B2: null, C2: null, D2: null,
+    A3: null, B3: null, C3: null, D3: null,
+    A4: null, B4: null, C4: null, D4: null,
   });
 
   const [errors] = useState<ValueMap>({
-    A1: null, B1: null, C1: null,
-    A2: null, B2: null, C2: null,
-    A3: null, B3: null, C3: null,
+    A1: null, B1: null, C1: null, D1: null,
+    A2: null, B2: null, C2: null, D2: null,
+    A3: null, B3: null, C3: null, D3: null,
+    A4: null, B4: null, C4: null, D4: null,
   });
 
   const [loading, setLoading] = useState<LoadingMap>({
-    A1: false, B1: false, C1: false,
-    A2: false, B2: false, C2: false,
-    A3: false, B3: false, C3: false,
+    A1: false, B1: false, C1: false, D1: false,
+    A2: false, B2: false, C2: false, D2: false,
+    A3: false, B3: false, C3: false, D3: false,
+    A4: false, B4: false, C4: false, D4: false,
   });
 
   const valueFns: ((vals: ValueMap) => Promise<number | null>)[][] = [
     [
       async () => selectedStudyPopulationCohort?.size,                    // A1
-      async () => getOverlapWithOutcome(),                                // B1
-      async (v) => (v.A1 == null || v.B1 == null ? null : (v.A1 - v.B1)), // C1
+      async (v) => null,                                                  // B1
+      async () => getOverlapWithOutcome(),                                // C1
+      async (v) => (v.A1 == null || v.C1 == null ? null : (v.A1 - v.C1)), // D1
     ],
     [
       async () => getInObservationWindow(),                               // A2
-      async () => getInObservationWindowAndOverlapWithOutcome(),          // B2
-      async (v) => (v.A2 == null || v.B2 == null ? null : (v.A2 - v.B2)), // C2
+      async (v) => null,                                                  // B2
+      async () => getInObservationWindowAndOverlapWithOutcome(),          // C2
+      async (v) => (v.A2 == null || v.C2 == null ? null : (v.A2 - v.C2)), // D2
     ],
     [
-      async (v) =>  (v.B3 == null || v.C3 == null ? null : (v.B3 + v.C3)),                         // A3
-      async () => getInObservationWindowAndOverlapWithOutcomeAndInOutcomeWindow(),                 // B3
-      async (v) =>  (v.C2 == null || v.B2 == null || v.B3 == null ? null : (v.C2 +(v.B2 - v.B3))), // C3
+      async (v) =>  (v.C3 == null || v.D3 == null ? null : (v.C3 + v.D3)),                         // A3
+      async () => null,                                                                            // B3
+      async () => getInObservationWindowAndOverlapWithOutcomeAndInOutcomeWindow(),                 // C3
+      async (v) =>  (v.D2 == null || v.C2 == null || v.C3 == null ? null : (v.D2 +(v.C2 - v.C3))), // D3
+    ],
+    [
+      async (v) =>  (v.A3 == null ? null : v.A3),                        // A4
+      async (v) => getTraininSetSize(v.A3),                              // B4
+      async (v) => getTraininSetSize(v.C3),                              // C4
+      async (v) => getTraininSetSize(v.D3),                              // D4
     ],
   ];
 
   useEffect(() => {
     const compute = async (initialValues: ValueMap, recalculateAll: boolean) => {
       const result: ValueMap = { ...initialValues };
-      for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 3; col++) {
+      for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 4; col++) {
           const key = cellKeys[row][col];
           const fn = valueFns[row][col];
           // only compute if (still) null:
@@ -171,6 +196,7 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
     datasetObservationWindow,
     selectedOutcomeCohort,
     outcomeObservationWindow,
+    percentageOfDataToUseAsTest,
   ]);
 
   const getValueForKey = (key: Key) => {
@@ -191,6 +217,7 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
         <tr>
           <th>Step</th>
           <th>Filter Applied</th>
+          <th>Dataset</th>
           <th>Training set</th>
           <th>With outcome</th>
           <th>Without outcome</th>

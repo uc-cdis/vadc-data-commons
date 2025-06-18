@@ -45,8 +45,8 @@ const PLPContainer = () => {
       return (
         <div data-tour="cohort-intro" >
           <div>
-            In this step, you can define a look-back period in days.
-            This period specifies how many days of prior clinical history to include for
+            In this step, you can define a minimum look-back period in days.
+            This period specifies how many days of prior clinical history there should be on record for
             each patient relative to their cohort entry date in the initial dataset.
           </div>
           <br/>
@@ -206,6 +206,7 @@ const PLPContainer = () => {
         datasetObservationWindow={state.datasetObservationWindow}
         selectedOutcomeCohort={state.selectedOutcomeCohort}
         outcomeObservationWindow={state.outcomeObservationWindow}
+        percentageOfDataToUseAsTest={state.percentageOfDataToUseAsTest}
       />
       <div data-testid="GWASApp" className="p-4">
         <div className="steps-wrapper">

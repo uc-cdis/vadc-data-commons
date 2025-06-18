@@ -7,6 +7,7 @@ interface AttritionTableWrapperProps {
   datasetObservationWindow: number;
   selectedOutcomeCohort: cohort;
   outcomeObservationWindow: number;
+  percentageOfDataToUseAsTest: number;
 }
 
 interface cohort { // TODO - centralize this interface
@@ -20,6 +21,7 @@ const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
   datasetObservationWindow,
   selectedOutcomeCohort,
   outcomeObservationWindow,
+  percentageOfDataToUseAsTest,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleArrow = () => setIsOpen((prev) => !prev);
@@ -51,6 +53,7 @@ const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
               datasetObservationWindow={datasetObservationWindow}
               selectedOutcomeCohort={selectedOutcomeCohort}
               outcomeObservationWindow={outcomeObservationWindow}
+              percentageOfDataToUseAsTest={percentageOfDataToUseAsTest}
               />
           </div> : null}
         </div>{' '}
