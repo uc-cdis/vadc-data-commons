@@ -1,18 +1,14 @@
 import React from 'react';
 import ACTIONS from '../../Utils/StateManagement/Actions';
-import { NumberInput,
-  //Checkbox
- } from '@mantine/core';
+import { NumberInput } from '@mantine/core';
 
 type AddCovariatesProps = {
   dispatch: (action: any) => void;
   minimumCovariateOccurrence?: number;
-  //useAllCovariates?: boolean;
 };
 
 const AddCovariates = ({
   minimumCovariateOccurrence = 0.1,
-  //useAllCovariates = true,
   dispatch,
 }: AddCovariatesProps) => {
   const handleSetMinimumCovariateOccurrence = (minimumCovariateOccurrence: number) => {
@@ -21,13 +17,6 @@ const AddCovariates = ({
       payload: minimumCovariateOccurrence,
     });
   };
-
-  // const handleUseAllCovariates = (useAllCovariates: boolean) => {
-  //   dispatch({
-  //     type: ACTIONS.SET_USE_ALL_COVARIATES,
-  //     payload: useAllCovariates,
-  //   });
-  // };
 
   return (
     <div data-tour="define-dataset-observation-window">
@@ -44,13 +33,6 @@ const AddCovariates = ({
           }
         }}
       />
-{/*  OPTION removed for now
-      <Checkbox
-        mt="md"
-        label="Use all covariates"
-        checked={useAllCovariates}
-        onChange={(event) => handleUseAllCovariates(event.currentTarget.checked)}
-      /> */}
     </div>
   );
 };

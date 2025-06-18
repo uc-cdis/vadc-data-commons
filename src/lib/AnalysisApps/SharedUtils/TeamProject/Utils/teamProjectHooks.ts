@@ -16,7 +16,7 @@ interface UseTeamProjectsResult {
 /**
  * A hook that retrieves and processes team project data by querying authorization mappings.
  * It filters the retrieved data to only include mappings associated with specific services
- * under the `/team_projects/` path and formats them into a list of team projects.
+ * under the `/gwas_projects/` path and formats them into a list of team projects.
  *
  * @returns {UseTeamProjectsResult} An object containing the list of team projects,
  * and flags indicating the loading, success, or error state of the data retrieval process.
@@ -37,7 +37,7 @@ export const useTeamProjects = (): UseTeamProjectsResult => {
      teams = entries
       .filter(
         ([key, value]) =>
-          key.startsWith('/team_projects/') &&
+          key.startsWith('/gwas_projects/') &&
           Array.isArray(value) &&
           value.some(
             (e) => e.service === 'atlas-argo-wrapper-and-cohort-middleware',

@@ -14,7 +14,6 @@ interface cohort { // TODO - centralize this interface
   size: number;
 }
 
-/** Component for selecting a cohort, used in select study population view */
 const SelectCohort: React.FC<SelectCohortProps> = ({
   selectedCohort,
   handleCohortSelect,

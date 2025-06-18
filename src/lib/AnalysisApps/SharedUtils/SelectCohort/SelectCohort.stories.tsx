@@ -9,7 +9,7 @@ import { http, HttpResponse, delay } from 'msw';
 import { SourceContextProvider } from '../Source';
 
 const meta: Meta<typeof SelectCohort> = {
-  title: 'GWASAPP/SelectCohort',
+  title: 'Generic/SelectCohort',
   component: SelectCohort,
   parameters: { // TODO remove this and fix accessibility
     a11y: {

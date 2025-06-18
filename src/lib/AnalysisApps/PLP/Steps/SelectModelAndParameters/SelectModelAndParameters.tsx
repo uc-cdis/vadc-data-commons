@@ -36,7 +36,7 @@ const SelectModelAndParameters = ({
     });
   };
 
-  const getModelParameters = (model: string) => {  // idea: each component gets the dispatch and will trigger the action "SET_MODEL" with all fields filled in (if passing validation)
+  const getModelParameters = (model: string) => {
     switch (model) {
       case 'Lasso Logistic Regression':
         return <LassoParameters
@@ -50,9 +50,7 @@ const SelectModelAndParameters = ({
           model={model}
           modelParameters={modelParameters}
          />;
-      // case 'Gradient Boosting Machine':
-      //   return <GBMParameters />;
-      // add other cases
+      // add other cases...
       default:
         return "Not Available";
     }

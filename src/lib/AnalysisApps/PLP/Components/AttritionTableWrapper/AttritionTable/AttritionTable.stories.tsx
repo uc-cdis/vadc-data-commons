@@ -8,11 +8,6 @@ import { SourceContextProvider } from '../../../../SharedUtils/Source';
 const meta: Meta<typeof AttritionTable> = {
   title: 'PLP/AttritionTable',
   component: AttritionTable,
-  parameters: { // TODO remove this and fix accessibility
-    a11y: {
-      disable: true,
-    },
-  },
 };
 
 export default meta;
