@@ -28,9 +28,9 @@ const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
 
   return (
     <div data-tour="attrition-table">
-      <div
-        className="bg-vadc-tertiary my-5 text-sm cursor-pointer hover:bg-vadc-tertiary select-none"
-        role="button"
+      <button
+        className="bg-vadc-tertiary my-5 text-sm cursor-pointer hover:bg-vadc-tertiary select-none w-full text-left appearance-none border-none p-0"
+        type="button"
         tabIndex={0}
         onClick={toggleArrow}
         onKeyDown={(e) => (isEnterOrSpace(e) ? toggleArrow() : null)}
@@ -57,9 +57,9 @@ const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
               selectedOutcomeCohort={selectedOutcomeCohort}
               outcomeObservationWindow={outcomeObservationWindow}
               />
-      </div> : null}
+          </div> : null}
         </div>{' '}
-      </div>
+      </button>
 
     </div>
   );
