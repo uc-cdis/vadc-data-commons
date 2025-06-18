@@ -1,23 +1,9 @@
 export const PLPAppSteps = [
-  {
-    title: 'Select Dataset',
-  },
-  {
-    title: 'Define Dataset Observation Window',
-  },
-  {
-    title: 'Select Outcome of Interest',
-  },
-  {
-    title: 'Define Outcome Observation Window',
-  },
-  {
-    title: 'Add Covariates',
-  },
-  {
-    title: 'Define Test and Validation Datasets',
-  },
-  {
-    title: 'Select Model and Parameters',
-  },
+  'Select Dataset',
+  'Define Dataset Observation Window',
+  'Select Outcome of Interest',
+  'Define Outcome Observation Window',
+  'Add Covariates',
+  'Define Test and Validation Datasets',
+  'Select Model and Parameters',
 ];

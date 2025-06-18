@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { AttritionTable } from './AttritionTable/AttritionTable';
 import { IconChevronUp, IconChevronDown } from '@tabler/icons-react';
-import isEnterOrSpace from '@/lib/AnalysisApps/SharedUtils/AccessibilityUtils/IsEnterOrSpace';
 
 interface AttritionTableWrapperProps {
   selectedStudyPopulationCohort: cohort;
@@ -30,10 +29,7 @@ const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
     <div data-tour="attrition-table">
       <button
         className="bg-vadc-tertiary my-5 text-sm cursor-pointer hover:bg-vadc-tertiary select-none w-full text-left appearance-none border-none p-0"
-        type="button"
-        tabIndex={0}
         onClick={toggleArrow}
-        onKeyDown={(e) => (isEnterOrSpace(e) ? toggleArrow() : null)}
       >
         <div className="p-3 flex">
           <span className="flex justify-center h-4 mr-3 text-white w-4 bg-vadc-secondary rounded-full ">

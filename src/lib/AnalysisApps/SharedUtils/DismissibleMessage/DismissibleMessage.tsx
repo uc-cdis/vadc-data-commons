@@ -1,5 +1,4 @@
-import React, { useState, KeyboardEvent, ReactNode } from 'react';
-import isEnterOrSpace from '../AccessibilityUtils/IsEnterOrSpace';
+import React, { useState, ReactNode } from 'react';
 
 type MessageType = 'success' | 'warning' | 'caution';
 
@@ -64,18 +63,13 @@ const DismissibleMessage: React.FC<DismissibleMessageProps> = ({
           <div className="text-sm font-normal mt-3">{description}</div>
         )}
       </div>
-      <span
-        className="cursor-pointer ml-4 hover:opacity-80 text-xl leading-none p-1"
-        tabIndex={0}
-        role='button'
+      <button
+        className="cursor-pointer ml-4 hover:opacity-80 text-xl leading-none p-1 align-top self-start"
         aria-label='Close Message'
         onClick={close}
-        onKeyDown={(e: KeyboardEvent<HTMLSpanElement>) => {
-          if (isEnterOrSpace(e)) close();
-        }}
       >
         ×
-      </span>
+      </button>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useReducer, Reducer } from 'react';
 import { Button, Group } from '@mantine/core';
 import ProgressBar from './Components/ProgressBar/ProgressBar';
-import { PLPAppSteps, checkFinalPopulationSizeZero } from  './Utils/constants';
+import { PLPAppSteps } from  './Utils/constants';
 import { SourceContextProvider } from '../SharedUtils/Source';
 import reducer, {State, Action} from './Utils/StateManagement/reducer';
 import ACTIONS from './Utils/StateManagement/Actions';
@@ -180,9 +180,7 @@ const PLPContainer = () => {
     (state.currentStep === 0 && !state.selectedStudyPopulationCohort) ||
     (state.currentStep === 1 && !state.datasetObservationWindow) ||
     (state.currentStep === 2 && !state.selectedOutcomeCohort) ||
-    (state.currentStep === 3 && !state.outcomeObservationWindow) ||
-    (state.currentStep === 3 &&
-      checkFinalPopulationSizeZero(state.finalPopulationSizes))
+    (state.currentStep === 3 && !state.outcomeObservationWindow)
   ) {
     nextButtonEnabled = false;
   }

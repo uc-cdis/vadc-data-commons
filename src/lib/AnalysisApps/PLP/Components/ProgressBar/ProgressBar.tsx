@@ -21,7 +21,7 @@ const ProgressBar = ({ currentStep, selectionMode }: ProgressBarProps) => (
           }`}
         >
           <span className="text-2xl pr-2 ">{index + 1}</span>
-          <span>{item.title}</span>
+          <span>{item}</span>
         </div>
       ))}
     </div>
