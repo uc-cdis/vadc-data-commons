@@ -15,7 +15,6 @@ interface cohort { // TODO - centralize this interface
   size: number;
 }
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
   selectedStudyPopulationCohort,
   datasetObservationWindow,
