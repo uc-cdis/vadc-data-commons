@@ -64,6 +64,7 @@ const AttritionTableWithHooks = () => {
         datasetObservationWindow={365}
         selectedOutcomeCohort={selectedOutcomeCohort}
         outcomeObservationWindow={365}
+        percentageOfDataToUseAsTest={25}
       />
     </SourceContextProvider>
   );
