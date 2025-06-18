@@ -1,11 +1,8 @@
-import React, { useReducer, Reducer } from 'react';
+import React from 'react';
 import { AttritionTable } from './AttritionTable';
-import reducer, {State, Action} from '../../../Utils/StateManagement/reducer';
-import ACTIONS from '../../../Utils/StateManagement/Actions';
-import initialState from '../../../Utils/StateManagement/InitialState';
 import { CohortsEndpoint, SourcesEndpoint, CohortsOverlapEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import type { Meta, StoryObj } from '@storybook/react';
-import { http, HttpResponse, delay } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { SourceContextProvider } from '../../../../SharedUtils/Source';
 
 const meta: Meta<typeof AttritionTable> = {

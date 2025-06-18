@@ -14,7 +14,6 @@ import DefineOutcomeObservationWindow from './Steps/DefineOutcomeObservationWind
 import AddCovariates from './Steps/AddCovariates/AddCovariates';
 import DefineTestAndValidationDatasets from './Steps/DefineTestAndValidationDatasets/DefineTestAndValidationDatasets';
 import SelectModelAndParameters from './Steps/SelectModelAndParameters/SelectModelAndParameters';
-// import DismissibleMessagesList from './Components/DismissibleMessagesList/DismissibleMessagesList';
 //import MakeFullscreenButton from './Components/MakeFullscreenButton/MakeFullscreenButton';
 import InitializeCurrentState from './Utils/StateManagement/InitializeCurrentState';
 import TeamProjectHeader from '../SharedUtils/TeamProject/TeamProjectHeader/TeamProjectHeader';
@@ -25,7 +24,6 @@ import DismissibleMessage from '../SharedUtils/DismissibleMessage/DismissibleMes
 const PLPContainer = () => {
   const [state, dispatch] = useReducer<Reducer<State, Action>>(reducer, InitializeCurrentState());
   const generateStep = () => {
-    console.log('state.currentStep', state.currentStep, state);
     switch (state.currentStep) {
       case 0:
         return (
@@ -211,18 +209,6 @@ const PLPContainer = () => {
         selectedOutcomeCohort={state.selectedOutcomeCohort}
         outcomeObservationWindow={state.outcomeObservationWindow}
       />
-      {/* <WorkflowLimitsDashboard />
-
-
-      <DismissibleMessagesList
-        messages={state.messages}
-        dismissMessage={(chosenMessage) => {
-          dispatch({
-            type: ACTIONS.DELETE_MESSAGE,
-            payload: chosenMessage,
-          });
-        }}
-      /> */}
       <div data-testid="GWASApp" className="p-4">
         <div className="steps-wrapper">
           <div className="steps-content">

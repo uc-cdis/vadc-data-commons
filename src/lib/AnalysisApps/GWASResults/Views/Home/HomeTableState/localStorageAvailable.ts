@@ -3,8 +3,7 @@ const localStorageAvailable = () => {
     localStorage.setItem('1', '1');
     localStorage.removeItem('1');
     return true;
-  } catch (e) {
-    console.log(e);
+  } catch {
     return false;
   }
 };

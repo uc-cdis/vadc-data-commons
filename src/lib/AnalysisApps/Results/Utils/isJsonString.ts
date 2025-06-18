@@ -18,9 +18,8 @@ const IsJsonString = (str: unknown): boolean => {
 
     // Check if the parsed value is a non-null object (optional stricter JSON validation)
     return typeof parsed === 'object' && parsed !== null;
-  } catch (e) {
+  } catch {
     // Parsing failed; return false
-    console.log(e);
     return false;
   }
 };
