@@ -3,6 +3,7 @@ import { AttritionTable } from './AttritionTable/AttritionTable';
 import { IconChevronUp, IconChevronDown } from '@tabler/icons-react';
 
 interface AttritionTableWrapperProps {
+  dispatch: (action: any) => void;
   selectedStudyPopulationCohort: cohort;
   datasetObservationWindow: number;
   selectedOutcomeCohort: cohort;
@@ -17,6 +18,7 @@ interface cohort { // TODO - centralize this interface
 }
 
 const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
+  dispatch,
   selectedStudyPopulationCohort,
   datasetObservationWindow,
   selectedOutcomeCohort,
@@ -49,6 +51,7 @@ const AttritionTableWrapper: React.FC<AttritionTableWrapperProps> = ({
         >
           {isOpen ? <div className="pl-4 py-10">
             <AttritionTable
+              dispatch={dispatch}
               selectedStudyPopulationCohort={selectedStudyPopulationCohort}
               datasetObservationWindow={datasetObservationWindow}
               selectedOutcomeCohort={selectedOutcomeCohort}
