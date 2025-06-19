@@ -2,6 +2,7 @@ import React from 'react';
 import ACTIONS from '../../Utils/StateManagement/Actions';
 import { LassoParameters } from './LassoParameters';
 import { RandomForestParameters } from './RandomForestParameters';
+import { SupportVectorMachineParameters } from './SupportVectorMachineParameters';
 import { useState } from 'react';
 import { Tabs, TabsList, TabsTab, TabsPanel } from '@mantine/core';
 import { Flex, Box, Title } from '@mantine/core';
@@ -9,7 +10,7 @@ import { Flex, Box, Title } from '@mantine/core';
 const modelOptions = [
   'Lasso Logistic Regression',
   'Random Forest',
-  'Gradient Boosting Machine',
+  'Support Vector Machine',
   'Ada Boost',
   'Decision Tree',
   'Naïve Bayes',
@@ -46,6 +47,12 @@ const SelectModelAndParameters = ({
         />;
       case 'Random Forest':
          return <RandomForestParameters
+          dispatch={dispatch}
+          model={model}
+          modelParameters={modelParameters}
+         />;
+      case 'Support Vector Machine':
+         return <SupportVectorMachineParameters
           dispatch={dispatch}
           model={model}
           modelParameters={modelParameters}

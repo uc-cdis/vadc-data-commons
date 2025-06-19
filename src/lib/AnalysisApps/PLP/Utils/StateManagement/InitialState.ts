@@ -1,6 +1,7 @@
 const initialState = {
   selectedStudyPopulationCohort: null,
   datasetObservationWindow: 0,
+  datasetRemainingSize: null,
   selectedOutcomeCohort: null,
   outcomeObservationWindow: 0,
   minimumCovariateOccurrence: 0.1,
