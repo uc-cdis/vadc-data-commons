@@ -34,7 +34,7 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
       [TOL]: 0.001,
       [CLASS_WEIGHT]: null,
       [CACHE_SIZE]: 500,
-      [SEED]: 42,
+      [SEED]: 0,
     }
   };
   const utils = new ModelParametersUtils(initialModelParameters, dispatch, model, modelParameters);
@@ -142,7 +142,7 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
       />
       <NumberInput
         label="A seed for the model"
-        placeholder="e.g. 42"
+        placeholder="e.g. 421"
         value={utils.getValue(SEED)}
         onChange={val => utils.handleSetModelParameters(SEED, val)}
         min={0}

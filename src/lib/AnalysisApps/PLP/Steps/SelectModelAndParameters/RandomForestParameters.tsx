@@ -22,7 +22,6 @@ const MIN_IMPURITY_DECREASE = 'minImpurityDecrease';
 const BOOTSTRAP = 'bootstrap';
 const MAX_SAMPLES = 'maxSamples';
 const OOB_SCORE = 'oobScore';
-const N_JOBS = 'nJobs';
 const CLASS_WEIGHT = 'classWeight';
 const SEED = 'seed';
 
@@ -44,6 +43,7 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
       [MAX_SAMPLES]: null,
       [OOB_SCORE]: false,
       [CLASS_WEIGHT]: null,
+      [SEED]: 0,
     }
   };
   const utils = new ModelParametersUtils(initialModelParameters, dispatch, model, modelParameters);
@@ -186,6 +186,15 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
         ]}
         onChange={(v) => utils.handleSetModelParameters(CLASS_WEIGHT, v)}
         allowDeselect
+      />
+      <NumberInput
+        label="A seed for the model"
+        placeholder="e.g. 421"
+        value={utils.getValue(SEED)}
+        onChange={val => utils.handleSetModelParameters(SEED, val)}
+        min={0}
+        max={100000}
+        step={1}
       />
     </div>
   );
