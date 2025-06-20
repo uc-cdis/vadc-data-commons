@@ -1,4 +1,4 @@
-import { NumberInput, Checkbox, Select, MultiSelect, Tooltip, Input, ActionIcon } from '@mantine/core';
+import { NumberInput, Checkbox, Select, MultiSelect, Tooltip, Input, ActionIcon, Box } from '@mantine/core';
 import { IconQuestionMark } from '@tabler/icons-react';
 import { ModelParamValues, ModelParametersUtils } from './ModelParametersUtils';
 import CommaSeparatedNumberInput from './CommaSeparatedNumberInput';
@@ -83,7 +83,15 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
         clearable
       />
       <MultiSelect
-        label="Gamma"
+        label={
+          <Input.Label>
+            Kernel coefficient for RBF and poly
+            <Tooltip multiline withArrow withinPortal w="90vh"
+              label={<>By default 1/n_features will be taken.</>}>
+              <ActionIcon size="xs" variant="light" ml={5} tabIndex={-1}><IconQuestionMark size={15} /></ActionIcon>
+            </Tooltip>
+          </Input.Label>
+        }
         data={[
           'scale',
           'auto',
@@ -98,31 +106,34 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
         clearable
       />
       <MultiSelect
-        label="Coef0 (only for poly/sigmoid)"
+        label="Independent term in kernel function (only for poly/sigmoid)"
         data={['0']}
         value={(Array.isArray(utils.getValue(COEF0)) ? utils.getValue(COEF0) : [utils.getValue(COEF0)]).map(String)}
         onChange={vals => utils.handleSetModelParameters(COEF0, vals.map(Number))}
         clearable
       />
-      <Checkbox
-        mt="md"
-        label="Use shrinking heuristic"
-        checked={!!utils.getValue(SHRINKING)}
-        onChange={e => utils.handleSetModelParameters(SHRINKING, e.currentTarget.checked)}
-      />
-      <NumberInput
-        label="Tolerance (tol)"
-        placeholder="e.g. 0.001"
+      <Box pb="md">
+        <Checkbox
+          mt="md"
+          label="Use shrinking heuristic"
+          checked={!!utils.getValue(SHRINKING)}
+          onChange={e => utils.handleSetModelParameters(SHRINKING, e.currentTarget.checked)}
+        />
+      </Box>
+      <CommaSeparatedNumberInput
+        label="Tolerance for stopping criterion"
+        tooltip={<>You can provide a single number (e.g. 0.001) or a comma-separated list (e.g. 0.001,0.005,etc).
+        When you provide a list, the model will run for each value, assess the results, and use the best one.
+        </>}
         value={utils.getValue(TOL)}
         onChange={val => utils.handleSetModelParameters(TOL, val)}
-        min={0}
-        step={0.00001}
+        placeholder="e.g. 0.001 or a list 0.001,0.005,etc"
       />
       <Select
-        label="Class weight"
+        label="Class weight based on imbalance"
         placeholder="e.g. balanced"
         data={[
-          { value: '', label: 'None' },
+          { value: 'NULL', label: 'None' },
           { value: 'balanced', label: 'Balanced' }
         ]}
         value={utils.getValue(CLASS_WEIGHT) ?? ''}
@@ -130,15 +141,7 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
         clearable
       />
       <NumberInput
-        label="Cache size (MB)"
-        placeholder="e.g. 500"
-        value={utils.getValue(CACHE_SIZE)}
-        onChange={val => utils.handleSetModelParameters(CACHE_SIZE, val)}
-        min={1}
-        step={1}
-      />
-      <NumberInput
-        label="Seed"
+        label="A seed for the model"
         placeholder="e.g. 42"
         value={utils.getValue(SEED)}
         onChange={val => utils.handleSetModelParameters(SEED, val)}
