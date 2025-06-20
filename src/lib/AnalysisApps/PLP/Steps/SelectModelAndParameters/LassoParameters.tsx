@@ -15,6 +15,7 @@ const UPPER_LIMIT = 'upperLimit';
 const LOWER_LIMIT = 'lowerLimit';
 const TOLERANCE = 'tolerance';
 const MAX_ITERATIONS = 'maxIterations';
+const SEED = 'seed';
 
 export function LassoParameters({ dispatch, model, modelParameters }: LassoParametersProps) {
 
@@ -27,6 +28,7 @@ export function LassoParameters({ dispatch, model, modelParameters }: LassoParam
       [LOWER_LIMIT]: 0.01,
       [TOLERANCE]: 2e-6,
       [MAX_ITERATIONS]: 3000,
+      [SEED]: 0,
     }
   };
   const utils = new ModelParametersUtils(initialModelParameters, dispatch, model, modelParameters);
@@ -78,6 +80,15 @@ export function LassoParameters({ dispatch, model, modelParameters }: LassoParam
         value={utils.getValue(MAX_ITERATIONS)}
         onChange={val => utils.handleSetModelParameters(MAX_ITERATIONS, val)}
         min={1}
+        step={1}
+      />
+      <NumberInput
+        label="A seed for the model"
+        placeholder="e.g. 421"
+        value={utils.getValue(SEED)}
+        onChange={val => utils.handleSetModelParameters(SEED, val)}
+        min={0}
+        max={100000}
         step={1}
       />
     </div>
