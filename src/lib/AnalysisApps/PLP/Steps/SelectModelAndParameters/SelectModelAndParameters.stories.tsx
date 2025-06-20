@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useReducer, Reducer } from 'react';
+import reducer, {State, Action} from '../../Utils/StateManagement/reducer';
+import InitializeCurrentState from '../../Utils/StateManagement/InitializeCurrentState';
 import SelectModelAndParameters from './SelectModelAndParameters';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -10,14 +12,14 @@ const meta: Meta<typeof SelectModelAndParameters> = {
 export default meta;
 type Story = StoryObj<typeof SelectModelAndParameters>;
 
-
 const SelectModelAndParametersWithHooks = () => {
+  const [state, dispatch] = useReducer<Reducer<State, Action>>(reducer, InitializeCurrentState());
 
   return (
     <SelectModelAndParameters
-          model={''}
-          modelParameters={[]}
-          dispatch={() => {return null}} // TODO - improve to update some state and make story useful for testing
+          model={state.model}
+          modelParameters={state.modelParameters}
+          dispatch={dispatch}
      />
   );
 };
