@@ -42,12 +42,14 @@ export function LassoParameters({ dispatch, model, modelParameters }: LassoParam
         step={0.01}
         required
       />
-      <Checkbox
-        mt="md"
-        label="Force intercept coefficient into prior"
-        checked={!!utils.getValue(FORCE_INTERCEPT)}
-        onChange={e => utils.handleSetModelParameters(FORCE_INTERCEPT, e.currentTarget.checked)}
-      />
+      <Box pb="md">
+        <Checkbox
+          mt="md"
+          label="Force intercept coefficient into prior"
+          checked={!!utils.getValue(FORCE_INTERCEPT)}
+          onChange={e => utils.handleSetModelParameters(FORCE_INTERCEPT, e.currentTarget.checked)}
+        />
+      </Box>
       <NumberInput
         label="Upper prior variance limit for grid-search"
         value={utils.getValue(UPPER_LIMIT)}
