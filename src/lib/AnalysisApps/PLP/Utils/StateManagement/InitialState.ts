@@ -7,7 +7,7 @@ const initialState = {
   minimumCovariateOccurrence: 0.1,
   useAllCovariates: true,
   numberOfCrossValidationFolds: 3,
-  percentageOfDataToUseAsTest: 25,
+  percentageOfDataToUseAsTest: null,
   model: 'Lasso Logistic Regression',
   modelParameters: {},
   currentStep: 0,

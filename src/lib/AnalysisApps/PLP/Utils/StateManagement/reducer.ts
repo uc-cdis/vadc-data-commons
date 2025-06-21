@@ -14,7 +14,7 @@ export interface State {
   minimumCovariateOccurrence: number;
   useAllCovariates: boolean;
   numberOfCrossValidationFolds: number,
-  percentageOfDataToUseAsTest: number,
+  percentageOfDataToUseAsTest: number | null,
   model: string,
   modelParameters: Record<string,any>,
   finalPopulationSizes: any[];
