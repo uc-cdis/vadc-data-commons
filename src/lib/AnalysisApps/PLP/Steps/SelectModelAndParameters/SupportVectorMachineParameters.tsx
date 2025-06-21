@@ -19,21 +19,19 @@ const COEF0 = 'coef0';
 const SHRINKING = 'shrinking';
 const TOL = 'tol';
 const CLASS_WEIGHT = 'classWeight';
-const CACHE_SIZE = 'cacheSize';
 const SEED = 'seed';
 
 export function SupportVectorMachineParameters({ dispatch, model, modelParameters }: SVMParametersProps) {
   const initialModelParameters: { [key: string]: ModelParamValues } = {
     [model]: {
-      [C_PARAM]: 1,
+      [C_PARAM]: [1],
       [KERNEL]: ['rbf'],
       [DEGREE]: 3,
       [GAMMA]: 'scale',
       [COEF0]: 0,
       [SHRINKING]: true,
-      [TOL]: 0.001,
+      [TOL]: [0.001],
       [CLASS_WEIGHT]: null,
-      [CACHE_SIZE]: 500,
       [SEED]: 0,
     }
   };
@@ -48,7 +46,7 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
         You can provide a single number (e.g. 1) or a comma-separated list (e.g. 1,10,etc).
         When you provide a list, the model will run for each value, assess the results, and use the best one.
         </>}
-        value={utils.getValue(C_PARAM)}
+        value={utils.getValue(C_PARAM).join(", ")}
         onChange={val => utils.handleSetModelParameters(C_PARAM, val)}
         placeholder = 'e.g. 0.1,0.9,etc or just 0.1'
       />
@@ -125,7 +123,7 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
         tooltip={<>You can provide a single number (e.g. 0.001) or a comma-separated list (e.g. 0.001,0.005,etc).
         When you provide a list, the model will run for each value, assess the results, and use the best one.
         </>}
-        value={utils.getValue(TOL)}
+        value={utils.getValue(TOL).join(", ")}
         onChange={val => utils.handleSetModelParameters(TOL, val)}
         placeholder="e.g. 0.001 or a list 0.001,0.005,etc"
       />
