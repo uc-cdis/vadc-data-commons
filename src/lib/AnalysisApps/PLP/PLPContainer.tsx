@@ -161,6 +161,7 @@ const PLPContainer = () => {
               minimumCovariateOccurrence={state.minimumCovariateOccurrence}
               percentageOfDataToUseAsTest={state.percentageOfDataToUseAsTest}
               numberOfCrossValidationFolds={state.numberOfCrossValidationFolds}
+              datasetRemainingSize={state.datasetRemainingSize}
               model={state.model}
               modelParameters={state.modelParameters}
             />
@@ -202,6 +203,7 @@ const PLPContainer = () => {
         selectionMode={state.selectionMode}
       />
       <AttritionTableWrapper
+        dispatch={dispatch}
         selectedStudyPopulationCohort={state.selectedStudyPopulationCohort}
         datasetObservationWindow={state.datasetObservationWindow}
         selectedOutcomeCohort={state.selectedOutcomeCohort}
