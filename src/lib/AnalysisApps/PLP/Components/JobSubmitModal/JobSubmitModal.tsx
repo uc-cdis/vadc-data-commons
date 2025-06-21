@@ -125,6 +125,19 @@ const JobSubmitModal: React.FC<Props> = ({
     }
   };
 
+  const calculateTestSetSize = (percentageOfDataToUseAsTest: number, datasetRemainingSize: number) => {
+    // round both test and training sizes and sum. If sum > datasetRemainingSize, then seet testSize = testSize -1.
+    // This will happen in some cases, e.g. datasetRemainingSize = 114, and percentageOfDataToUseAsTest = 25
+    // will result in rounded values of 86 and 29 = 115, which is then corrected by method below to 86 and 28.
+    const trainingSize = Math.round((100-percentageOfDataToUseAsTest)*datasetRemainingSize/100);
+    const testSize = Math.round((percentageOfDataToUseAsTest)*datasetRemainingSize/100);
+    if (trainingSize+testSize > datasetRemainingSize) {
+      return testSize-1;
+    } else {
+      return testSize;
+    }
+  };
+
   return (
     <Modal
       opened={true}
@@ -190,7 +203,7 @@ const JobSubmitModal: React.FC<Props> = ({
                   Training set size:
                 </td>
                 <td className="align-top">
-                  {datasetRemainingSize !== null ? `~${Math.round((100-percentageOfDataToUseAsTest)*datasetRemainingSize/100)}` : 'see attrition table'}
+                  {datasetRemainingSize !== null ? `${Math.round((100-percentageOfDataToUseAsTest)*datasetRemainingSize/100)}` : 'see attrition table'}
                 </td>
               </tr>
               <tr>
@@ -198,7 +211,7 @@ const JobSubmitModal: React.FC<Props> = ({
                   Testing set size:
                 </td>
                 <td className="align-top">
-                  {datasetRemainingSize !== null ? `~${Math.round((percentageOfDataToUseAsTest)*datasetRemainingSize/100)}` : 'see attrition table'}
+                  {datasetRemainingSize !== null ? `${calculateTestSetSize(percentageOfDataToUseAsTest, datasetRemainingSize)}` : 'see attrition table'}
                 </td>
               </tr>
               <tr>
