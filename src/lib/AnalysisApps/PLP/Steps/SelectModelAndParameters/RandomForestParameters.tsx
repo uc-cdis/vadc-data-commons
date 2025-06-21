@@ -30,15 +30,15 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
   // Default initial values:
   const initialModelParameters: { [key: string]: ModelParamValues } = {
     [model]: {
-      [NUM_TREES]: '100,500',
+      [NUM_TREES]: [100,500],
       [CRITERION]: ['gini'],
-      [MAX_DEPTH]: '4,10,17',
+      [MAX_DEPTH]: [4,10,17],
       [MIN_SAMPLES_SPLIT]: 2,
-      [MIN_SAMPLES_LEAF]: '1,10',
+      [MIN_SAMPLES_LEAF]: [1,10],
       [MIN_WEIGHT_FRACTION_LEAF]: 0.0,
       [MTRIES]: null,
       [MAX_LEAF_NODES]: null,
-      [MIN_IMPURITY_DECREASE]: 0,
+      [MIN_IMPURITY_DECREASE]: [0],
       [BOOTSTRAP]: true,
       [MAX_SAMPLES]: null,
       [OOB_SCORE]: false,
@@ -52,10 +52,10 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
     <div>
       <CommaSeparatedNumberInput
         label="Number of trees to build"
-        value={utils.getValue(NUM_TREES)}
+        value={utils.getValue(NUM_TREES).join(", ")}
         onChange={val => utils.handleSetModelParameters(NUM_TREES, val)}
         required
-        placeholder = 'e.g. 100,200,500 or just 100'
+        placeholder = 'e.g. 100, 200, 500 or just 100'
       />
       <MultiSelect
         label="Function to measure the quality of a split"
@@ -74,9 +74,9 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
         You can provide a single number (e.g. 4) or a comma-separated list (e.g. 4,10,etc).
         When you provide a list, the model will run for each value, assess the results, and use the best one.
         </>}
-        value={utils.getValue(MAX_DEPTH)}
+        value={utils.getValue(MAX_DEPTH).join(", ")}
         onChange={val => utils.handleSetModelParameters(MAX_DEPTH, val)}
-        placeholder = 'e.g. 4,10,17 or just 4'
+        placeholder = 'e.g. 4, 10, 17 or just 4'
       />
       <NumberInput
         label="Minimum number of samples required to split an internal node"
@@ -93,9 +93,9 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
         You can provide a single number (e.g. 1) or a comma-separated list (e.g. 1,10,etc).
         When you provide a list, the model will run for each value, assess the results, and use the best one.
         </>}
-        value={utils.getValue(MIN_SAMPLES_LEAF)}
+        value={utils.getValue(MIN_SAMPLES_LEAF).join(", ")}
         onChange={val => utils.handleSetModelParameters(MIN_SAMPLES_LEAF, val)}
-        placeholder = 'e.g. 1,10,etc or just 1'
+        placeholder = 'e.g. 1, 10,etc or just 1'
       />
       <NumberInput
         label="Minimum weighted fraction of the sum total of weights (of all the input samples) required to be at a leaf node"
@@ -132,7 +132,7 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
         You can provide a single number (e.g. 0) or a comma-separated list (e.g. 0,1,etc).
         When you provide a list, the model will run for each value, assess the results, and use the best one.
         </>}
-        value={utils.getValue(MIN_IMPURITY_DECREASE)}
+        value={utils.getValue(MIN_IMPURITY_DECREASE).join(", ")}
         onChange={val => utils.handleSetModelParameters(MIN_IMPURITY_DECREASE, val)}
         placeholder = 'e.g. 0'
       />
