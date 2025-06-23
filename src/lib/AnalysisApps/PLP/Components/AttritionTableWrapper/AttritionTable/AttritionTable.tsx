@@ -10,7 +10,7 @@ interface AttritionTableProps {
   datasetObservationWindow: number;
   selectedOutcomeCohort: cohort;
   outcomeObservationWindow: number;
-  percentageOfDataToUseAsTest: number;
+  percentageOfDataToUseAsTest: number | null;
 }
 
 interface cohort { // TODO - centralize this interface
@@ -45,7 +45,7 @@ export const AttritionTable: React.FC<AttritionTableProps> = ({
     'Initial data cohort',
     `Observation window (${datasetObservationWindow} days)`,
     `Time-at-risk (${outcomeObservationWindow} days)`,
-    `Training set (${100-percentageOfDataToUseAsTest}%)`,
+    `Training set (${percentageOfDataToUseAsTest? 100-percentageOfDataToUseAsTest : '...'}%)`,
   ];
 
   const getTraininSetSize = async (baseSize: number | null) => {

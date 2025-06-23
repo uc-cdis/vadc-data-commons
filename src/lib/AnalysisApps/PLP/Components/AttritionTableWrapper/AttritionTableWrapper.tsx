@@ -8,7 +8,7 @@ interface AttritionTableWrapperProps {
   datasetObservationWindow: number;
   selectedOutcomeCohort: cohort;
   outcomeObservationWindow: number;
-  percentageOfDataToUseAsTest: number;
+  percentageOfDataToUseAsTest: number | null;
 }
 
 interface cohort { // TODO - centralize this interface

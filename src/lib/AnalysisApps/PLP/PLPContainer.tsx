@@ -120,7 +120,7 @@ const PLPContainer = () => {
           <br/>
           <DefineTestAndValidationDatasets
             numberOfCrossValidationFolds={state.numberOfCrossValidationFolds}
-            percentageOfDataToUseAsTest={state.percentageOfDataToUseAsTest}
+            percentageOfDataToUseAsTest={state.percentageOfDataToUseAsTest ?? undefined}
             dispatch={dispatch}
           />
           <br/>
@@ -149,7 +149,7 @@ const PLPContainer = () => {
             modelParameters={state.modelParameters}
             dispatch={dispatch}
           />
-          {state.showJobSubmitModal && (
+          {state.showJobSubmitModal && state.percentageOfDataToUseAsTest && (
             <JobSubmitModal
               jobName={state.jobName}
               dispatch={dispatch}
@@ -181,7 +181,8 @@ const PLPContainer = () => {
     (state.currentStep === 0 && !state.selectedStudyPopulationCohort) ||
     (state.currentStep === 1 && !state.datasetObservationWindow) ||
     (state.currentStep === 2 && !state.selectedOutcomeCohort) ||
-    (state.currentStep === 3 && !state.outcomeObservationWindow)
+    (state.currentStep === 3 && !state.outcomeObservationWindow) ||
+    (state.currentStep === 5 && !state.percentageOfDataToUseAsTest)
   ) {
     nextButtonEnabled = false;
   }

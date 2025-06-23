@@ -1,7 +1,7 @@
 import React from 'react';
 import ACTIONS from '../../Utils/StateManagement/Actions';
 import { NumberInput } from '@mantine/core';
-import { toInteger } from 'lodash';
+import { toInteger, toNumber } from 'lodash';
 
 
 type DefineTestAndValidationDatasetsProps = {
@@ -51,9 +51,7 @@ const DefineTestAndValidationDatasets = ({
         value={percentageOfDataToUseAsTest}
         rightSection="%"
         onChange={(value) => {
-          if (typeof value === 'number') {
-            handlePercentageOfDataToUseAsTest(value);
-          }
+          handlePercentageOfDataToUseAsTest(toNumber(value));
         }}
       />
     </div>
