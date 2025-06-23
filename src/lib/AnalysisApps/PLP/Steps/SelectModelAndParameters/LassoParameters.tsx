@@ -1,6 +1,6 @@
 import { TextInput, NumberInput, Checkbox, Group, Box, Text } from '@mantine/core';
 import { ModelParamValues, ModelParametersUtils } from './ModelParametersUtils';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface LassoParametersProps {
   dispatch: (action: any) => void;
@@ -32,6 +32,12 @@ export function LassoParameters({ dispatch, model, modelParameters }: LassoParam
     }
   };
   const utils = new ModelParametersUtils(initialModelParameters, dispatch, model, modelParameters);
+  useEffect(() => {
+    // Loop through all keys and set them
+    Object.entries(initialModelParameters[model]).forEach(([param, value]) => {
+      utils.handleSetModelParameters(param, value);
+    });
+  }, []); // Only runs once, on component mount
 
   return (
     <div>

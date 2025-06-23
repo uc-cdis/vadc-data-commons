@@ -2,7 +2,7 @@ import { NumberInput, Checkbox, Select, MultiSelect, Tooltip, Input, ActionIcon,
 import { IconQuestionMark } from '@tabler/icons-react';
 import { ModelParamValues, ModelParametersUtils } from './ModelParametersUtils';
 import CommaSeparatedNumberInput from './CommaSeparatedNumberInput';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface SVMParametersProps {
   dispatch: (action: any) => void;
@@ -36,6 +36,12 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
     }
   };
   const utils = new ModelParametersUtils(initialModelParameters, dispatch, model, modelParameters);
+  useEffect(() => {
+    // Loop through all keys and set them
+    Object.entries(initialModelParameters[model]).forEach(([param, value]) => {
+      utils.handleSetModelParameters(param, value);
+    });
+  }, []); // Only runs once, on component mount
 
   return (
     <div>

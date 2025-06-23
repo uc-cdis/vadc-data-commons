@@ -1,7 +1,7 @@
 import { TextInput, NumberInput, Checkbox, Select, Group, Box, Text, MultiSelect } from '@mantine/core';
 import { ModelParamValues, ModelParametersUtils } from './ModelParametersUtils';
 import CommaSeparatedNumberInput from './CommaSeparatedNumberInput';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface RandomForestParametersProps {
   dispatch: (action: any) => void;
@@ -47,6 +47,12 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
     }
   };
   const utils = new ModelParametersUtils(initialModelParameters, dispatch, model, modelParameters);
+  useEffect(() => {
+    // Loop through all keys and set them
+    Object.entries(initialModelParameters[model]).forEach(([param, value]) => {
+      utils.handleSetModelParameters(param, value);
+    });
+  }, []); // Only runs once, on component mount
 
   return (
     <div>
