@@ -13,7 +13,7 @@ import { GWASResultsJobs } from './HomeTable/HomeTable';
 import { GEN3_API } from '@gen3/core';
 
 const meta: Meta<typeof Home> = {
-  title: 'GWASResults/Views/Home',
+  title: 'Results/Views/Home',
   component: Home,
   decorators: [
     (Story) => {
