@@ -100,7 +100,7 @@ const HomeTable = ({ data }: { data: GWASResultsJobs[] }) => {
       header: 'Date/Time Finished',
       accessorKey: 'finishedAt',
       filterVariant: 'date-range',
-      Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
+      Cell: ({ cell }) => cell.getValue() ? new Date(cell.getValue<Date>()).toLocaleDateString() : '--',
     },
     {
       header: 'View Details',
@@ -171,7 +171,7 @@ const HomeTable = ({ data }: { data: GWASResultsJobs[] }) => {
 
   /*useEffect(() => { TODO get persisrtence working
     setHomeTableState({
-      ...homeTableState, 
+      ...homeTableState,
       columnFilters: columnFilters,
       columnVisibility: columnVisibility,
       globalFilter: globalFilter,
