@@ -66,7 +66,7 @@ export function LassoParameters({ dispatch, model, modelParameters }: LassoParam
         step={0.01}
       />
       <NumberInput
-        label="ower prior variance limit for grid-search"
+        label="Lower prior variance limit for grid-search"
         value={utils.getValue(LOWER_LIMIT)}
         onChange={val => utils.handleSetModelParameters(LOWER_LIMIT, val)}
         min={0}
