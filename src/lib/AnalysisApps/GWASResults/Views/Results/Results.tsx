@@ -19,7 +19,7 @@ const Results = () => {
   const { name, uid } = selectedRowData;
 
   //TODO clean this up and make only one api call, move up to parent
-  const endpoint = `${GEN3_WORKFLOW_API}status/${name}?uid=${uid}`;
+  const endpoint = `${GEN3_WORKFLOW_API}/status/${name}?uid=${uid}`;
 
   const { data, error, isLoading, isValidating } = useSWR(
     endpoint,

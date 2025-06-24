@@ -23,7 +23,7 @@ const DefineOutcomeObservationWindow = ({
   return (
     <div data-tour="define-dataset-observation-window">
       <NumberInput
-        label="Outcome observation window"
+        label="Outcome window"
         placeholder="Enter number of days"
         w={400}
         min={0}

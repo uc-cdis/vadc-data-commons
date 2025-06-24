@@ -184,7 +184,7 @@ const JobSubmitModal: React.FC<Props> = ({
               </tr>
               <tr>
                 <td className="font-semibold pr-4 text-right align-top whitespace-nowrap">
-                  Outcome Observation Window:
+                  Outcome Window:
                 </td>
                 <td className="align-top">
                   {outcomeObservationWindow} days

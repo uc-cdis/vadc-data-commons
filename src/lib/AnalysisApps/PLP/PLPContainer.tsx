@@ -77,7 +77,7 @@ const PLPContainer = () => {
       return (
         <div data-tour="cohort-intro" >
           <div>
-            In this step, you can define an outcome observation period in days. This period specifies how many days to look for the outcome
+            In this step, you can define an outcome period in days. This period specifies how many days to look for the outcome
             of interest to occur for each patient relative to their cohort entry date in the initial dataset.
             This is also known as the time-at-risk window.
           </div>

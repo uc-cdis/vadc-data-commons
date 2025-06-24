@@ -52,7 +52,7 @@ export const MockedSuccess: Story = {
     msw: {
       handlers: [
         http.get(
-          `${GEN3_WORKFLOW_API}status/:workflowname`,
+          `${GEN3_WORKFLOW_API}/status/:workflowname`,
           async ({ params }) => {
             const { argowrapperpath, workflowname } = params;
             console.log('argowrapperpath', argowrapperpath);
