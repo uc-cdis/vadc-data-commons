@@ -38,10 +38,10 @@ const ResourcesData = [
     imageSrc: GWASResults,
   },
   {
-    title: 'MVP Data Dictionary',
+    title: 'Data Dictionary',
     link: '/AtlasDataDictionary',
     summary:
-      'Use this App to view a tabluar representation of the MVP data dictionary',
+      'Use this App to view a tabluar representation of the data dictionary',
     imageSrc: DataDictionary,
   },
 ];
