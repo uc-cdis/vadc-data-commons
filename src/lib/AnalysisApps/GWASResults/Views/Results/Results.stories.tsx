@@ -19,7 +19,7 @@ const selectedRowData5 = { name: 'Test Name5', uid: '123456789' };
 const selectedRowData6 = { name: 'Test_Name6', uid: '9991116' };
 
 const meta: Meta<typeof Results> = {
-  title: 'GWASResults/Views/Results',
+  title: 'Results/Views/Results',
   component: Results,
   decorators: [
     (Story, { parameters }) => {
