@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Text, Grid, Title } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
-import PLPApp from './Icons/PLPApp.svg';
+import PLPApp from './Icons/PLPApp.png';
 import GWASUIApp from './Icons/GWASUIApp.svg';
 import GWASResults from './Icons/GWASResults.svg';
 import AtlasLogo from './Icons/atlasLogo.svg';
@@ -25,7 +25,7 @@ const ResourcesData = [
     imageSrc: GWASUIApp,
   },
   {
-    title: 'Run patient level prediction models',
+    title: 'Run Patient Level Prediction Models',
     link: '/PLPApp',
     summary:
       'Use this app for building Patient Level Prediction (PLP) models',

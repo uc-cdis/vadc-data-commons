@@ -61,7 +61,7 @@ export const fetchGwasWorkflows = async () => {
   }
   return response.json();
 
-  became 
+  became
 
   const { data, error, isLoading, isValidating } = useSWR(
     `${GEN3_API}/${GwasWorkflowEndpoint}?team_projects=${selectedTeamProject}`,

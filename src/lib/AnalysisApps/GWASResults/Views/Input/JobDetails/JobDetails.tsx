@@ -219,4 +219,3 @@ const JobDetails = ({ attritionTableData }: {attritionTableData: AttritionTableJ
 };
 
 export default JobDetails;
-
