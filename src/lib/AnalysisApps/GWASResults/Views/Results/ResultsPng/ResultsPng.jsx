@@ -80,11 +80,20 @@ const ResultsPng = (artifactName) => {
     );
   };
 
+
+  const isSafeImageSrc = (url) => {
+    // some basic check of the url
+    return (
+      /^https?:\/\/.+/i.test(url) ||
+      /^data:image\/(png|jpeg|gif|webp);base64,/.test(url)
+    );
+  }
+
   return (
     <div className='results-view'>
       {displayTopSection()}
       <section className='data-viz'>
-        {!imageLoadFailed && (
+        {isSafeImageSrc(data) && !imageLoadFailed (
           <Tooltip title='Right click and select “Save Image As” to download'>
             <img
               src={data}
