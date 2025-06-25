@@ -168,12 +168,12 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
               Bootstrap settings
             </Text>
           </Group>
-          <TextInput
-            label="Number of samples to draw from X to train each base estimator"
-            placeholder="e.g. 0.9" //???
+          <NumberInput
+            label="Number or fraction of samples to draw from X to train each base estimator"
+            placeholder="e.g. 100 (for number of samples) or e.g. 0.9 (for fraction of samples)"
             value={utils.getValue(MAX_SAMPLES)}
-            onChange={(e) => utils.handleSetModelParameters(MAX_SAMPLES, e.target.value)}
-            mb="md"
+            onChange={val => utils.handleSetModelParameters(MAX_SAMPLES, val)}
+            min={0}
           />
           <Checkbox
             label="Use out-of-bag samples to estimate generalization score"
