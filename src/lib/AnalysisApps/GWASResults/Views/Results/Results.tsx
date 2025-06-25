@@ -4,7 +4,7 @@ import SharedContext from '../../Utils/SharedContext';
 
 import LoadingErrorMessage from '../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
 //import ResultsPheWeb from './ResultsPheWeb/ResultsPheWeb';
-//import ResultsPng from './ResultsPng/ResultsPng';
+import ResultsPng from './ResultsPng/ResultsPng';
 
 import { Loader, Button } from '@mantine/core';
 import useSWR from 'swr';
@@ -77,7 +77,7 @@ const Results = () => {
     );
   }
 
-  const displayManhattanPlot = () => {
+  const displayPlot = () => {
     // Try the pheweb option first:
     let results = data?.outputs?.parameters?.filter(
       (entry) => entry.name === 'pheweb_manhattan_json_index',
@@ -92,6 +92,14 @@ const Results = () => {
     if (results && results.length !== 0) {
       return <>ResultsPng</>;//<ResultsPng />;
     }
+    // Try PLP
+    results = data?.outputs?.parameters?.filter(
+      (entry) => entry.name === 'lasso_logistic_regression_sparceROC_index',
+    );
+    if (results && results.length !== 0) {
+      return <ResultsPng artifactName={'lasso_logistic_regression_sparceROC_index'} />;
+    }
+
     // If none of the above, show error:
     return (
       <LoadingErrorMessage message='Plot cannot display. This workflow pre-dates the availability of the plot in the user interface. To see the plot please use the “Download All Results” button.' />
@@ -101,7 +109,7 @@ const Results = () => {
   return (
     <div className='results-view'>
       {displayTopSection()}
-      <section className='data-viz'>{displayManhattanPlot()}</section>
+      <section className='data-viz'>{displayPlot()}</section>
     </div>
   );
 };

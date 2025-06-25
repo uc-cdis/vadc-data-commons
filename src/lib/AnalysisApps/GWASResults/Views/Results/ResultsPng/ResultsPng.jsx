@@ -1,4 +1,3 @@
-/*
 import React, { useContext, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Spin, Button, Tooltip } from 'antd';
@@ -6,21 +5,21 @@ import SharedContext from '../../../Utils/SharedContext';
 import { fetchPresignedUrlForWorkflowArtifact } from '../../../Utils/gwasWorkflowApi';
 import queryConfig from '../../../../SharedUtils/QueryConfig';
 import LoadingErrorMessage from '../../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
-import '../Results.css';
+// import '../Results.css';
 
-/* eslint no-alert: 0  const ResultsPng = () => {
+const ResultsPng = (artifactName) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageLoadFailed, setImageLoadFailed] = useState(false);
   const { selectedRowData } = useContext(SharedContext);
   const { name, uid } = selectedRowData;
   const { data, status } = useQuery(
-    ['fetchPresignedUrlForWorkflowArtifact', name, uid, 'manhattan_plot_index'],
-    () => fetchPresignedUrlForWorkflowArtifact(name, uid, 'manhattan_plot_index'),
+    ['fetchPresignedUrlForWorkflowArtifact', name, uid, artifactName],
+    () => fetchPresignedUrlForWorkflowArtifact(name, uid, artifactName),
     queryConfig,
   );
 
-  const downloadManhattanPlot = () => {
-    fetchPresignedUrlForWorkflowArtifact(name, uid, 'manhattan_plot_index')
+  const downloadPlot = () => {
+    fetchPresignedUrlForWorkflowArtifact(name, uid, artifactName)
       .then((res) => {
         window.open(res, '_blank');
       })
@@ -32,15 +31,7 @@ import '../Results.css';
   const displayTopSection = () => (
     <section className='results-top'>
       <div className='GWASResults-flex-row section-header'>
-        <div className='GWASResults-flex-col qq-plot-button'>
-          <Tooltip
-            className='qq-plot-button-tooltip'
-            title='If you want to see the QQ Plot for older workflows please download all results'
-          >
-            <Button disabled>View QQ Plot</Button>
-          </Tooltip>
-        </div>
-        <Button onClick={downloadManhattanPlot}>View Image in New Tab</Button>
+        <Button onClick={downloadPlot}>View Image in New Tab</Button>
       </div>
     </section>
   );
@@ -49,7 +40,7 @@ import '../Results.css';
     return (
       <React.Fragment>
         {displayTopSection()}
-        <LoadingErrorMessage message='Error getting Manhattan plot' />
+        <LoadingErrorMessage message='Error getting plot' />
       </React.Fragment>
     );
   }
@@ -58,7 +49,7 @@ import '../Results.css';
       <React.Fragment>
         {displayTopSection()}
         <div className='spinner-container'>
-          Fetching Manhattan plot... <Spin />
+          Fetching plot... <Spin />
         </div>
       </React.Fragment>
     );
@@ -97,7 +88,7 @@ import '../Results.css';
           <Tooltip title='Right click and select “Save Image As” to download'>
             <img
               src={data}
-              alt='Manhattan plot'
+              alt='Results plot'
               onLoad={() => {
                 setImageLoaded(true);
               }}
@@ -113,5 +104,3 @@ import '../Results.css';
   );
 };
 export default ResultsPng;
-
-*/
