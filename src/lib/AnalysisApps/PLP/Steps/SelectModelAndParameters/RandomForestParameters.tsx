@@ -37,7 +37,7 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
       [MIN_SAMPLES_LEAF]: [1,10],
       [MIN_WEIGHT_FRACTION_LEAF]: [0.0],
       [MTRIES]: [],
-      [MAX_LEAF_NODES]: '',
+      [MAX_LEAF_NODES]: [],
       [MIN_IMPURITY_DECREASE]: [0],
       [BOOTSTRAP]: true,
       [MAX_SAMPLES]: '',
@@ -127,12 +127,14 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
           { value: 'NULL', label: 'consider max_features=n_features' },
         ]}
       />
-      <NumberInput
+      <CommaSeparatedNumberInput
         label="Maximum leaf nodes (grow trees with max_leaf_nodes in best-first fashion)"
-        placeholder="e.g. 100"
-        value={utils.getValue(MAX_LEAF_NODES)}
+        tooltip={<>You can provide a single number (e.g. 100) or a comma-separated list (e.g. 100,200,etc).
+        When you provide a list, the model will run for each value, assess the results, and use the best one.
+        </>}
+        value={utils.getValue(MAX_LEAF_NODES).join(", ")}
         onChange={val => utils.handleSetModelParameters(MAX_LEAF_NODES, val)}
-        min={0}
+        placeholder = 'e.g. 100'
       />
       <CommaSeparatedNumberInput
         label="Minimum impurity decrease"
