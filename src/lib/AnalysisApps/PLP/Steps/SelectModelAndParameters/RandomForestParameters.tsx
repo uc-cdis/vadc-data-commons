@@ -33,16 +33,16 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
       [NUM_TREES]: [100,500],
       [CRITERION]: ['gini'],
       [MAX_DEPTH]: [4,10,17],
-      [MIN_SAMPLES_SPLIT]: 2,
+      [MIN_SAMPLES_SPLIT]: [2],
       [MIN_SAMPLES_LEAF]: [1,10],
-      [MIN_WEIGHT_FRACTION_LEAF]: 0.0,
-      [MTRIES]: null,
-      [MAX_LEAF_NODES]: null,
+      [MIN_WEIGHT_FRACTION_LEAF]: [0.0],
+      [MTRIES]: [],
+      [MAX_LEAF_NODES]: '',
       [MIN_IMPURITY_DECREASE]: [0],
       [BOOTSTRAP]: true,
-      [MAX_SAMPLES]: null,
+      [MAX_SAMPLES]: '',
       [OOB_SCORE]: false,
-      [CLASS_WEIGHT]: null,
+      [CLASS_WEIGHT]: '',
       [SEED]: 0,
     }
   };
@@ -65,7 +65,7 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
       />
       <MultiSelect
         label="Function to measure the quality of a split"
-        placeholder="Select"
+        placeholder="Select one or more"
         value={utils.getValue(CRITERION) || []}
         onChange={(v) => utils.handleSetModelParameters(CRITERION, v)}
         data={[
@@ -84,12 +84,14 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
         onChange={val => utils.handleSetModelParameters(MAX_DEPTH, val)}
         placeholder = 'e.g. 4, 10, 17 or just 4'
       />
-      <NumberInput
+      <CommaSeparatedNumberInput
         label="Minimum number of samples required to split an internal node"
-        placeholder="e.g. 2"
-        value={utils.getValue(MIN_SAMPLES_SPLIT)}
-        onChange={(v) => utils.handleSetModelParameters(MIN_SAMPLES_SPLIT, v)}
-        min={2}
+        tooltip={<>You can provide a single number (e.g. 2) or a comma-separated list (e.g. 2,3,etc).
+        When you provide a list, the model will run for each value, assess the results, and use the best one.
+        </>}
+        placeholder="e.g. 2, 3, etc or just 2"
+        value={utils.getValue(MIN_SAMPLES_SPLIT).join(", ")}
+        onChange={val => utils.handleSetModelParameters(MIN_SAMPLES_SPLIT, val)}
       />
       <CommaSeparatedNumberInput
         label="Minimum number of samples required to be at a leaf node"
@@ -103,19 +105,19 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
         onChange={val => utils.handleSetModelParameters(MIN_SAMPLES_LEAF, val)}
         placeholder = 'e.g. 1, 10,etc or just 1'
       />
-      <NumberInput
+      <CommaSeparatedNumberInput
         label="Minimum weighted fraction of the sum total of weights (of all the input samples) required to be at a leaf node"
+        tooltip={<>You can provide a single number (e.g. 0.0) or a comma-separated list (e.g. 0.0,0.1,etc).
+        When you provide a list, the model will run for each value, assess the results, and use the best one.
+        </>}
         placeholder="e.g. 0.0"
-        value={utils.getValue(MIN_WEIGHT_FRACTION_LEAF)}
-        onChange={(v) => utils.handleSetModelParameters(MIN_WEIGHT_FRACTION_LEAF, v)}
-        min={0.0}
-        max={0.9}
-        step={0.01}
+        value={utils.getValue(MIN_WEIGHT_FRACTION_LEAF).join(", ")}
+        onChange={val => utils.handleSetModelParameters(MIN_WEIGHT_FRACTION_LEAF, val)}
       />
-      <Select
+      <MultiSelect
         label="The number of features to consider when looking for the best split "
-        placeholder="Select"
-        value={utils.getValue(MTRIES)}
+        placeholder="Select one or more"
+        value={utils.getValue(MTRIES) || []}
         onChange={(v) => utils.handleSetModelParameters(MTRIES, v)}
         data={[
           { value: 'int', label: 'consider max_features features at each split' },
