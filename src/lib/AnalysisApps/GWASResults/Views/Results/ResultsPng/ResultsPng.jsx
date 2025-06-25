@@ -96,6 +96,8 @@ const ResultsPng = (artifactName) => {
         {isSafeImageSrc(data) && !imageLoadFailed (
           <Tooltip title='Right click and select “Save Image As” to download'>
             <img
+              // snyk-code-ignore
+              // reason: src attribute is validated by isSafeImageSrc; false positive for DOMXSS
               src={data}
               alt='Results plot'
               onLoad={() => {
