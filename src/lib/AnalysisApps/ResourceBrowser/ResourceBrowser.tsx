@@ -18,13 +18,6 @@ const ResourcesData = [
     imageSrc: AtlasLogo,
   },
   {
-    title: 'Gen3 GWAS',
-    link: '/GWASUIApp',
-    summary:
-      'Use this App to perform high throughput GWAS on Million Veteran Program (MVP) data, using the University of Washington Genesis pipeline',
-    imageSrc: GWASUIApp,
-  },
-  {
     title: 'Run Patient Level Prediction Models',
     link: '/PLPApp',
     summary:
