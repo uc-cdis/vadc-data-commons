@@ -39,7 +39,7 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
       [MTRIES]: [],
       [MAX_LEAF_NODES]: [],
       [MIN_IMPURITY_DECREASE]: [0],
-      [BOOTSTRAP]: true,
+      [BOOTSTRAP]: [true],
       [MAX_SAMPLES]: '',
       [OOB_SCORE]: false,
       [CLASS_WEIGHT]: '',
@@ -152,8 +152,8 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
       <Checkbox
         mt="md"
         label="Use bootstrap samples when building trees (if not selected, the whole dataset is used to build each tree)"
-        checked={!!utils.getValue(BOOTSTRAP)}
-        onChange={(e) => utils.handleSetModelParameters(BOOTSTRAP, e.currentTarget.checked)}
+        checked={!!utils.getValue(BOOTSTRAP)[0]}
+        onChange={(e) => utils.handleSetModelParameters(BOOTSTRAP, [e.currentTarget.checked])}
       />
       {utils.getValue(BOOTSTRAP) && (
         <Box
