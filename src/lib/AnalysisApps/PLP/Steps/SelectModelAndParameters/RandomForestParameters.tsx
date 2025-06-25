@@ -127,11 +127,12 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
           { value: 'NULL', label: 'consider max_features=n_features' },
         ]}
       />
-      <TextInput
+      <NumberInput
         label="Maximum leaf nodes (grow trees with max_leaf_nodes in best-first fashion)"
         placeholder="e.g. 100"
         value={utils.getValue(MAX_LEAF_NODES)}
-        onChange={(e) => utils.handleSetModelParameters(MAX_LEAF_NODES, e.target.value)}
+        onChange={val => utils.handleSetModelParameters(MAX_LEAF_NODES, val)}
+        min={0}
       />
       <CommaSeparatedNumberInput
         label="Minimum impurity decrease"
