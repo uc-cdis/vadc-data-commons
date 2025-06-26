@@ -31,26 +31,6 @@ const ResultsPng: React.FC<ResultsPngProps> = ({ artifactName }) => {
     // , options // optional
   );
 
-  const downloadPlot = () => {
-    fetchPresignedUrlForWorkflowArtifact(name, uid, artifactName)
-      .then((res: string) => {
-        window.open(res, '_blank');
-      })
-      .catch((error: Error) => {
-        alert(`Could not download. \n\n\${error}`);
-      });
-  };
-
-  const displayTopSection = () => (
-    <section className='results-top'>
-      <div className='GWASResults-flex-row section-header'>
-        <Button onClick={downloadPlot} variant="outline">
-          View Image in New Tab
-        </Button>
-      </div>
-    </section>
-  );
-
   const isSafeImageSrc = (url: string) => {
     return (
       /^https?:\/\/.+/i.test(url) ||
@@ -61,7 +41,6 @@ const ResultsPng: React.FC<ResultsPngProps> = ({ artifactName }) => {
   if (error || (data && !isSafeImageSrc(data))) {
     return (
       <>
-        {displayTopSection()}
         <LoadingErrorMessage message='Error getting plot' />
       </>
     );
@@ -69,7 +48,6 @@ const ResultsPng: React.FC<ResultsPngProps> = ({ artifactName }) => {
   if (isLoading || isValidating) {
     return (
       <>
-        {displayTopSection()}
         <div className='spinner-container'>
           Fetching plot... <Loader size="sm" />
         </div>
@@ -80,7 +58,6 @@ const ResultsPng: React.FC<ResultsPngProps> = ({ artifactName }) => {
   if (!data) {
     return (
       <>
-        {displayTopSection()}
         <LoadingErrorMessage message='Failed to load image, no image path' />
       </>
     );
@@ -104,18 +81,24 @@ const ResultsPng: React.FC<ResultsPngProps> = ({ artifactName }) => {
 
   return (
     <div className='results-view'>
-      {displayTopSection()}
       <section className='data-viz'>
         {isSafeImageSrc(data) && !imageLoadFailed && (
-          <Tooltip label='Right click and select “Save Image As” to download'>
-            <img
-              // snyk-code-ignore
-              // reason: src attribute is validated by isSafeImageSrc; false positive for DOMXSS
-              src={data}
-              alt='Results plot'
-              onLoad={() => setImageLoaded(true)}
-              onError={() => setImageLoadFailed(true)}
-            />
+          <Tooltip label='Click to open in tab. Right click and select “Save Image As” to download'>
+            <a
+              href={data}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                // snyk-code-ignore
+                // reason: src attribute is validated by isSafeImageSrc; false positive for DOMXSS
+                src={data}
+                alt='Results plot'
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoadFailed(true)}
+                className="w-[60%] h-auto max-h-screen p-4 rounded-lg bg-white object-contain"
+              />
+            </a>
           </Tooltip>
         )}
         {displaySpinnerWhileImageLoadsOrErrorIfItFails()}
