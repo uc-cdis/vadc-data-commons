@@ -1,66 +1,81 @@
 import React, { useContext, useState } from 'react';
-import { useQuery } from 'react-query';
-import { Spin, Button, Tooltip } from 'antd';
+import useSWR from 'swr';
+import { Loader, Button, Tooltip } from '@mantine/core';
 import SharedContext from '../../../Utils/SharedContext';
 import { fetchPresignedUrlForWorkflowArtifact } from '../../../Utils/gwasWorkflowApi';
-import queryConfig from '../../../../SharedUtils/QueryConfig';
 import LoadingErrorMessage from '../../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
-// import '../Results.css';
 
-const ResultsPng = (artifactName) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageLoadFailed, setImageLoadFailed] = useState(false);
+interface ResultsPngProps {
+  artifactName: string;
+}
+
+const ResultsPng: React.FC<ResultsPngProps> = ({ artifactName }) => {
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  const [imageLoadFailed, setImageLoadFailed] = useState<boolean>(false);
+
   const { selectedRowData } = useContext(SharedContext);
+  if (!selectedRowData) {
+    throw new Error('selectedRowData is not defined in SharedContext');
+  }
   const { name, uid } = selectedRowData;
-  const { data, status } = useQuery(
+
+  type PresignedUrlType = string;
+  const fetcher = (
+    [_key, name, uid, artifactName]: [string, string, string, string]
+  ): Promise<PresignedUrlType> =>
+    fetchPresignedUrlForWorkflowArtifact(name, uid, artifactName);
+
+  const { data, error, isLoading, isValidating } = useSWR<PresignedUrlType, Error>(
     ['fetchPresignedUrlForWorkflowArtifact', name, uid, artifactName],
-    () => fetchPresignedUrlForWorkflowArtifact(name, uid, artifactName),
-    queryConfig,
+    fetcher
+    // , options // optional
   );
 
   const downloadPlot = () => {
     fetchPresignedUrlForWorkflowArtifact(name, uid, artifactName)
-      .then((res) => {
+      .then((res: string) => {
         window.open(res, '_blank');
       })
-      .catch((error) => {
-        alert(`Could not download. \n\n${error}`);
+      .catch((error: Error) => {
+        alert(`Could not download. \n\n\${error}`);
       });
   };
 
   const displayTopSection = () => (
     <section className='results-top'>
       <div className='GWASResults-flex-row section-header'>
-        <Button onClick={downloadPlot}>View Image in New Tab</Button>
+        <Button onClick={downloadPlot} variant="outline">
+          View Image in New Tab
+        </Button>
       </div>
     </section>
   );
 
-  if (status === 'error') {
+  if (error) {
     return (
-      <React.Fragment>
+      <>
         {displayTopSection()}
         <LoadingErrorMessage message='Error getting plot' />
-      </React.Fragment>
+      </>
     );
   }
-  if (status === 'loading') {
+  if (isLoading || isValidating) {
     return (
-      <React.Fragment>
+      <>
         {displayTopSection()}
         <div className='spinner-container'>
-          Fetching plot... <Spin />
+          Fetching plot... <Loader size="sm" />
         </div>
-      </React.Fragment>
+      </>
     );
   }
 
   if (!data) {
     return (
-      <React.Fragment>
+      <>
         {displayTopSection()}
         <LoadingErrorMessage message='Failed to load image, no image path' />
-      </React.Fragment>
+      </>
     );
   }
 
@@ -71,41 +86,35 @@ const ResultsPng = (artifactName) => {
       );
     }
     if (imageLoaded) {
-      return '';
+      return null;
     }
     return (
       <div className='spinner-container'>
-        Loading... <Spin />
+        Loading... <Loader size="sm" />
       </div>
     );
   };
 
-
-  const isSafeImageSrc = (url) => {
-    // some basic check of the url
+  const isSafeImageSrc = (url: string) => {
     return (
       /^https?:\/\/.+/i.test(url) ||
       /^data:image\/(png|jpeg|gif|webp);base64,/.test(url)
     );
-  }
+  };
 
   return (
     <div className='results-view'>
       {displayTopSection()}
       <section className='data-viz'>
-        {isSafeImageSrc(data) && !imageLoadFailed (
-          <Tooltip title='Right click and select “Save Image As” to download'>
+        {isSafeImageSrc(data) && !imageLoadFailed && (
+          <Tooltip label='Right click and select “Save Image As” to download'>
             <img
               // snyk-code-ignore
               // reason: src attribute is validated by isSafeImageSrc; false positive for DOMXSS
               src={data}
               alt='Results plot'
-              onLoad={() => {
-                setImageLoaded(true);
-              }}
-              onError={() => {
-                setImageLoadFailed(true);
-              }}
+              onLoad={() => setImageLoaded(true)}
+              onError={() => setImageLoadFailed(true)}
             />
           </Tooltip>
         )}
@@ -114,4 +123,5 @@ const ResultsPng = (artifactName) => {
     </div>
   );
 };
+
 export default ResultsPng;
