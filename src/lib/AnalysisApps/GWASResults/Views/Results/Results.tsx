@@ -42,7 +42,7 @@ const Results = () => {
         <div className='GWASResults-flex-col'>
           <DetailPageHeader pageTitle={`Results / ${name}`} />
         </div>
-        <div>
+        <div className="flex justify-end">
           <Button onClick={downloadAll}>Download All Results</Button>
         </div>
       </div>
