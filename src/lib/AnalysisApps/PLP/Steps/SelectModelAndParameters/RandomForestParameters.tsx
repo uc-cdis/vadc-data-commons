@@ -40,9 +40,9 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
       [MAX_LEAF_NODES]: [],
       [MIN_IMPURITY_DECREASE]: [0],
       [BOOTSTRAP]: [true],
-      [MAX_SAMPLES]: '',
-      [OOB_SCORE]: false,
-      [CLASS_WEIGHT]: '',
+      [MAX_SAMPLES]: [],
+      [OOB_SCORE]: [false],
+      [CLASS_WEIGHT]: [],
       [SEED]: 0,
     }
   };
@@ -155,7 +155,7 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
         checked={!!utils.getValue(BOOTSTRAP)[0]}
         onChange={(e) => utils.handleSetModelParameters(BOOTSTRAP, [e.currentTarget.checked])}
       />
-      {utils.getValue(BOOTSTRAP) && (
+      {utils.getValue(BOOTSTRAP)[0] && (
         <Box
           mt="md"
           p="md"
@@ -170,33 +170,33 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
               Bootstrap settings
             </Text>
           </Group>
-          <NumberInput
+          <CommaSeparatedNumberInput
             label="Number or fraction of samples to draw from X to train each base estimator"
-            placeholder="e.g. 100 (for number of samples) or e.g. 0.9 (for fraction of samples)"
-            value={utils.getValue(MAX_SAMPLES)}
+            tooltip={<>You can provide a single number (e.g. 100) or a comma-separated list (e.g. 100,200,etc).
+            When you provide a list, the model will run for each value, assess the results, and use the best one.
+            </>}
+            value={utils.getValue(MAX_SAMPLES).join(", ")}
             onChange={val => utils.handleSetModelParameters(MAX_SAMPLES, val)}
-            min={0}
+            placeholder="e.g. 100 (for number of samples) or e.g. 0.9 (for fraction of samples)"
           />
           <Checkbox
             label="Use out-of-bag samples to estimate generalization score"
-            checked={!!utils.getValue(OOB_SCORE)}
-            onChange={(e) => utils.handleSetModelParameters(OOB_SCORE, e.currentTarget.checked)}
+            checked={!!utils.getValue(OOB_SCORE)[0]}
+            onChange={(e) => utils.handleSetModelParameters(OOB_SCORE, [e.currentTarget.checked])}
           />
         </Box>
       )}
       {/* END Bootstrap section */}
-
-      <Select
-        label="Class weights (classWeight)"
-        placeholder="Select"
-        value={utils.getValue(CLASS_WEIGHT)}
+      <MultiSelect
+        label="Class weights"
+        placeholder="Select one or more"
+        value={utils.getValue(CLASS_WEIGHT) || []}
+        onChange={(v) => utils.handleSetModelParameters(CLASS_WEIGHT, v)}
         data={[
           { value: 'NULL', label: 'none' },
           { value: 'balanced', label: 'balanced' },
           { value: 'balanced_subsample', label: 'balanced_subsample' },
         ]}
-        onChange={(v) => utils.handleSetModelParameters(CLASS_WEIGHT, v)}
-        allowDeselect
       />
       <NumberInput
         label="A seed for the model"
