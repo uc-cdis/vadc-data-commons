@@ -51,7 +51,14 @@ const ResultsPng: React.FC<ResultsPngProps> = ({ artifactName }) => {
     </section>
   );
 
-  if (error) {
+  const isSafeImageSrc = (url: string) => {
+    return (
+      /^https?:\/\/.+/i.test(url) ||
+      /^data:image\/(png|jpeg|gif|webp);base64,/.test(url)
+    );
+  };
+
+  if (error || (data && !isSafeImageSrc(data))) {
     return (
       <>
         {displayTopSection()}
@@ -92,13 +99,6 @@ const ResultsPng: React.FC<ResultsPngProps> = ({ artifactName }) => {
       <div className='spinner-container'>
         Loading... <Loader size="sm" />
       </div>
-    );
-  };
-
-  const isSafeImageSrc = (url: string) => {
-    return (
-      /^https?:\/\/.+/i.test(url) ||
-      /^data:image\/(png|jpeg|gif|webp);base64,/.test(url)
     );
   };
 
