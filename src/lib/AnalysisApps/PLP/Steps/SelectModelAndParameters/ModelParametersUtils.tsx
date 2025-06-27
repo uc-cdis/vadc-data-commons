@@ -32,7 +32,7 @@ export class ModelParametersUtils {
             // Optionally trim whitespace and filter empty strings:
             const parsed = value
                 .split(',')
-                .map(item => item.trim())
+                //.map(item => item.trim())
                 .filter(item => item.length > 0);
 
             value = parsed;
@@ -43,7 +43,10 @@ export class ModelParametersUtils {
                 const numbers: number[] = parsed.map(num => Number(num));
                 value = numbers;
             }
-
+        }
+        // mapping for MultiSelect scenario where numbers and strings can be mixed:
+        if (Array.isArray(value)) {
+            value = value.map(v => isNaN(Number(v)) ? v : Number(v));
         }
 
         this.dispatch({

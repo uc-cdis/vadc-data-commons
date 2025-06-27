@@ -26,12 +26,12 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
     [model]: {
       [C_PARAM]: [1],
       [KERNEL]: ['rbf'],
-      [DEGREE]: 3,
-      [GAMMA]: 'scale',
-      [COEF0]: 0,
-      [SHRINKING]: true,
+      [DEGREE]: [3],
+      [GAMMA]: ['scale'],
+      [COEF0]: [0],
+      [SHRINKING]: [true],
       [TOL]: [0.001],
-      [CLASS_WEIGHT]: null,
+      [CLASS_WEIGHT]: ['balanced'],
       [SEED]: 0,
     }
   };
@@ -79,12 +79,11 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
         onChange={v => utils.handleSetModelParameters(KERNEL, v)}
         clearable
       />
-      <MultiSelect
+      <CommaSeparatedNumberInput
         label="Degree (for poly/rbf/sigmoid kernels)"
-        data={['1', '3', '5']}
-        value={(Array.isArray(utils.getValue(DEGREE)) ? utils.getValue(DEGREE) : [utils.getValue(DEGREE)]).map(String)}
-        onChange={vals => utils.handleSetModelParameters(DEGREE, vals.map(Number))}
-        clearable
+        value={utils.getValue(DEGREE).join(", ")}
+        onChange={(v) => utils.handleSetModelParameters(DEGREE, v)}
+        placeholder = 'e.g. 1,3,5 or just 1'
       />
       <MultiSelect
         label={
@@ -105,23 +104,21 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
           '0.01',
           '0.25'
         ]}
-        value={(Array.isArray(utils.getValue(GAMMA)) ? utils.getValue(GAMMA) : [utils.getValue(GAMMA)]).map(String)}
-        onChange={vals => utils.handleSetModelParameters(GAMMA, vals.map(v => isNaN(Number(v)) ? v : Number(v)))}
+        value={utils.getValue(GAMMA).map(String)}
+        onChange={v => utils.handleSetModelParameters(GAMMA, v)}
         clearable
       />
-      <MultiSelect
+      <CommaSeparatedNumberInput
         label="Independent term in kernel function (only for poly/sigmoid)"
-        data={['0']}
-        value={(Array.isArray(utils.getValue(COEF0)) ? utils.getValue(COEF0) : [utils.getValue(COEF0)]).map(String)}
-        onChange={vals => utils.handleSetModelParameters(COEF0, vals.map(Number))}
-        clearable
+        value={utils.getValue(COEF0).join(", ")}
+        onChange={v => utils.handleSetModelParameters(COEF0, v)}
       />
       <Box pb="md">
         <Checkbox
           mt="md"
           label="Use shrinking heuristic"
-          checked={!!utils.getValue(SHRINKING)}
-          onChange={e => utils.handleSetModelParameters(SHRINKING, e.currentTarget.checked)}
+          checked={!!utils.getValue(SHRINKING)[0]}
+          onChange={e => utils.handleSetModelParameters(SHRINKING, [e.currentTarget.checked])}
         />
       </Box>
       <CommaSeparatedNumberInput
@@ -140,9 +137,8 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
           { value: 'NULL', label: 'None' },
           { value: 'balanced', label: 'Balanced' }
         ]}
-        value={utils.getValue(CLASS_WEIGHT) ?? ''}
-        onChange={val => utils.handleSetModelParameters(CLASS_WEIGHT, val || null)}
-        clearable
+        value={utils.getValue(CLASS_WEIGHT)[0]}
+        onChange={val => utils.handleSetModelParameters(CLASS_WEIGHT, [val])}
       />
       <NumberInput
         label="A seed for the model"
