@@ -93,11 +93,17 @@ const Results = () => {
       return <>ResultsPng</>;//<ResultsPng />;
     }
     // Try PLP
-    results = data?.outputs?.parameters?.filter(
-      (entry) => entry.name === 'lasso_logistic_regression_sparceROC_index',
+    const artifactNames = [
+      'lasso_logistic_regression_sparceROC_index',
+      'random_forest_sparceROC_index',
+      'support_vector_machine_sparceROC_index'
+    ];
+    // Find the first present
+    const foundArtifact = artifactNames.find(artifactName =>
+      data?.outputs?.parameters?.some(entry => entry.name === artifactName)
     );
-    if (results && results.length !== 0) {
-      return <ResultsPng artifactName={'lasso_logistic_regression_sparceROC_index'} />;
+    if (foundArtifact) {
+      return <ResultsPng artifactName={foundArtifact} />;
     }
 
     // If none of the above, show error:
