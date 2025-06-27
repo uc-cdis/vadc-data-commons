@@ -34,7 +34,16 @@ export class ModelParametersUtils {
                 .split(',')
                 .map(item => item.trim())
                 .filter(item => item.length > 0);
+
             value = parsed;
+
+            // if original items were numbers, convert all new ones to numbers:
+            const allNumbers = original.every(item => typeof item === 'number' && !isNaN(item));
+            if (allNumbers) {
+                const numbers: number[] = parsed.map(num => Number(num));
+                value = numbers;
+            }
+
         }
 
         this.dispatch({

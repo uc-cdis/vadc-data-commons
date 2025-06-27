@@ -36,13 +36,13 @@ export function RandomForestParameters({ dispatch, model, modelParameters }: Ran
       [MIN_SAMPLES_SPLIT]: [2],
       [MIN_SAMPLES_LEAF]: [1,10],
       [MIN_WEIGHT_FRACTION_LEAF]: [0.0],
-      [MTRIES]: [],
-      [MAX_LEAF_NODES]: [],
+      [MTRIES]: ['sqrt', 'log2'],
+      [MAX_LEAF_NODES]: [100],
       [MIN_IMPURITY_DECREASE]: [0],
       [BOOTSTRAP]: [true],
-      [MAX_SAMPLES]: [],
+      [MAX_SAMPLES]: [0.9],
       [OOB_SCORE]: [false],
-      [CLASS_WEIGHT]: [],
+      [CLASS_WEIGHT]: ['balanced'],
       [SEED]: 0,
     }
   };
