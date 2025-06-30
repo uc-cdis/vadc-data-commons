@@ -32,7 +32,7 @@ export class ModelParametersUtils {
             // Optionally trim whitespace and filter empty strings:
             const parsed = value
                 .split(',')
-                //.map(item => item.trim())
+                .map(item => item.trim())
                 .filter(item => item.length > 0);
 
             value = parsed;
