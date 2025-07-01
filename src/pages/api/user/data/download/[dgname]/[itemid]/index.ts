@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const data = 'http://localhost:3000/images/logo.svg?width=640&q=75';
+const data = 'http://localhost:3000/mock/roc_plot.png';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
