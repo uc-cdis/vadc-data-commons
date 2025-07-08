@@ -16,7 +16,7 @@ RUN npm install @swc/core @napi-rs/magic-string && \
     npm run build
 
 # Production stage
-FROM node:22-alpine3.20 AS runner
+FROM node:22-slim AS runner
 
 WORKDIR /gen3
 
