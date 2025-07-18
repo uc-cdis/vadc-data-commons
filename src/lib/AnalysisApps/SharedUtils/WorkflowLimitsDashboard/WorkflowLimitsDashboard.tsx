@@ -4,7 +4,7 @@ import { Loader, Progress } from '@mantine/core';
 import { GEN3_API } from '@gen3/core';
 import useSWR from 'swr';
 
-const WorkflowLimitsDashboard = React.memo(() => {
+const WorkflowLimitsDashboard = () => {
   const supportEmail = 'support@gen3.org';
   const refetchInterval = 5000;
 
@@ -90,6 +90,6 @@ const WorkflowLimitsDashboard = React.memo(() => {
       </div>
     </React.Fragment>
   );
-});
+};
 
 export default WorkflowLimitsDashboard;

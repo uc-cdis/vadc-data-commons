@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { http, HttpResponse, delay } from 'msw';
 import { GEN3_API } from '@gen3/core';
