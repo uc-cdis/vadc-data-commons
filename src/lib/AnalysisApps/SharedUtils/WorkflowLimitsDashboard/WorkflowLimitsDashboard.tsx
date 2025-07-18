@@ -1,50 +1,59 @@
-/*
 import React from 'react';
-import { useQuery } from 'react-query';
-import { Spin, Progress } from 'antd';
-import { components } from '../../../params';
-import {
-  fetchMonthlyWorkflowLimitInfo,
-  workflowLimitsLoadingErrorMessage,
-  workflowLimitsInvalidDataMessage,
-  workflowLimitInfoIsValid,
-} from './WorkflowLimitsUtils';
 import LoadingErrorMessage from '../LoadingErrorMessage/LoadingErrorMessage';
-import './WorkflowLimitsDashboard.css';
+import { Loader, Progress } from '@mantine/core';
+import { GEN3_API } from '@gen3/core';
+import useSWR from 'swr';
 
 const WorkflowLimitsDashboard = React.memo(() => {
-  const supportEmail = components.login?.email || 'support@gen3.org';
+  const supportEmail = 'support@gen3.org';
   const refetchInterval = 5000;
 
-  const { data, status } = useQuery(
-    ['monthly-workflow-limit'],
-    fetchMonthlyWorkflowLimitInfo,
-    {
-      refetchInterval,
-    },
+  const { data, error, isLoading, isValidating } = useSWR(
+    `${GEN3_API}/ga4gh/wes/v2/workflows/user-monthly`,
+    (...args) => fetch(...args).then((res) => res.json()),
+    { refreshInterval: refetchInterval },
   );
-  if (status === 'loading') {
+
+  const workflowLimitInfoIsValid = (data: any) => {
+    // Check if data is an object
+    if (typeof data !== 'object' || data === null) {
+      return false;
+    }
+    // validate data contains expected keys and they're numeric
+    // and workflow limit is greater than 0
+    if (
+      typeof data?.workflow_run !== 'number'
+      || typeof data?.workflow_limit !== 'number'
+      || !(data.workflow_limit > 0)
+    ) {
+      return false;
+    }
+    return true;
+  };
+
+
+  if (!data && (isLoading || isValidating)) {
     return (
       <div className='workflow-limits-dashboard row'>
         <div className='spinner-container'>
-          <Spin /> Retrieving user workflow information.
+          <Loader /> Retrieving user workflow information.
           <br />
           Please wait...
         </div>
       </div>
     );
   }
-  if (status === 'error') {
+  if (error) {
     return (
       <div className='workflow-limits-dashboard row'>
-        <LoadingErrorMessage message={workflowLimitsLoadingErrorMessage} />
+        <LoadingErrorMessage message={'Unable to gather user workflow information.'} />
       </div>
     );
   }
-  if (status === 'success' && !workflowLimitInfoIsValid(data)) {
+  if (!workflowLimitInfoIsValid(data)) {
     return (
       <div className='workflow-limits-dashboard row'>
-        <LoadingErrorMessage message={workflowLimitsInvalidDataMessage} />
+        <LoadingErrorMessage message={'Invalid server response for user workflow information.'} />
       </div>
     );
   }
@@ -74,9 +83,8 @@ const WorkflowLimitsDashboard = React.memo(() => {
             </div>
           )}
           <Progress
-            percent={(workflowRun / workflowLimit) * 100}
-            showInfo={false}
-            status={workflowRun >= workflowLimit ? 'exception' : 'success'}
+            value={(workflowRun / workflowLimit) * 100}
+            color={workflowRun >= workflowLimit ? 'red' : 'blue'}
           />
         </div>
       </div>
@@ -85,5 +93,3 @@ const WorkflowLimitsDashboard = React.memo(() => {
 });
 
 export default WorkflowLimitsDashboard;
-
-*/
