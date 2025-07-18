@@ -32,7 +32,7 @@ const WorkflowLimitsDashboard = () => {
   };
 
 
-  if (!data && (isLoading || isValidating)) {
+  if (!(data || error) && (isLoading || isValidating)) {
     return (
       <div className='workflow-limits-dashboard row'>
         <div className='spinner-container'>
@@ -83,6 +83,7 @@ const WorkflowLimitsDashboard = () => {
             </div>
           )}
           <Progress
+            aria-label='Monthly Workflow Limit'
             value={(workflowRun / workflowLimit) * 100}
             color={workflowRun >= workflowLimit ? 'red' : 'blue'}
           />
