@@ -1,6 +1,6 @@
 import React from 'react';
 import LoadingErrorMessage from '../LoadingErrorMessage/LoadingErrorMessage';
-import { Loader, Progress } from '@mantine/core';
+import { Loader, Progress, Title } from '@mantine/core';
 import { GEN3_API } from '@gen3/core';
 import useSWR from 'swr';
 
@@ -34,25 +34,26 @@ const WorkflowLimitsDashboard = () => {
 
   if (!(data || error) && (isLoading || isValidating)) {
     return (
-      <div className='workflow-limits-dashboard row'>
-        <div className='spinner-container'>
-          <Loader /> Retrieving user workflow information.
+      <div className='flex items-center justify-center bg-white p-4 rounded border border-gray-200'>
+        <Loader /> 
+        <span className='text-left ml-2'>
+          Retrieving user workflow information.
           <br />
           Please wait...
-        </div>
+        </span>
       </div>
     );
   }
   if (error) {
     return (
-      <div className='workflow-limits-dashboard row'>
+      <div className='flex bg-white p-4 rounded border border-gray-200'>
         <LoadingErrorMessage message={'Unable to gather user workflow information.'} />
       </div>
     );
   }
   if (!workflowLimitInfoIsValid(data)) {
     return (
-      <div className='workflow-limits-dashboard row'>
+      <div className='flex bg-white p-4 rounded border border-gray-200'>
         <LoadingErrorMessage message={'Invalid server response for user workflow information.'} />
       </div>
     );
@@ -62,14 +63,14 @@ const WorkflowLimitsDashboard = () => {
 
   return (
     <React.Fragment>
-      <div className='workflow-limits-dashboard row'>
-        <div className='column'>
-          <h3>Monthly Workflow Limit</h3>
+      <div className='flex bg-white p-4 rounded border border-gray-200'>
+        <div className='pr-4'>
+          <Title order={3}>Monthly Workflow Limit</Title>
           <div data-testid='workflow-limits-message'>
             <strong>{workflowRun} used</strong> from {workflowLimit} Limit
           </div>
         </div>
-        <div className='column progress'>
+        <div className='grow relative'>
           {workflowRun >= workflowLimit && (
             <div>
               <div
@@ -83,9 +84,12 @@ const WorkflowLimitsDashboard = () => {
             </div>
           )}
           <Progress
+            size="lg"
+            radius="md"
             aria-label='Monthly Workflow Limit'
             value={(workflowRun / workflowLimit) * 100}
             color={workflowRun >= workflowLimit ? 'red' : 'blue'}
+            className='absolute bottom-0 w-full'
           />
         </div>
       </div>
