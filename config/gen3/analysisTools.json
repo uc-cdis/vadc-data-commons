@@ -7,7 +7,7 @@
       "image": "/images/apps/PLP_covariate_importance.png",
       "description": "This notebook demonstrates how to download and analyze the results of successful PLP workflow.",
       "loginRequired": false,
-      "href": "/staticNotebook/rf_model_analysis.html",
+      "href": "/htmlNotebooks/rf_model_analysis.html",
       "btnText": "Show Analysis"
     }
   ]
