@@ -86,7 +86,7 @@ const SelectModelAndParameters = ({
             }}
           >
             {modelOptions.map((model) => (
-              <TabsTab key={model} value={model.replace(/\s+/g, '-')}>
+              <TabsTab key={model} value={model}>
                 {model}
               </TabsTab>
             ))}
@@ -94,7 +94,7 @@ const SelectModelAndParameters = ({
 
           <Box ml="md" style={{ flex: 1 }}>
             {modelOptions.map((model) => (
-              <TabsPanel key={model} value={model.replace(/\s+/g, '-')}>
+              <TabsPanel key={model} value={model}>
                 <Title order={5} mb="sm">
                   Selected model: {model}
                 </Title>
