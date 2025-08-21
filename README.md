@@ -120,8 +120,6 @@ Add `.env.development.local` file with:
 
 ```
 NEXT_PUBLIC_GEN3_COMMONS_NAME=gen3
-NEXT_PUBLIC_GEN3_API=
+NEXT_PUBLIC_GEN3_API=http://localhost:3000/api
 NEXT_PUBLIC_GEN3_WORLFLOW_API=http://localhost:3000/api/ga4gh/wes/v2
-GEN3_API==http://localhost:3000/api
-
 ```
