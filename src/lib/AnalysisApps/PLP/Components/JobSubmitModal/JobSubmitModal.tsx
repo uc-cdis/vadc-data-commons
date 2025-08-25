@@ -78,7 +78,7 @@ const JobSubmitModal: React.FC<Props> = ({
         min_time_at_risk: 364,  // TODO - advanced option
         include_all_outcomes:  true, // TODO - advanced option
         first_exposure_only: false, // TODO - advanced option
-        remove_subjects_with_prior_outcome: true, // TODO - advanced option
+        remove_subjects_with_prior_outcome: false, // TODO - advanced option
         source_id: sourceId,
         covariate_min_fraction: minimumCovariateOccurrence,
         test_fraction: percentageOfDataToUseAsTest/100,
