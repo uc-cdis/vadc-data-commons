@@ -62,8 +62,9 @@ const SelectModelAndParameters = ({
         return "Not Available";
     }
   }
+  const getIdFromModelName = (modelName: string) => modelName.replace(/\s+/g, '-');
 
-  const [activeTab, setActiveTab] = useState<string>(model);
+  const [activeTab, setActiveTab] = useState<string>(getIdFromModelName(model));
   return (
     <Box>
       <Title order={4} mb="sm">
@@ -85,22 +86,26 @@ const SelectModelAndParameters = ({
               flexShrink: 0,
             }}
           >
-            {modelOptions.map((model) => (
-              <TabsTab key={model} value={model}>
+            {modelOptions.map((model) => {
+              const idReadyName = getIdFromModelName(model);
+              return (
+              <TabsTab key={idReadyName} value={idReadyName}>
                 {model}
               </TabsTab>
-            ))}
+            )})}
           </TabsList>
 
           <Box ml="md" style={{ flex: 1 }}>
-            {modelOptions.map((model) => (
-              <TabsPanel key={model} value={model}>
+            {modelOptions.map((model) => {
+              const idReadyName = getIdFromModelName(model);
+              return (
+              <TabsPanel key={idReadyName} value={idReadyName}>
                 <Title order={5} mb="sm">
                   Selected model: {model}
                 </Title>
                 { getModelParameters(model) }
               </TabsPanel>
-            ))}
+            )})}
           </Box>
         </Flex>
       </Tabs>
