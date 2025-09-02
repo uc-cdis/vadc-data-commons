@@ -104,7 +104,7 @@ const getMockWorkflowList = () => {
       wf_name: 'User Added WF Name ' + requestCount,
       uid: 'uid-' + requestCount,
       phase: phase,
-      finishedAt: (phase === PHASES.Running? null : new Date().toISOString()),
+      finishedAt: (phase === PHASES.Running? null : new Date(new Date().getTime() + Math.random() * 6000000).toISOString()),
       submittedAt: new Date(new Date().getTime() - Math.random() * 1e12).toISOString(),
       startedAt: new Date().toISOString(),
     });
