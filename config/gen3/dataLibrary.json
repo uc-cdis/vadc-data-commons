@@ -54,6 +54,24 @@
           "errorMessage": "only 1 GA4GH_DRS can be selected"
         }
       ]
+    },
+    {
+      "id": "exportDiscoveryToWorksapce",
+      "label": "Export Workspace",
+      "rightIcon" : "gen3:send",
+      "buttonLabel" : "Export",
+      "actionFunction" : "export-from-discovery-to-workspace",
+      "parameters" : {
+        "useAggMDS" : false
+      },
+      "itemRules": [
+        {
+          "field": "type",
+          "operator": "equals",
+          "value": "GA4GH_DRS",
+          "errorMessage": "file type must be GA4GH_DRS"
+        }
+      ]
     }
   ]
 }
