@@ -1,6 +1,6 @@
 
 
-This is the NextJS Application for VPODC
+This is the base REPOSITORY for Gen3.2 data commons.
 
 
 ## Getting Started
