@@ -44,34 +44,27 @@ interface Gen3AppProps {
 }
 
 const Gen3App = ({
-                   Component,
-                   pageProps,
-                   icons,
-                   sessionConfig,
-                   modalsConfig,
-                 }: AppProps & Gen3AppProps) => {
-  useEffect(() => {
-    setDRSHostnames(drsHostnames);
-  }, []);
-
-  const faroRef = useRef<null | Faro>(null);
+  Component,
+  pageProps,
+  icons,
+  sessionConfig,
+  modalsConfig,
+}: AppProps & Gen3AppProps) => {
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    // one time init
-    // if (
-    //   process.env.NEXT_PUBLIC_FARO_COLLECTOR_URL &&
-    //   process.env.NEXT_PUBLIC_FARO_APP_ENVIRONMENT != "local" &&
-    //   !faroRef.current
-    // ) {
-
-    if (!faroRef.current) faroRef.current = initGrafanaFaro();
-    registerExplorerDefaultCellRenderers();
-    //  registerCohortDiscoveryApp();
-    registerMetadataSchemaApp();
-    registerCohortBuilderDefaultPreviewRenderers();
-    registerCohortTableCustomCellRenderers();
-    registerCustomExplorerDetailsPanels();
-    // }
+    if (isFirstRender.current) {
+      setDRSHostnames(drsHostnames);
+      registerDefaultRemoteSupport();
+      registerMetadataSchemaApp();
+      registerCohortDiscoveryApp();
+      registerExplorerDefaultCellRenderers();
+      registerCohortBuilderDefaultPreviewRenderers();
+      registerCohortTableCustomCellRenderers();
+      registerCustomExplorerDetailsPanels();
+      isFirstRender.current = false;
+      console.log('Gen3 App initialized');
+    }
   }, []);
 
   const [isClient, setIsClient] = useState(false);
