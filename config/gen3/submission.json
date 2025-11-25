@@ -2,20 +2,26 @@
   "projectTable": {
     "columns": [
       {
-        "name": "Patient",
-        "field": "_case_count",
+        "name": "Subjects",
+        "field": "_subject_count",
         "errorIfNotAvailable": false,
         "valueIfNotAvailable": "n/a"
       },
       {
-        "name": "Submitted Unaligned Reads",
-        "field": "_unaligned_reads_file_count",
+        "name": "Studies",
+        "field": "_study_count",
         "errorIfNotAvailable": false,
         "valueIfNotAvailable": "n/a"
       },
       {
-        "name": "Image File",
-        "field": "_imaging_file_count",
+        "name": "Aliquots",
+        "field": "_aliquot_count",
+        "errorIfNotAvailable": false,
+        "valueIfNotAvailable": "n/a"
+      },
+      {
+        "name": "Files",
+        "field": "_genotyping_array_count",
         "errorIfNotAvailable": false,
         "valueIfNotAvailable": "n/a"
       }

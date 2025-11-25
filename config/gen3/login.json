@@ -1,16 +1,12 @@
 {
   "topContent": [
     {
-      "text": "Veterans Precision Oncology Data Commons",
+      "text": "Gen3 Data Commons",
       "className": "text-center text-3xl font-bold"
     },
     {
-      "text": "Explore, Analyze, and Share Data",
-      "className": "uppercase text-center text-xl font-medium"
-    },
-    {
-      "text": "The Veterans Data Commons supports the management, analysis and sharing of veteran oncologic data for the research community and aims to accelerate discovery and development of therapies, diagnostic tests, and other technologies for precision oncology.",
-      "className": "text-center text-sm"
+      "text": "DISCOVER, ANALYZE, AND SHARE DATA",
+      "className": "text-center text-xl font-medium"
     }
   ],
   "bottomContent": [

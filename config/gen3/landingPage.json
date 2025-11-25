@@ -2,23 +2,15 @@
   "body": [
     {
       "title": {
-        "text": "Veterans Precision Oncology Data Commons",
-        "level": 2
+        "text": "Cohort Analysis Data Commons",
+        "level": 1
       }
     },
     {
       "splitarea": {
         "left": [
           {
-            "text": "The VPO Data Commons supports the management, and analysis of veteran oncologic data for the research community. The data commons aims to accelerate discovery and development of therapies, diagnostic tests, and other technologies for precision oncology. The data commons supports cross-project analyses by harmonizing data from different projects through the collaborative development of a data dictionary, providing an API for data queries, and providing a cloud-based analysis workspace with rich tools and resources."
-          },
-          {
-            "link": {
-              "href": "/Submission",
-              "linkType": "portal",
-              "text": "Submit Data",
-              "rightIcon": "gen3:upload"
-            }
+            "text": "The Cohort Analysis Data Commons (CADC) supports the research and analysis of US military Veteran medical and genomic data and aims to accelerate scientific discovery and development of therapies, diagnostic tests, and other technologies for improving the lives of Veterans and beyond."
           }
         ],
         "right": [
@@ -30,47 +22,6 @@
           }
         ]
       }
-    },
-    {
-      "break": "standard"
-    },
-    {
-      "cardsArea": {
-        "title": "",
-        "cards": [
-          {
-            "icon": "MdOutlineSearch",
-            "bodyText": "The VPO Data Commons defines the data in a general way. Please study the dictionary before you start browsing.",
-            "btnText": "Define Data Field",
-            "href": "/DataDictionary",
-            "linkType": "portal"
-          },
-          {
-            "icon": "MdOutlineSearch",
-            "bodyText": "View or submit data to a project.",
-            "btnText": "View/Submit Data",
-            "href": "/Submission",
-            "linkType": "portal"
-          },
-          {
-            "icon": "MdOutlineSearch",
-            "bodyText": "Use our selected tool to filter out the data you need.",
-            "btnText": "Access Data",
-            "href": "/Explorer",
-            "linkType": "portal"
-          },
-          {
-            "icon": "MdOutlineSearch",
-            "bodyText": "Analyze your selected cases using Jupyter Notebooks in our secure cloud environment",
-            "btnText": "Analyze Data",
-            "href": "/Workspace",
-            "linkType": "portal"
-          }
-        ]
-      }
-    },
-    {
-      "break": "standard"
     }
   ]
 }
