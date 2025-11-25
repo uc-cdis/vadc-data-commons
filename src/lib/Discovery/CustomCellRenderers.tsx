@@ -38,7 +38,6 @@ export const LinkedStudyCell = ({
 
 const WrappedStringCell = (
   { value }: CellRenderFunctionProps,
-
   params?: JSONObject,
 ) => {
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import MakeFullscreenButton from './MakeFullscreenButton';
 import FullscreenSelectors from './FullscreenSelectors';
-import type { Meta, StoryObj } from '@storybook/react';
-import { userEvent, within, expect } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+import { userEvent, within, expect } from 'storybook/test';
 
 const meta: Meta<typeof MakeFullscreenButton> = {
   title: 'GWASAPP/MakeFullscreenButton ',

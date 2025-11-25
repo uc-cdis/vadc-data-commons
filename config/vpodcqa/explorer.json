@@ -1,0 +1,197 @@
+[
+  {
+    "tabTitle": "Patients",
+    "charts": {},
+    "filters": {
+      "tabs": [
+        {
+          "title": "Demographic",
+          "fields": [
+            "project_id",
+            "Days_To_Birth",
+            "Days_To_Death",
+            "DeceasedFlag",
+            "Ethnicity",
+            "Gender",
+            "Race"
+          ],
+          "fieldsConfig" : {
+            "DeceasedFlag": {
+              "field": "DeceasedFlag",
+              "label": "Deceasedflag"
+            }
+          }
+        },
+        {
+          "title": "actionable_mutations",
+          "fields": [
+            "project_id",
+            "Lab",
+            "Gene",
+            "DaysFromAnchorDateToBxDate"
+          ]
+        },
+        {
+          "title": "oncology_primaries",
+          "fields": [
+            "project_id",
+            "Multiplicitycounter",
+            "ICDOSite",
+            "Radiation",
+            "Chemotherapy",
+            "DaysFromAnchorDateToDiagnosisDate",
+            "Gradedifferentiation",
+            "Laterality",
+            "Stagegroupbest",
+            "RadiationsurgerySequence",
+            "Histologyicdo3X",
+            "Lymphvascularinvasionl",
+            "SeerSummaryStage2000",
+            "PhysiciansStage",
+            "DaysFromAnchorDateToMostdefinitivesurgDate",
+            "ChemotherapyFac",
+            "TumorSize",
+            "SequenceNumber"
+          ],
+          "fieldsConfig" : {
+            "ICDOSite": {
+              "field": "ICDOSite",
+              "label": "Icdosite"
+            },
+            "PhysiciansStage": {
+              "field": "PhysiciansStage",
+              "label": "Physiciansstage"
+            },
+            "TumorSize": {
+              "field": "TumorSize",
+              "label": "Tumorsize"
+            },
+            "SequenceNumber": {
+              "field": "SequenceNumber",
+              "label": "Sequencenumber"
+            }
+          }
+        }
+      ]
+    },
+    "buttons": [
+      {
+        "enabled": false,
+        "type": "manifest",
+        "title": "Download Manifest",
+        "leftIcon": "datafile",
+        "rightIcon": "download",
+        "fileName": "manifest.json"
+      }
+    ],
+    "table": {
+      "enabled": true,
+      "fields": [
+        "project_id",
+        "Race",
+        "Ethnicity",
+        "Gender",
+        "Lab",
+        "Multiplicitycounter",
+        "ICDOSite"
+      ],
+      "columns": {
+        "Lab": {
+          "title": "Actionablemutations Lab"
+        },
+        "Multiplicitycounter": {
+          "title": "Oncology Primary Multiplicitycounter"
+        },
+        "ICDOSite": {
+          "title": "Oncology Primary Icdosite"
+        }
+      },
+      "detailsConfig": {
+        "mode": "expand",
+        "panelContainer": "drawer"
+      },
+      "subTables": [
+        {
+          "root": "subRows",
+          "label": "Oncology Primary",
+          "defaultIfEmpty": "NULL",
+          "processData": false,
+          "fields": [
+            "Multiplicitycounter",
+            "ICDOSite"
+          ],
+          "columns":{
+            "ICDOSite": {
+              "field": "ICDOSite",
+              "title": "ICDOSite"
+            },
+            "Multiplicitycounter": {
+              "field": "Multiplicitycounter",
+              "title": "Multiplicitycounter"
+            }
+          }
+        }
+      ]
+    },
+    "guppyConfig": {
+      "dataType": "patients",
+      "nodeCountTitle": "Patient",
+      "fieldMapping": [],
+      "manifestMapping": {
+        "resourceIndexType": "file",
+        "resourceIdField": "object_id",
+        "referenceIdFieldInResourceIndex": "case_id",
+        "referenceIdFieldInDataIndex": "Chicago_ID"
+      }
+    }
+  },
+  {
+    "tabTitle": "Files",
+    "charts": {},
+    "filters": {
+      "tabs": [
+        {
+          "title": "Files",
+          "fields": [
+            "project_id",
+            "data_type",
+            "data_format",
+            "file_size"
+          ]
+        }
+      ]
+    },
+    "buttons": [
+      {
+        "enabled": false,
+        "type": "file-manifest",
+        "title": "Download Manifest",
+        "leftIcon": "datafile",
+        "rightIcon": "download",
+        "fileName": "manifest.json"
+      }
+    ],
+    "table": {
+      "enabled": true,
+      "fields": [
+        "submitter_id",
+        "data_type",
+        "data_format",
+        "file_name",
+        "file_size",
+        "object_id"
+      ]
+    },
+    "guppyConfig": {
+      "dataType": "file",
+      "nodeCountTitle": "File",
+      "fieldMapping": [],
+      "manifestMapping": {
+        "resourceIndexType": "file",
+        "resourceIdField": "object_id",
+        "referenceIdFieldInResourceIndex": "object_id",
+        "referenceIdFieldInDataIndex": "Chicago_ID"
+      }
+    }
+  }
+]

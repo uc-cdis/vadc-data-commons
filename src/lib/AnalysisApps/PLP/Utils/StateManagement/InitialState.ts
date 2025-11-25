@@ -4,7 +4,7 @@ const initialState = {
   datasetRemainingSize: null,
   selectedOutcomeCohort: null,
   outcomeObservationWindow: 0,
-  minimumCovariateOccurrence: 0.1,
+  minimumCovariateOccurrence: 0.001,
   useAllCovariates: true,
   numberOfCrossValidationFolds: 3,
   percentageOfDataToUseAsTest: null,

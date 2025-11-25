@@ -141,14 +141,14 @@ const HomeTable = ({ data }: { data: GWASResultsJobs[] }) => {
             >
               Input
             </Button>
-            <Button
+            {/*<Button
               onClick={() => {
                 setSelectedRowData(record);
                 setCurrentView(VIEWS.execution);
               }}
             >
               Execution
-            </Button>
+            </Button>*/}
             <Button
               onClick={() => {
                 setSelectedRowData(record);
@@ -227,7 +227,6 @@ const HomeTable = ({ data }: { data: GWASResultsJobs[] }) => {
       showColumnFilters,
       showGlobalFilter,
       sorting,
-      density: 'xs',
     },
   });
 

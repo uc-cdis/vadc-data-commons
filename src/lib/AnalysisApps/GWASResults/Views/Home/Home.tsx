@@ -2,9 +2,7 @@ import React from 'react';
 import HomeTable from './HomeTable/HomeTable';
 import LoadingErrorMessage from '../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
 import { Loader } from '@mantine/core';
-import { GEN3_API } from '@gen3/core';
-import useSWR from 'swr';
-import { GwasWorkflowEndpoint } from '../../../SharedUtils/Endpoints';
+import { useGetWorkflowsQuery } from '@/lib/AnalysisApps/Results/Utils/workflowApi';
 
 const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
   const tranformDates = (data: any) => {
@@ -15,12 +13,9 @@ const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
       finishedAt: new Date(item.finishedAt),
     }));
   };
-  const { data, error, isLoading, isValidating } = useSWR(
-    `${GEN3_API}/${GwasWorkflowEndpoint}?team_projects=${selectedTeamProject}`,
-    (...args) => fetch(...args).then((res) => res.json().then(tranformDates)),
-  );
+  const {data, error, isLoading, isFetching  } = useGetWorkflowsQuery(selectedTeamProject);
 
-  if (isLoading || isValidating) {
+  if (isLoading || isFetching) {
     return (
       <React.Fragment>
         <div className="spinner-container">
@@ -35,7 +30,7 @@ const Home = ({ selectedTeamProject }: { selectedTeamProject: string }) => {
     return <LoadingErrorMessage />;
   }
   return (
-    <HomeTable data={data} />
+    <HomeTable data={tranformDates(data)} />
   );
 };
 

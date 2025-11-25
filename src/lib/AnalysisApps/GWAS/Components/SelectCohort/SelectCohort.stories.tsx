@@ -4,7 +4,7 @@ import reducer from '../../Utils/StateManagement/reducer';
 import ACTIONS from '../../Utils/StateManagement/Actions';
 import initialState from '../../Utils/StateManagement/InitialState';
 import { CohortsEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { http, HttpResponse, delay } from 'msw';
 
 const meta: Meta<typeof SelectCohort> = {

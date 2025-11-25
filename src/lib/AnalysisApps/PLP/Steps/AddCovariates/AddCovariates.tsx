@@ -8,7 +8,7 @@ type AddCovariatesProps = {
 };
 
 const AddCovariates = ({
-  minimumCovariateOccurrence = 0.1,
+  minimumCovariateOccurrence = 0.001,
   dispatch,
 }: AddCovariatesProps) => {
   const handleSetMinimumCovariateOccurrence = (minimumCovariateOccurrence: number) => {
@@ -28,10 +28,10 @@ const AddCovariates = ({
         step={0.1}
         defaultValue={0.1}
         rightSection="%"
-        value={minimumCovariateOccurrence}
+        value={minimumCovariateOccurrence * 100} // Convert decimal to percentage
         onChange={(value) => {
           if (typeof value === 'number') {
-            handleSetMinimumCovariateOccurrence(value);
+            handleSetMinimumCovariateOccurrence(value / 100); // Convert percentage to decimal
           }
         }}
       />

@@ -37,10 +37,8 @@ export function SupportVectorMachineParameters({ dispatch, model, modelParameter
   };
   const utils = new ModelParametersUtils(initialModelParameters, dispatch, model, modelParameters);
   useEffect(() => {
-    // Loop through all keys and set them
-    Object.entries(initialModelParameters[model]).forEach(([param, value]) => {
-      utils.handleSetModelParameters(param, value);
-    });
+    // set intital values on mount
+    utils.setupInitialValues();
   }, []); // Only runs once, on component mount
 
   return (

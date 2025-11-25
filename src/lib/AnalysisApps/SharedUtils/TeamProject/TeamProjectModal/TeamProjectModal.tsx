@@ -3,16 +3,14 @@ import { Modal, Button, Loader } from '@mantine/core';
 import LoadingErrorMessage from '../../LoadingErrorMessage/LoadingErrorMessage';
 import TeamsDropdown from './TeamsDropdown/TeamsDropdown';
 import { useRouter } from 'next/router';
+import { TeamProject } from '../Utils/teamProjectHooks';
 
 const runningApplicationClientSide = typeof window !== 'undefined';
-interface Team {
-  teamName: string;
-}
 interface TeamProjectModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   setBannerText: (bannerText: string) => void;
-  data: { teams: Team[] } | null;
+  data: TeamProject[] | null;
   status: 'loading' | 'error' | 'success';
   selectedTeamProject: string | null;
   setSelectedTeamProject: React.Dispatch<React.SetStateAction<string | null>>;
@@ -65,8 +63,8 @@ const TeamProjectModal: React.FC<TeamProjectModalProps> = ({
       </Modal>
     );
   }
-  if (data) {
-    if (data.teams.length > 0) {
+  if (status === 'success' && data) {
+    if (data.length > 0) {
       return (
         <Modal
           title="Team Projects"
@@ -85,7 +83,7 @@ const TeamProjectModal: React.FC<TeamProjectModalProps> = ({
           // keyboard={localStorage.getItem('teamProject')}
         >
           <TeamsDropdown
-            teams={data.teams}
+            teams={data}
             selectedTeamProject={selectedTeamProject}
             setSelectedTeamProject={setSelectedTeamProject}
           />
@@ -108,7 +106,7 @@ const TeamProjectModal: React.FC<TeamProjectModalProps> = ({
       >
         <div className="team-project-modal_modal-description">
           Please reach out to{' '}
-          <a href="mailto:vadc-support@gen3.org">vadc-support@gen3.org</a>{' '}
+          <a href="mailto:support@gen3.org">support@gen3.org</a>{' '}
           to gain access to the system
         </div>
         <Button key="submit" onClick={redirectToHomepage}>

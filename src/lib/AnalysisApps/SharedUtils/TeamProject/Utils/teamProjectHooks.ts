@@ -1,6 +1,6 @@
 import { useGetAuthzMappingsQuery } from '@gen3/core';
 
-interface TeamProject {
+export interface TeamProject {
   teamName: string;
 }
 
@@ -44,7 +44,8 @@ export const useTeamProjects = (): UseTeamProjectsResult => {
           ),
       )
       .map(([key]) => ({ teamName: key }));
+    return { teams : teams, isFetching, isSuccess, isError, error };
   }
 
-  return { teams : teams, isFetching, isSuccess, isError, error };
+  return { teams : teams, isFetching: true, isSuccess, isError, error };
 };

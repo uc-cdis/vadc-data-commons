@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { Loader } from '@mantine/core';
-//import { useQuery } from 'react-query';
 import DetailPageHeader from '../../Components/DetailPageHeader/DetailPageHeader';
 import JobDetails from './JobDetails/JobDetails';
-import AttritionTableWrapper from './AttritionTable/AttrtitionTableWrapper';
+//import AttritionTableWrapper from './AttritionTable/AttrtitionTableWrapper';
 import SharedContext from '../../Utils/SharedContext';
-import { getDataForWorkflowArtifact } from '../../Utils/gwasWorkflowApi';
 //import queryConfig from '../../../SharedUtils/QueryConfig';
 import LoadingErrorMessage from '../../../SharedUtils/LoadingErrorMessage/LoadingErrorMessage';
+import { useGetWorkflowDetailsQuery } from '@/lib/AnalysisApps/Results/Utils/workflowApi';
 
 const Input = () => {
   const { selectedRowData } = useContext(SharedContext);
@@ -15,7 +14,10 @@ const Input = () => {
     throw new Error('selectedRowData is not defined in SharedContext');
   }
   const { name, uid } = selectedRowData;
-  const { data, error, isLoading } = getDataForWorkflowArtifact(name, uid, 'attrition_json_index');
+  const {data, error, isLoading, isFetching  } = useGetWorkflowDetailsQuery({
+        workflowName: name,
+        workflowUid: uid,
+      });
 
   const displayTopSection = () => (
     <section className='results-top'>
@@ -27,7 +29,7 @@ const Input = () => {
     </section>
   );
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <React.Fragment>
         {displayTopSection()}
@@ -44,21 +46,8 @@ const Input = () => {
         {displayTopSection()}
         <LoadingErrorMessage
           data-testid='loading-error-message'
-          message={`Error getting attrition table data due to status: ${error}`}
+          message={`Error getting job details due to status: ${(error as {error: string})?.error ? (error as {error: string}).error : error}`}
         />
-      </React.Fragment>
-    );
-  }
-
-  if (
-    !data
-    || data.length === 0
-    || data[0].table_type !== 'case'
-  ) {
-    return (
-      <React.Fragment>
-        {displayTopSection()}
-        <LoadingErrorMessage message='Error Getting Attrition Table Data' />
       </React.Fragment>
     );
   }
@@ -66,8 +55,8 @@ const Input = () => {
   return (
     <div className='results-view'>
       {displayTopSection()}
-      <AttritionTableWrapper data={data} />
-      <JobDetails attritionTableData={data} />
+      {/*<AttritionTableWrapper data={data} />*/}
+      <JobDetails data={data}/>
     </div>
   );
 };

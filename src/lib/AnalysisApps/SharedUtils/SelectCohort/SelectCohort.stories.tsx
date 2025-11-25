@@ -4,7 +4,7 @@ import reducer, {State, Action} from '../../PLP/Utils/StateManagement/reducer';
 import ACTIONS from '../../PLP/Utils/StateManagement/Actions';
 import initialState from '../../PLP/Utils/StateManagement/InitialState';
 import { CohortsEndpoint, SourcesEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { http, HttpResponse, delay } from 'msw';
 import { SourceContextProvider } from '../Source';
 

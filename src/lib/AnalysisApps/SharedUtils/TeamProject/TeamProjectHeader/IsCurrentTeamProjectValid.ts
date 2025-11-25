@@ -1,17 +1,12 @@
-type Data = {
-  teams: Team[];
-};
-type Team = {
-  teamName: string;
-};
+import { TeamProject } from '../Utils/teamProjectHooks';
 
-const IsCurrentTeamProjectValid = (data: Data) => {
-  if (!data.teams) {
+const IsCurrentTeamProjectValid = (teams: TeamProject[]) => {
+  if (!teams) {
     return false;
   }
   let currentTeamProjectIsValid = false;
   const currentTeamProject = localStorage.getItem('teamProject');
-  data.teams.forEach((team) => {
+  teams.forEach((team) => {
     if (team.teamName === currentTeamProject) {
       currentTeamProjectIsValid = true;
     }

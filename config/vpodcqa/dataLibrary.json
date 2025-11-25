@@ -3,7 +3,7 @@
   "actions": [
     {
       "id": "exportTerra",
-      "label": "Export to Terra",
+      "label": "Export: Terra",
       "rightIcon" : "gen3:send",
       "buttonLabel" : "Export",
       "actionFunction" : "export-pfb-to-url",
@@ -24,13 +24,13 @@
           "operator": "count",
           "value": "GA4GH_DRS",
           "total": 1,
-          "errorMessage": "only 1 GA4GH_DRS can be selected"
+          "errorMessage": "Only 1 GA4GH_DRS can be selected"
         }
       ]
     },
     {
       "id": "exportTo7Bridges",
-      "label": "Export to Seven Bridgese34",
+      "label": "Export: Seven Bridges",
       "rightIcon" : "gen3:send",
       "buttonLabel" : "Export",
       "actionFunction" : "export-pfb-to-url",

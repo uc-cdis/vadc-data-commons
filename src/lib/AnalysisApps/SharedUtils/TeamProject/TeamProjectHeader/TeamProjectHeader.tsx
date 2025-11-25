@@ -4,9 +4,8 @@ import EditIcon from './Icons/EditIcon';
 import isEnterOrSpace from '../../AccessibilityUtils/IsEnterOrSpace';
 import TeamProjectModal from '../TeamProjectModal/TeamProjectModal';
 import IsCurrentTeamProjectValid from './IsCurrentTeamProjectValid';
-//import { TeamProjectsEndpoint } from '../../Endpoints';
+import { useTeamProjects } from '../Utils/teamProjectHooks';
 import { Loader } from '@mantine/core';
-//import useSWR from 'swr';
 
 const runningApplicationClientSide = typeof window !== 'undefined';
 
@@ -45,27 +44,11 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
     }
   }, [redirect]);
 
-  // SWR CODE
-  /*const { data, error, isLoading } = useSWR(TeamProjectsEndpoint, (...args) =>
-    fetch(...args).then((res) => res.json()),
-  );*/
-  // TODO: Replace with actual API call when available
-  const data = {
-    teams: [
-        {
-          teamName: '/gwas_projects/project1',
-        },
-        {
-          teamName: '/gwas_projects/project2',
-        },
-      ],
-    };
-  const error = 'success';
-  const isLoading = false;
+  const { teams, isError, isSuccess, isFetching } = useTeamProjects();
 
   let currentTeamProjectIsValid = false;
-  if (data) {
-    currentTeamProjectIsValid = IsCurrentTeamProjectValid(data);
+  if (teams.length > 0) {
+    currentTeamProjectIsValid = IsCurrentTeamProjectValid(teams);
     if (!currentTeamProjectIsValid) {
       if ( runningApplicationClientSide) {
         localStorage.removeItem('teamProject');
@@ -83,11 +66,11 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
       showModal();
     }
     rerouteToAppSelectionIfNeeded();
-  }, [isEditable, currentTeamProjectIsValid, data]);
+  }, [isEditable, currentTeamProjectIsValid, teams]);
 
   const getLastPathSegment = (path: string) => path.split('/').filter(Boolean).pop();
 
-  if (isLoading) return <Loader size="sm" />;
+  if (isFetching) return <Loader size="sm" />;
   return (
     <div>
       <div
@@ -118,8 +101,8 @@ const TeamProjectHeader: React.FC<TeamProjectHeaderProps> = ({
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           setBannerText={setBannerText}
-          data={data}
-          status={error}
+          data={teams}
+          status={isError ? "error" : isSuccess ? "success" : isFetching ? "loading" : "error"}
           selectedTeamProject={selectedTeamProject}
           setSelectedTeamProject={setSelectedTeamProject}
         />

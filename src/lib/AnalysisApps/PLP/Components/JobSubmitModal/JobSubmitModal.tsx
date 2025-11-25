@@ -50,13 +50,22 @@ const JobSubmitModal: React.FC<Props> = ({
   const { sourceId } = useSourceContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [jobNameError, setJobNameError] = useState(null as string | null);
 
   const isSubmitButtonDisabled =
-    jobName === '' || isSubmitting; // Add additional checks here if needed
+    !!jobNameError || isSubmitting; // Add additional checks here if needed
     // !workflowLimitInfoIsValid(data) ||
     // workFlowLimitExceeded;
 
   const handleEnterJobName = (jobName: string) => {
+    // validate job name
+    if (jobName === '') {
+      setJobNameError('Job name cannot be empty.');
+    } else if (!/^[\w\s.-]+$/.test(jobName)) {
+      setJobNameError('Job name can only contain letters, numbers, spaces, underscores, hyphens, and dots.');
+    } else {
+      setJobNameError(null);
+    }
     dispatch({
       type: ACTIONS.SET_JOB_NAME,
       payload: jobName,
@@ -65,6 +74,10 @@ const JobSubmitModal: React.FC<Props> = ({
 
   // Submit workflow request
   const handleSubmit = async () => {
+    if (jobName === '') {
+      handleEnterJobName(jobName);
+      return; // do not submit if job name invalid
+    }
     try {
       setIsSubmitting(true); // Start the submission process
       setSubmitError(null); // Reset any previous errors
@@ -101,7 +114,8 @@ const JobSubmitModal: React.FC<Props> = ({
       });
 
       if (!response.ok) {
-        throw new Error(`Submission failed with status: ${response.status}`);
+        const extraErrorText = await response.text() as string | '';
+        throw new Error(`Submission failed with status: ${response.status} - ${extraErrorText}`);
       }
 
       const responseData = await response.json();
@@ -144,15 +158,19 @@ const JobSubmitModal: React.FC<Props> = ({
       onClose={() => {
         dispatch({ type: ACTIONS.HIDE_JOB_SUBMIT_MODAL });
       }}
-      title={<div className="flex-row">Review Details</div>}
+      title='Review Details'
+      closeButtonProps={{ 'aria-label': 'Close modal' }}
       overlayProps={{ opacity: 0.55, blur: 3 }}
-      size="90vh"
+      size="auto"
     >
       <TextInput
         className="gwas-job-name"
+        label="Job Name"
+        required
         placeholder="Enter Job Name"
         onChange={(e) => handleEnterJobName(e.target.value)}
         value={jobName}
+        error={jobNameError}
       />
       <div className="flex-col">
         <div className="flex-row">

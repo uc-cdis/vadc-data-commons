@@ -7,9 +7,8 @@ import LoadingErrorMessage from '../../../SharedUtils/LoadingErrorMessage/Loadin
 import ResultsPng from './ResultsPng/ResultsPng';
 
 import { Loader, Button } from '@mantine/core';
-import useSWR from 'swr';
-import { GEN3_WORKFLOW_API } from '../../../SharedUtils/Endpoints';
 import { fetchPresignedUrlForWorkflowArtifact, getWorkflowDetails, WorkflowDetailsType } from '../../Utils/gwasWorkflowApi';
+import { useGetWorkflowDetailsQuery } from '@/lib/AnalysisApps/Results/Utils/workflowApi';
 
 const Results = () => {
   const { selectedRowData } = useContext(SharedContext);
@@ -19,12 +18,8 @@ const Results = () => {
   const { name, uid } = selectedRowData;
 
   //TODO clean this up and make only one api call, move up to parent
-  const endpoint = `${GEN3_WORKFLOW_API}/status/${name}?uid=${uid}`;
 
-  const { data, error, isLoading, isValidating } = useSWR(
-    endpoint,
-    (...args) => fetch(...args).then((res) => (res.json() as Promise<WorkflowDetailsType>)),
-  );
+  const {data, error, isLoading, isFetching  } = useGetWorkflowDetailsQuery({ workflowName: name, workflowUid: uid });
 
   const downloadAll = () => {
     fetchPresignedUrlForWorkflowArtifact(name, uid, 'gwas_archive_index')
@@ -57,7 +52,7 @@ const Results = () => {
       </React.Fragment>
     );
   }
-  if (isLoading || isValidating) {
+  if (isLoading || isFetching) {
     return (
       <React.Fragment>
         {displayTopSection()}

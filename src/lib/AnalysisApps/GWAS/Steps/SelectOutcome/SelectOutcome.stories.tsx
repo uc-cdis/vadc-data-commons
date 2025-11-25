@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import reducer from '../../Utils/StateManagement/reducer';
 import InitializeCurrentState from '../../Utils/StateManagement/InitializeCurrentState';
 
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/nextjs';
 
 import SelectOutcome from './SelectOutcome';
 

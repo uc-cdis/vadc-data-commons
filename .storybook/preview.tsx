@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/nextjs';
 import { MantineProvider } from '@mantine/core';
 import { initialize, mswLoader } from 'msw-storybook-addon';
 import theme from '../src/mantineTheme';

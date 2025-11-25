@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import { Provider } from 'react-redux';
+import { coreStore } from '@gen3/core';
+import { Meta, StoryObj } from '@storybook/nextjs';
 //import { QueryClient, QueryClientProvider } from 'react-query';
 import SharedContext from '../../Utils/SharedContext';
 //import { rest } from 'msw';
@@ -10,7 +12,7 @@ import InitialHomeTableState from './HomeTableState/InitialHomeTableState';
 import { GwasWorkflowEndpoint } from '@/lib/AnalysisApps/SharedUtils/Endpoints';
 import { http, HttpResponse, delay } from 'msw';
 import { GWASResultsJobs } from './HomeTable/HomeTable';
-import { GEN3_API } from '@gen3/core';
+import { GEN3_WORKFLOW_API } from '../../../Results/Utils/workflowApi';
 
 const meta: Meta<typeof Home> = {
   title: 'Results/Views/Home',
@@ -24,17 +26,18 @@ const meta: Meta<typeof Home> = {
         alert(`setCurrentView called with ${currentView}`);
       }, [currentView]);*/
       return (
-          <SharedContext.Provider
+          <Provider store={coreStore}>
+            <SharedContext.Provider
             value={{
               selectedRowData,
               setSelectedRowData,
               setCurrentView,
               homeTableState,
               setHomeTableState,
-            }}
-          >
-            <Story selectedTeamProject='test' />
-          </SharedContext.Provider>
+            }}>
+              <Story selectedTeamProject='test' />
+            </SharedContext.Provider>
+          </Provider>
       );
     },
   ],
@@ -123,21 +126,21 @@ export const MockedSuccess: Story = {
     msw: {
       handlers: [
         http.get(
-          `${GEN3_API}/${GwasWorkflowEndpoint}`,
+          `${GEN3_WORKFLOW_API}/workflows`,
           async () => {
             await delay(2000);
             return HttpResponse.json(getMockWorkflowList());
           }
         ),
         http.get(
-          `${GwasWorkflowEndpoint}/user-monthly`,
+          `${GEN3_WORKFLOW_API}/workflows/user-monthly`,
           async () => {
             await delay(1000);
             return HttpResponse.json({ workflow_run: 5, workflow_limit: 50 });
           }
         ),
         http.post(
-          '/ga4gh/wes/v2/retry/:workflow',
+          `${GEN3_WORKFLOW_API}/retry/:workflow`,
           async ({ params }) => {
             await delay(800);
             const { workflow } = params;
@@ -154,7 +157,7 @@ export const MockedSuccessButFailedRetry: Story = {
     msw: {
       handlers: [
         http.get(
-          `${GEN3_API}/${GwasWorkflowEndpoint}`,
+          `${GEN3_WORKFLOW_API}/workflows`,
           async () => {
             await delay(2000);
             return HttpResponse.json(getMockWorkflowList());
@@ -184,7 +187,7 @@ export const MockedError: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get(`${GEN3_API}/${GwasWorkflowEndpoint}`, async () => {
+        http.get(`${GEN3_WORKFLOW_API}/workflows`, async () => {
           await delay(1000);
           return new HttpResponse(null, {
             status: 500,
@@ -201,7 +204,7 @@ export const MockedSuccessButExceededWorkflowLimitForRetries: Story = {
     msw: {
       handlers: [
         http.get(
-          `${GEN3_API}/${GwasWorkflowEndpoint}`,
+          `${GEN3_WORKFLOW_API}/workflows`,
           async () => {
             await delay(2000);
             return HttpResponse.json(getMockWorkflowList());
@@ -224,7 +227,7 @@ export const MockedSuccessButWorkflowLimitReturnsMalformedDataForRetries: Story 
     msw: {
       handlers: [
         http.get(
-          `${GEN3_API}/${GwasWorkflowEndpoint}`,
+          `${GEN3_WORKFLOW_API}/workflows`,
           async () => {
             await delay(2000);
             return HttpResponse.json(getMockWorkflowList());
@@ -250,14 +253,14 @@ export const MockedSuccessButWorkflowLimitReturns500ForRetries: Story = {
     msw: {
       handlers: [
         http.get(
-          `${GEN3_API}/${GwasWorkflowEndpoint}`,
+          `${GEN3_WORKFLOW_API}/workflows`,
           async () => {
             await delay(2000);
             return HttpResponse.json(getMockWorkflowList());
           },
         ),
         http.get(
-          `${GEN3_API}/${GwasWorkflowEndpoint}`,
+          `${GEN3_WORKFLOW_API}/workflows`,
           async () => {
             await delay(3000);
             return new HttpResponse('error', {

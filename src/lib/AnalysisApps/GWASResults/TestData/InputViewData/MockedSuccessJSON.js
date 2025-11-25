@@ -3,7 +3,15 @@ const MockedSuccessJSON = {
   wf_name: 'TestJDRMar29-1130AM',
   arguments: {
     parameters: [
-      { name: 'n_pcs', value: '3' },
+      { name: 'dataset_id', value: 12345 },
+      { name: 'dataset_observation_window', value: '123' },
+      { name: 'outcome_id', value: 123 },
+      { name: 'outcome_observation_window', value: '1234' },
+      { name: 'n_fold', value: 5 },
+      {
+          "name": "model_list",
+          "value": "[\n  {\n    \"name\": \"Ada Boost\",\n    \"params\":\n    {\n      \"nEstimators\": [10, 50, 200],\n      \"learningRate\": [1.0, 0.5, 0.1],\n      \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Decision Tree\",\n    \"params\":\n      {\n          \"criterion\": [\"gini\"],\n          \"maxDepth\": [4],\n          \"minSamplesSplit\": [2],\n          \"minSamplesLeaf\": [10],\n          \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Gradient Boosting Machine\",\n    \"params\":\n    {\n      \"ntrees\": [10, 100],\n      \"nthread\": 20,\n      \"maxDepth\": [4, 6],\n      \"learnRate\": [0.1, 0.3],\n      \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Iterative Hard Thresholding\",\n    \"params\":\n    {\n      \"K\": 10,\n      \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Lasso Cox Regression\",\n    \"params\":\n    {\n      \"variance\": 0.01,\n      \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Multilayer Perceptron\",\n    \"params\":\n    {\n      \"hiddenLayerSizes\": [4],\n      \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Naive Bayes\",\n    \"params\": {}\n  },\n  {\n    \"name\": \"Support Vector Machine\",\n    \"params\":\n    {\n      \"degree\": [1, 3],\n      \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Lasso Logistic Regression\",\n    \"params\":\n      {\n        \"variance\": 0.01,\n        \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Light Gradient Boosting Machine\",\n    \"params\":\n    {\n      \"numLeaves\": [20, 31],\n      \"maxDepth\": [-1, 5],\n      \"minDataInLeaf\": [10],\n      \"learningRate\": [0.05, 0.1],\n      \"seed\": 42\n      }\n  },\n  {\n    \"name\": \"Random Forest\",\n    \"params\":\n      {\n        \"ntrees\": [100, 500],\n        \"criterion\": [\"gini\"],\n        \"maxDepth\": [4, 10, 17],\n        \"minSamplesSplit\": [2],\n        \"minSamplesLeaf\": [1, 10],\n        \"minWeightFractionLeaf\": [0],\n        \"mtries\": [\"sqrt\", \"log2\"],\n        \"maxLeafNodes\": [100],\n        \"minImpurityDecrease\": [0],\n        \"bootstrap\": [true],\n        \"maxSamples\": [0.9],\n        \"oobScore\": [false],\n        \"classWeight\": [\"balanced\"],\n        \"seed\": 42\n      }\n  }\n]\n"
+      },
       {
         name: 'variables',
         value:

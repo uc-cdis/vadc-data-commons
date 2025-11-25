@@ -1,6 +1,6 @@
 import React from 'react';
 import DismissibleMessage from './DismissibleMessage';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 
 const meta: Meta<typeof DismissibleMessage> = {
   title: 'PLP/DismissibleMessage',

@@ -1,18 +1,13 @@
 import React from 'react';
 import LoadingErrorMessage from '../LoadingErrorMessage/LoadingErrorMessage';
 import { Loader, Progress, Title } from '@mantine/core';
-import { GEN3_API } from '@gen3/core';
-import useSWR from 'swr';
+import { useGetWorkflowsMonthlyQuery } from '@/lib/AnalysisApps/Results/Utils/workflowApi';
 
 const WorkflowLimitsDashboard = () => {
   const supportEmail = 'support@gen3.org';
   const refetchInterval = 5000;
 
-  const { data, error, isLoading, isValidating } = useSWR(
-    `${GEN3_API}/ga4gh/wes/v2/workflows/user-monthly`,
-    (...args) => fetch(...args).then((res) => res.json()),
-    { refreshInterval: refetchInterval },
-  );
+  const {data, error, isLoading, isFetching  } = useGetWorkflowsMonthlyQuery(undefined, {pollingInterval: refetchInterval});
 
   const workflowLimitInfoIsValid = (data: any) => {
     // Check if data is an object
@@ -32,7 +27,7 @@ const WorkflowLimitsDashboard = () => {
   };
 
 
-  if (!(data || error) && (isLoading || isValidating)) {
+  if (!(data || error) && (isLoading || isFetching)) {
     return (
       <div className='flex items-center justify-center bg-white p-4 rounded border border-gray-200'>
         <Loader /> 
@@ -51,7 +46,7 @@ const WorkflowLimitsDashboard = () => {
       </div>
     );
   }
-  if (!workflowLimitInfoIsValid(data)) {
+  if (!data || !workflowLimitInfoIsValid(data)) {
     return (
       <div className='flex bg-white p-4 rounded border border-gray-200'>
         <LoadingErrorMessage message={'Invalid server response for user workflow information.'} />

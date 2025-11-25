@@ -21,6 +21,19 @@ export class ModelParametersUtils {
         this.dispatch = dispatch;
         this.model = model;
     }
+    setupInitialValues = () => {
+        this.dispatch({
+            type: ACTIONS.SET_SELECTED_MODEL_PARAMETERS,
+            payload: {
+                [this.model]: {
+                    ...(this.modelParameters?.[this.model]
+                        ? this.modelParameters[this.model]
+                        : this.initialModelParameters[this.model]
+                    ),
+                }
+            },
+        });
+    }
 
     handleSetModelParameters = (
         key: string,
@@ -44,9 +57,9 @@ export class ModelParametersUtils {
                 value = numbers;
             }
         }
-        // mapping for MultiSelect scenario where numbers and strings can be mixed:
+        // mapping for MultiSelect scenario where numbers, strings, and boolings can be mixed:
         if (Array.isArray(value)) {
-            value = value.map(v => isNaN(Number(v)) ? v : Number(v));
+            value = value.map(v => (typeof v === 'boolean' || isNaN(v)) ? v : Number(v));
         }
 
         this.dispatch({

@@ -40,7 +40,7 @@ interface WorkflowParameter {
   enum?: string[];
 }
 
-interface WorkflowDetails {
+export interface WorkflowDetails {
   name: string;
   phase: string;
   gen3username: string;
@@ -109,13 +109,28 @@ export const getPresignedUrl = async (
  * @returns {Promise<Object>} A promise that resolves to an object containing either the fetched data or an error.
  */
 export const getUrlData = async (url: string, fetchWithBQ: any) => {
-  const response = await fetchWithBQ({
+  const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)csrftoken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-csrf-token': csrfToken,
+  };
+  const response = await fetch(url, { headers });
+  /*const response = await fetchWithBQ({
     url,
   });
+  console.log('Fetched URL:', response);
   if (response.error) {
     return { error: response.error as FetchBaseQueryError };
   }
-  return { data: response.data };
+  console.log('Fetched URL Data:', response.data);
+  return { data: response.data };*/
+
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  return response.json();
 };
 
 /**
@@ -168,9 +183,20 @@ const workflowApi = ResultsApiTags.injectEndpoints({
           };
         }
 
+        if (!(
+          workflowDetailsResponse.data as WorkflowDetails
+        )?.outputs?.parameters) {
+          return {
+            error: {
+              error: `No output parameters found for workflow ${workflowName} (uid: ${workflowUid})`,
+              status: 'CUSTOM_ERROR',
+            } as FetchBaseQueryError,
+          };
+        }
+
         const results = (
           workflowDetailsResponse.data as WorkflowDetails
-        )?.outputs?.parameters.filter((entry) => entry.name === artifactName);
+        )?.outputs.parameters.filter((entry) => entry.name === artifactName);
         if (!results || results.length !== 1) {
           return {
             error: {

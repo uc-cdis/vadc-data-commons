@@ -35,10 +35,11 @@
         "rows": [
           {
             "Icon": {
-              "logo": "/images/OCC.png",
+              "logo": "/icons/OCC.png",
               "width": 150,
               "height": 60,
-              "description": "OCC"
+              "description": "Open Commons Consortium",
+              "href": "https://www.occ-data.org/"
             }
           }
         ]

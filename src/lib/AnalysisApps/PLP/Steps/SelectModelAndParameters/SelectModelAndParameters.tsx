@@ -80,6 +80,7 @@ const SelectModelAndParameters = ({
         onChange={(e) => {handleSetModel(e ? e :'')}}
         orientation="vertical"
         variant="outline"
+        keepMounted={false}// This loads default values on the selected tab
       >
         <Flex align="flex-start">
           <TabsList

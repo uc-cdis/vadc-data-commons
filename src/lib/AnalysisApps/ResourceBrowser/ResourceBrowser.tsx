@@ -30,13 +30,13 @@ const ResourcesData = [
     summary: 'Use this App to view status & results of submitted workflows',
     imageSrc: GWASResults,
   },
-  {
+  /*{
     title: 'Data Dictionary',
     link: '/AtlasDataDictionary',
     summary:
       'Use this App to view a tabluar representation of the data dictionary',
     imageSrc: DataDictionary,
-  },
+  },*/
 ];
 const ResourceBrowser = () => {
   return (
