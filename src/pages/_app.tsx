@@ -10,6 +10,7 @@ import {
   SessionConfiguration,
   registerCohortDiscoveryApp,
   registerExplorerDefaultCellRenderers,
+  // registerCohortDiscoveryApp,
   registerCohortBuilderDefaultPreviewRenderers,
   registerMetadataSchemaApp,
 } from '@gen3/frontend';
@@ -29,9 +30,9 @@ import Loading from '../components/Loading';
 import DatadogInit from '@/components/DatadogInit';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const ReactDOM = require('react-dom');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const axe = require('@axe-core/react');
   axe(React, ReactDOM, 1000);
 }
@@ -93,6 +94,7 @@ const Gen3App = ({
     </React.Fragment>
   );
 };
+
 
 // TODO: replace with page router
 Gen3App.getInitialProps = async (
