@@ -40,11 +40,11 @@
   "topBar": {
     "items": [
       {
-        "href": "https://uc-cdis.github.io/vadc-mkdocs/",
+        "href": "https://uc-cdis.github.io/cadc-docs/",
         "name": "Help and Guidance"
       },
       {
-        "href": "mailto:vadc-support@gen3.org",
+        "href": "mailto:support@gen3.org",
         "name": "Email Support"
       }
     ],
